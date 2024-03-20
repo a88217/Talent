@@ -1,14 +1,8 @@
-# Getting Started
+### Tests and linter status:
+![My workflow](https://github.com/a88217/Talent/actions/workflows/myWorkflow.yml/badge.svg)
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### Codeclimate Maintainability:
+[![Maintainability](https://api.codeclimate.com/v1/badges/a6c420f3843baf09e851/maintainability)](https://codeclimate.com/github/a88217/Talent/maintainability)
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.2.3/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.2.3/gradle-plugin/reference/html/#build-image)
-
-### Additional Links
-These additional references should also help you:
-
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-
+### Codeclimate TestCoverage:
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a6c420f3843baf09e851/test_coverage)](https://codeclimate.com/github/a88217/Talent/test_coverage)
