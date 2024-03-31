@@ -10,6 +10,7 @@ import com.circule.talent.repository.ProfessionRepository;
 import com.circule.talent.repository.ProjectRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 )
 public abstract class TalentMapper {
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
@@ -31,11 +35,13 @@ public abstract class TalentMapper {
 
     @Mapping(target = "professions", source = "professionIds", qualifiedByName = "professionIdsToProfessions")
     @Mapping(target = "projects", source = "projectIds", qualifiedByName = "projectIdsToProjects")
+    @Mapping(target = "passwordDigest", source = "password")
     public abstract Talent map(TalentCreateDTO dto);
 
 
     @Mapping(target = "professions", source = "professionIds", qualifiedByName = "professionIdsToProfessions")
     @Mapping(target = "projects", source = "projectIds", qualifiedByName = "projectIdsToProjects")
+    @Mapping(target = "passwordDigest", ignore = true)
     public abstract void update(TalentUpdateDTO dto, @MappingTarget Talent model);
 
     @Mapping(target = "projectIds", source = "projects", qualifiedByName = "projectsToProjectIds")
@@ -66,5 +72,19 @@ public abstract class TalentMapper {
         return projects.isEmpty() ? new HashSet<>() : projects.stream()
                 .map(Project::getId)
                 .collect(Collectors.toSet());
+    }
+
+    @BeforeMapping
+    public void encryptCreatePassword(TalentCreateDTO dto) {
+        var password = dto.getPassword();
+        dto.setPassword(encoder.encode(password));
+    }
+
+    @BeforeMapping
+    public void encryptUpdatePassword(TalentUpdateDTO dto, @MappingTarget Talent model) {
+        var password = dto.getPassword();
+        if (password != null && password.isPresent()) {
+            model.setPasswordDigest(encoder.encode(password.get()));
+        }
     }
 }

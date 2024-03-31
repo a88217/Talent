@@ -3,6 +3,7 @@ package com.circule.talent.utils;
 import com.circule.talent.model.Talent;
 import com.circule.talent.model.Project;
 import com.circule.talent.model.Profession;
+import com.circule.talent.model.User;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import net.datafaker.Faker;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelGenerator {
 
+    private Model<User> userModel;
     private Model<Talent> talentModel;
     private Model<Project> projectModel;
     private Model<Profession> professionModel;
@@ -25,6 +27,13 @@ public class ModelGenerator {
 
     @PostConstruct
     private void init() {
+        userModel = Instancio.of(User.class)
+                .ignore(Select.field(User::getId))
+                .ignore(Select.field(User::getCreatedAt))
+                .ignore(Select.field(User::getUpdatedAt))
+                .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())
+                .toModel();
+
         talentModel = Instancio.of(Talent.class)
                 .ignore(Select.field(Talent::getId))
                 .ignore(Select.field(Talent::getCreatedAt))

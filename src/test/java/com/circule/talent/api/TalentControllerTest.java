@@ -78,8 +78,6 @@ public class TalentControllerTest {
 
     }
 
-
-
     @Test
     public void testShow() throws Exception {
         var request = get("/api/talents/" + testTalent.getId());

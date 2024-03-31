@@ -1,12 +1,15 @@
 package com.circule.talent.components;
 
 import com.circule.talent.dto.talents.TalentCreateDTO;
+import com.circule.talent.dto.users.UserCreateDTO;
 import com.circule.talent.mapper.TalentMapper;
+import com.circule.talent.mapper.UserMapper;
 import com.circule.talent.model.Profession;
 import com.circule.talent.model.Project;
 import com.circule.talent.repository.ProfessionRepository;
 import com.circule.talent.repository.ProjectRepository;
 import com.circule.talent.repository.TalentRepository;
+import com.circule.talent.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -55,8 +58,20 @@ public class DataInitializer implements ApplicationRunner {
 
     private final TalentMapper talentMapper;
 
+    private final UserRepository userRepository;
+
+    private final UserMapper userMapper;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+
+        if (userRepository.findByEmail("muzalev.as@gmail.com").isEmpty()) {
+            var userData = new UserCreateDTO();
+            userData.setEmail("muzalev.as@gmail.com");
+            userData.setPassword("qwerty");
+            var user = userMapper.map(userData);
+            userRepository.save(user);
+        }
 
         for (var profession : PROFESSIONS) {
             if (professionRepository.findByTitle(profession.getTitle()).isEmpty()) {
@@ -78,9 +93,14 @@ public class DataInitializer implements ApplicationRunner {
             talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Продюсер").get().getId(),
                     professionRepository.findByTitle("Контент-стратег").get().getId()));
             talentData.setProjectIds(Set.of(projectRepository.findByTitle("Одри").get().getId()));
+            System.out.println(talentData.getPassword());
+
             var talent = talentMapper.map(talentData);
 
             System.out.println("After talent mapper");
+            System.out.println(talent.getFirstName());
+            System.out.println(talent.getLastName());
+            System.out.println(talent.getPassword());
             System.out.println("Email: " + talent.getEmail());
 
             talentRepository.save(talent);
