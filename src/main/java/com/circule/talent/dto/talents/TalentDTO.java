@@ -30,6 +30,8 @@ public class TalentDTO {
 
     private String about;
 
+    private String mobilePhone;
+
     private Set<Long> projectIds;
 
     private Set<Long> professionIds;

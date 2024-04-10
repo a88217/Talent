@@ -3,6 +3,11 @@
 spring:
   jpa:
     show-sql: true
+    properties:
+      connection:
+        characterEncoding: utf-8
+        Charset: utf-8
+        useUnicode: true
     hibernate:
       ddl-auto: update
   output:
@@ -12,6 +17,9 @@ spring:
     username: aleksandr
     password: PnarZtok1278
     url: jdbc:postgresql://localhost:5432/circule
+  freemarker:
+    expose-request-attributes: true
+
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
@@ -20,4 +28,5 @@ sentry:
   # Set traces-sample-rate to 1.0 to capture 100% of transactions for performance monitoring.
   # We recommend adjusting this value in production.
   traces-sample-rate: 1.0
-
+upload:
+  path: classpath:uploads

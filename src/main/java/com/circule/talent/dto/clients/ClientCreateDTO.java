@@ -1,6 +1,5 @@
-package com.circule.talent.dto.talents;
+package com.circule.talent.dto.clients;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class TalentCreateDTO {
+public class ClientCreateDTO {
 
     private String firstName;
 
@@ -19,11 +18,9 @@ public class TalentCreateDTO {
 
     private String mobilePhone;
 
+    private String companyName;
+
     private String about;
-
-    private Set<Long> projectIds;
-
-    private Set<Long> professionIds;
 
     @Size(min = 3)
     private String password;

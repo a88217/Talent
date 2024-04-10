@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.util.Set;
 
 @Entity
@@ -14,15 +15,9 @@ import java.util.Set;
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@DiscriminatorValue("TALENT")
-public class Talent extends User {
+@DiscriminatorValue("CLIENT")
+public class Client extends User {
 
-    private String photoName;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Project> projects;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Profession> professions;
+    private String companyName;
 
 }

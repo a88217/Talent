@@ -18,6 +18,8 @@ public class TalentUpdateDTO {
 
     private JsonNullable<String> email;
 
+    private String mobilePhone;
+
     private JsonNullable<String> about;
 
     private JsonNullable<Set<Long>> projectIds;

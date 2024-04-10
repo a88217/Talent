@@ -5,11 +5,12 @@ import com.circule.talent.dto.talents.TalentCreateDTO;
 import com.circule.talent.dto.talents.TalentUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.TalentMapper;
-import com.circule.talent.model.Talent;
+import com.circule.talent.repository.RoleRepository;
 import com.circule.talent.repository.TalentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class TalentService {
     private final TalentRepository talentRepository;
 
     private final TalentMapper talentMapper;
+
+    private final RoleRepository roleRepository;
 
     public List<TalentDTO> index() {
         return talentMapper.map(talentRepository.findAll());
@@ -32,6 +35,7 @@ public class TalentService {
 
     public TalentDTO create(TalentCreateDTO talentData) {
         var talent = talentMapper.map(talentData);
+        talent.setRoles(Arrays.asList(roleRepository.findByName("ROLE_TALENT")));
         talentRepository.save(talent);
         return talentMapper.map(talent);
     }
