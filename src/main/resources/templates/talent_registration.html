@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,22 +17,26 @@
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-6 align-self-center">
-        <form action="/talent_registration" method="post">
+        <form th:action="@{/talent_registration}" method="post" th:object="${user}">
           <div class="mb-3">
             <label for="Email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="Email" name="email">
+            <input type="email" class="form-control" id="Email" name="email" th:field="*{email}">
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('email')}" th:text="${err}">Validation error</small>
           </div>
           <div class="mb-3">
             <label for="FirstName" class="form-label">Имя</label>
-            <input type="text" class="form-control" id="FirstName" name="firstName">
+            <input type="text" class="form-control" id="FirstName" name="firstName" th:field="*{firstName}">
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('firstName')}" th:text="${err}">Validation error</small>
           </div>
           <div class="mb-3">
             <label for="LastName" class="form-label">Фамилия</label>
-            <input type="text" class="form-control" id="LastName" name="lastName">
+            <input type="text" class="form-control" id="LastName" name="lastName" th:field="*{lastName}">
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('lastName')}" th:text="${err}">Validation error</small>
           </div>
           <div class="mb-3">
             <label for="InputPassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="InputPassword" name="password">
+            <input type="password" class="form-control" id="InputPassword" name="password" th:field="*{password}">
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}">Validation error</small>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>

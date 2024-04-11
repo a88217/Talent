@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-6 align-self-center">
-        <form action="/login" method="post">
+        <form th:action="@{/authenticateTheUser}" method="post">
           <div class="mb-3">
             <label for="Email" class="form-label">Email</label>
             <input type="email" class="form-control" id="Email" name="username">

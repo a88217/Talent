@@ -1,9 +1,6 @@
 package com.circule.talent.controllers;
 
 import com.circule.talent.dto.talents.TalentCreateDTO;
-import com.circule.talent.mapper.ClientMapper;
-import com.circule.talent.mapper.TalentMapper;
-import com.circule.talent.model.Talent;
 import com.circule.talent.repository.ClientRepository;
 import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.service.ClientService;
@@ -13,7 +10,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @AllArgsConstructor
@@ -28,7 +29,8 @@ public class RegistrationController {
     private final ClientService clientService;
 
     @GetMapping("/talent_registration")
-    public String talentRegistration() {
+    public String talentRegistration(Model model) {
+        model.addAttribute("user", new TalentCreateDTO());
         return "talent_registration";
     }
 
@@ -40,10 +42,14 @@ public class RegistrationController {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String createTalent(@Valid TalentCreateDTO talentData, Model model) {
+    public String createTalent(@Valid @ModelAttribute("user") TalentCreateDTO talentData, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "talent_registration";
+        }
 
         if (talentRepository.findByEmail(talentData.getEmail()).isPresent()) {
-            model.addAttribute("message", "Пользователь с такой почтой уже зарегистрирован!");
+            bindingResult.rejectValue("email", "", "Пользователь с почтой " + talentData.getEmail() + " уже зарегистрирован");
             return "talent_registration";
         }
 
