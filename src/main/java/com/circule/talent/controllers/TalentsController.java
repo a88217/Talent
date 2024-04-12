@@ -1,25 +1,35 @@
 package com.circule.talent.controllers;
 
-import com.circule.talent.service.CustomUserDetailsService;
+import com.circule.talent.exception.ResourceNotFoundException;
+import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.service.ProfessionService;
 import com.circule.talent.service.TalentService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/talents")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TalentsController {
 
     private final TalentService talentService;
 
-    private final CustomUserDetailsService userService;
+    private final TalentRepository talentRepository;
+
+
 
     private final ProfessionService professionService;
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @GetMapping(path = "")
     public String index(Model model) {
@@ -33,9 +43,38 @@ public class TalentsController {
     @GetMapping(path = "/{id}")
     public String show(@PathVariable Long id, Model model) {
 
-        var talent = talentService.show(id);
+        var talentDTO = talentService.show(id);
         var professions = professionService.index();
-        model.addAttribute("talent", talent);
+        model.addAttribute("talent", talentDTO);
+        model.addAttribute("professions", professions);
+        return "talent";
+    }
+
+    @PostMapping(path = "/{id}")
+    public String update(@PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+        var talent = talentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Talent with id " + id + " not found"));
+        var professions = professionService.index();
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            System.out.println(uploadPath);
+            System.out.println(uploadPath + "/" + resultFilename);
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            talent.setPhotoName(resultFilename);
+            talentRepository.save(talent);
+        }
+        var talentDTO = talentService.show(id);
+        model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         return "talent";
     }

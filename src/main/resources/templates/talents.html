@@ -23,7 +23,7 @@
                     <div class="card mb-3" style="max-width: 540px;" th:each="talent : ${talents}">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="..." class="img-fluid rounded-start" alt="...">
+                                <img th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="img-fluid rounded-start" alt="Фото профиля">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">

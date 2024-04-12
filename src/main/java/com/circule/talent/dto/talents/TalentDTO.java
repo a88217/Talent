@@ -1,17 +1,8 @@
 package com.circule.talent.dto.talents;
 
 
-import com.circule.talent.model.Profession;
-import com.circule.talent.model.Project;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -31,6 +22,8 @@ public class TalentDTO {
     private String about;
 
     private String mobilePhone;
+
+    private String photoName;
 
     private Set<Long> projectIds;
 

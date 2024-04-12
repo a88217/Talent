@@ -17,27 +17,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-3">
-
+                    <img th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="img-fluid rounded-start" alt="Фото профиля">
+                    <div>
+                        <form method="post" class="mt-2" enctype="multipart/form-data">
+                            <label for="formFile" class="form-label">Загрузите фото профиля</label>
+                            <input class="form-control" type="file" id="formFile" name="file">
+                            <button type="submit" class="btn btn-primary mt-2">Добавить</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="col-9">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="..." class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 style="display: inline-block;" class="card-title" th:text="${talent.firstName}"></h5>
-                                    <h5 style="display: inline-block;" class="card-title" th:text="${talent.lastName}"></h5>
-                                    <p class="card-text" th:text="${talent.about}">О себе</p>
-                                    <ul class="small list-group">
-                                        <li class="list-group-item" th:each="p : ${talent.professionIds}">
-                                            <p th:each="profession : ${professions}" th:if="${p == profession.id}" th:text="${profession.title}"></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    <h1 th:text="${talent.firstName} + ' ' + ${talent.lastName}"></h1>
+                    <p class="card-text" th:text="${talent.about}">О себе</p>
+                    <ul class="small list-group">
+                        <li class="list-group-item" th:each="p : ${talent.professionIds}">
+                            <p th:each="profession : ${professions}" th:if="${p == profession.id}" th:text="${profession.title}"></p>
+                        </li>
+                    </ul>
+                    <div>
+                        <h2>Проекты</h2>
                     </div>
                 </div>
             </div>
