@@ -6,10 +6,7 @@ import com.circule.talent.dto.users.UserCreateDTO;
 import com.circule.talent.mapper.ClientMapper;
 import com.circule.talent.mapper.TalentMapper;
 import com.circule.talent.mapper.UserMapper;
-import com.circule.talent.model.Privilege;
-import com.circule.talent.model.Profession;
-import com.circule.talent.model.Project;
-import com.circule.talent.model.Role;
+import com.circule.talent.model.*;
 import com.circule.talent.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -50,9 +47,6 @@ public class DataInitializer implements ApplicationRunner {
             getProfession("Редактор", ""),
             getProfession("Food-стилист", ""),
             getProfession("Художник-постановщик", ""));
-
-    private static final List<Project> PROJECTS = List.of(
-            getProject("Одри", "Воспитание самой лучшей и послушной собаки"));
 
     private final TalentRepository talentRepository;
 
@@ -108,11 +102,7 @@ public class DataInitializer implements ApplicationRunner {
                 professionRepository.save(profession);
             }
         }
-        for (var project : PROJECTS) {
-            if (projectRepository.findByTitle(project.getTitle()).isEmpty()) {
-                projectRepository.save(project);
-            }
-        }
+
         if (talentRepository.findByEmail("elenaiarygina@gmail.com").isEmpty()) {
             System.out.println("Start talent initialisation");
             var talentData = new TalentCreateDTO();
@@ -124,24 +114,16 @@ public class DataInitializer implements ApplicationRunner {
             talentData.setPassword("qwerty");
             talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Продюсер").get().getId(),
                     professionRepository.findByTitle("Контент-стратег").get().getId()));
-            talentData.setProjectIds(Set.of(projectRepository.findByTitle("Одри").get().getId()));
             System.out.println(talentData.getPassword());
 
             var talent = talentMapper.map(talentData);
             Role talentRole = roleRepository.findByName("ROLE_TALENT");
             talent.setRoles(Arrays.asList(talentRole));
 
-            System.out.println("After talent mapper");
-            System.out.println(talent.getFirstName());
-            System.out.println(talent.getLastName());
-            System.out.println(talent.getPassword());
-            System.out.println(talent.getMobilePhone());
-            System.out.println("Email: " + talent.getEmail());
-
             talentRepository.save(talent);
-
-            System.out.println("Talent: " + talentRepository.findByEmail("elenaiarygina@gmail.com"));
-            System.out.println("End talent initialisation");
+            var project = getProject("Одри", "Воспитание самой лучшей и послушной собаки", talent);
+            talent.addProject(project);
+            projectRepository.save(project);
         }
 
         if (clientRepository.findByEmail("test_client@gmail.com").isEmpty()) {
@@ -170,10 +152,11 @@ public class DataInitializer implements ApplicationRunner {
         return profession;
     }
 
-    public static Project getProject(String title, String description) {
+    public static Project getProject(String title, String description, Talent creator) {
         var project = new Project();
         project.setTitle(title);
         project.setDescription(description);
+        project.setCreator(creator);
         return project;
     }
 

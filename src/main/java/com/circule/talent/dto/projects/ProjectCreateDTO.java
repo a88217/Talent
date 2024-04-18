@@ -14,4 +14,6 @@ public class ProjectCreateDTO {
     @Size(min = 3, max = 5000)
     private String description;
 
+    private Long creatorId;
+
 }

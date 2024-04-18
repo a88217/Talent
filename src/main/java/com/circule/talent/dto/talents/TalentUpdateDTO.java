@@ -18,7 +18,7 @@ public class TalentUpdateDTO {
 
     private JsonNullable<String> email;
 
-    private String mobilePhone;
+    private JsonNullable<String> mobilePhone;
 
     private JsonNullable<String> about;
 

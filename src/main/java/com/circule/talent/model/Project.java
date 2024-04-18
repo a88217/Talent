@@ -1,7 +1,7 @@
 package com.circule.talent.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +34,12 @@ public class Project implements BaseEntity {
 
     @ToString.Include
     private String description;
+
+    private String photoName;
+
+    @ManyToOne
+    @NotNull
+    private Talent creator;
 
     @CreatedDate
     private LocalDate createdAt;

@@ -14,4 +14,6 @@ public class ProjectUpdateDTO {
 
     @Size(min = 3, max = 5000)
     private JsonNullable<String> description;
+
+    private JsonNullable<Long> creatorId;
 }

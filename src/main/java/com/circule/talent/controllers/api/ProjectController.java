@@ -35,6 +35,7 @@ public class ProjectController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public ProjectDTO create(@Valid @RequestBody ProjectCreateDTO projectData) {
+
         return projectService.create(projectData);
     }
 

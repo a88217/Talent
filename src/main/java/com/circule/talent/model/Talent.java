@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.util.Set;
 
 @Entity
@@ -19,10 +20,20 @@ public class Talent extends User {
 
     private String photoName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Project> projects;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Profession> professions;
+
+    public void addProject(Project project) {
+        projects.add(project);
+        project.setCreator(this);
+    }
+
+    public void removeProject(Project project) {
+        projects.remove(project);
+        project.setCreator(null);
+    }
 
 }
