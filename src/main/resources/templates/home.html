@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,24 @@
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <h1 class="fw-light">Welcome</h1>
-                    <p class="lead text-body-secondary">Подбираем сотрудников и проектных специалистов для ваших задач.
+
+                    <p class="lead text-body-secondary">
+                        Имя пользователя: <span th:text="${user.firstName} ?: 'Anonimus'"></span>
                     </p>
+
+                    <div sec:authorize="isAnonymous()">
+                        Вы не авторизованы!
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        Вы Авторизованы!
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        Вы админ!
+                    </div>
+                    <div sec:authorize="hasRole('TALENT')">
+                        Вы талант!
+                    </div>
+
                     <p class="lead text-body-secondary">
                         Мы собрали для вас большой пул креативных специалистов: вы можете нанять их в свою команду или привлечь на проект. У нас есть готовые команды под разные задачи: тексты, фото и видео продакшн, спецпроекты, CG, запуск YouTube-каналов и так далее.
                     </p>

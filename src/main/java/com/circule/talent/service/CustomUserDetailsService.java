@@ -1,5 +1,8 @@
 package com.circule.talent.service;
 
+import com.circule.talent.model.User;
+import com.circule.talent.repository.PrivilegeRepository;
+import com.circule.talent.repository.RoleRepository;
 import com.circule.talent.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +17,33 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
+    private final PrivilegeRepository privilegeRepository;
+
     private final PasswordEncoder passwordEncoder;
 
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        return userRepository.findByEmail(email)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//    }
+
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
+
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (user == null) {
+            return new org.springframework.security.core.userdetails.User(
+                    " ", " ", true, true, true, true,
+                    null);
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), user.isEnabled(), true, true,
+                true, user.getAuthorities(user.getRoles()));
     }
 
     @Override

@@ -46,6 +46,8 @@ dependencies {
 	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.8")
 	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0")
+	implementation("org.thymeleaf:thymeleaf-spring6:3.1.2.RELEASE")
 
 
 
