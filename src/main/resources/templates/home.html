@@ -31,9 +31,13 @@
                     </div>
                     <div sec:authorize="hasRole('ADMIN')">
                         Вы админ!
+                        <div sec:authentication="name"></div>
+                        <div sec:authentication="principal.id"></div>
                     </div>
                     <div sec:authorize="hasRole('TALENT')">
                         Вы талант!
+                        <div sec:authentication="name"></div>
+                        <div sec:authentication="principal.id"></div>
                     </div>
 
                     <p class="lead text-body-secondary">

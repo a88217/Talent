@@ -1,9 +1,9 @@
 package com.circule.talent.service;
 
-import com.circule.talent.model.User;
 import com.circule.talent.repository.PrivilegeRepository;
 import com.circule.talent.repository.RoleRepository;
 import com.circule.talent.repository.UserRepository;
+import com.circule.talent.utils.CustomUserDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsManager {
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(email)
+        var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         if (user == null) {
             return new org.springframework.security.core.userdetails.User(
@@ -41,9 +41,18 @@ public class CustomUserDetailsService implements UserDetailsManager {
                     null);
         }
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), user.isEnabled(), true, true,
-                true, user.getAuthorities(user.getRoles()));
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getUsername(), user.getPassword(), user.isEnabled(), true, true,
+//                true, user.getAuthorities(user.getRoles()));
+
+        return new CustomUserDetails.Builder().withId(user.getId())
+                .withFirstName(user.getFirstName())
+                .withLastName(user.getLastName())
+                .withEmail(user.getEmail())
+                .withUsername(user.getUsername())
+                .withPassword(user.getPassword())
+                .withAuthorities(user.getAuthorities(user.getRoles()))
+                .build();
     }
 
     @Override
