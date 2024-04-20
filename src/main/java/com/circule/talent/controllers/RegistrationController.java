@@ -1,5 +1,6 @@
 package com.circule.talent.controllers;
 
+import com.circule.talent.dto.clients.ClientCreateDTO;
 import com.circule.talent.dto.talents.TalentCreateDTO;
 import com.circule.talent.repository.ClientRepository;
 import com.circule.talent.repository.TalentRepository;
@@ -34,6 +35,12 @@ public class RegistrationController {
         return "talent_registration";
     }
 
+    @GetMapping("/client_registration")
+    public String clientRegistration(Model model) {
+        model.addAttribute("user", new ClientCreateDTO());
+        return "client_registration";
+    }
+
     @RequestMapping(
             path = "/talent_registration",
             method = RequestMethod.POST,
@@ -56,6 +63,35 @@ public class RegistrationController {
         talentService.create(talentData);
 
         return "redirect:/login";
+    }
+
+    @RequestMapping(
+            path = "/client_registration",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = {
+                    MediaType.APPLICATION_ATOM_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            })
+    public String createClient(@Valid @ModelAttribute("user") ClientCreateDTO clientData, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "client_registration";
+        }
+
+        if (clientRepository.findByEmail(clientData.getEmail()).isPresent()) {
+            bindingResult.rejectValue("email", "", "Пользователь с почтой " + clientData.getEmail() + " уже зарегистрирован");
+            return "client_registration";
+        }
+
+        clientService.create(clientData);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/register")
+    public String registration() {
+        return "registration";
     }
 
 }
