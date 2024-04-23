@@ -2,11 +2,14 @@ package com.circule.talent.components;
 
 import com.circule.talent.dto.clients.ClientCreateDTO;
 import com.circule.talent.dto.talents.TalentCreateDTO;
+import com.circule.talent.dto.teams.TeamCreateDTO;
 import com.circule.talent.dto.users.UserCreateDTO;
 import com.circule.talent.mapper.ClientMapper;
 import com.circule.talent.mapper.TalentMapper;
+import com.circule.talent.mapper.TeamMapper;
 import com.circule.talent.mapper.UserMapper;
 import com.circule.talent.model.*;
+import com.circule.talent.model.Package;
 import com.circule.talent.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -22,6 +25,26 @@ import java.util.Set;
 @Component
 @AllArgsConstructor
 public class DataInitializer implements ApplicationRunner {
+
+    private static final List<Package> PACKAGES = List.of(
+            getPackage(
+            "Контент-стратегия",
+            "<p>Создаём вам карту, которая поможет:</p>" +
+                    "<ul>" +
+                    "<li>Создавать контент, который будет интересен вашей аудитории.</li>" +
+                    "<li>Публиковать его в нужных местах и в нужное время.</li>" +
+                    "<li>Распространять его, чтобы о нём узнало как можно больше людей.</li>" +
+                    "<li>Достигать своих бизнес целей</li></ul>",
+            "14 рабочих дней",
+            "от 150 тыс. р."),
+            getPackage(
+            "Бренд-платформа для новых компаний",
+            "<p>Платформа бренда - это как документ, в котором подробно описаны все идеи," +
+                    " принципы и ценности вашей компании. Её главная цель - сформировать четкую" +
+                    " идентичность бренда, выделить вашу компанию среди других и подчеркнуть вашу уникальность" +
+                    " перед потребителями, помогая вам отличаться от конкурентов</p>",
+            "14 рабочих дней",
+            "290 тыс. р."));
 
     private static final List<Profession> PROFESSIONS = List.of(
             getProfession("Продюсер", ""),
@@ -56,9 +79,15 @@ public class DataInitializer implements ApplicationRunner {
 
     private final ProfessionRepository professionRepository;
 
+    private final TeamRepository teamRepository;
+
+    private final PackageRepository packageRepository;
+
     private final TalentMapper talentMapper;
 
     private final ClientMapper clientMapper;
+
+    private final TeamMapper teamMapper;
 
     private final UserRepository userRepository;
 
@@ -103,8 +132,139 @@ public class DataInitializer implements ApplicationRunner {
             }
         }
 
+        for (var pack : PACKAGES) {
+            if (packageRepository.findByTitle(pack.getTitle()).isEmpty()) {
+                packageRepository.save(pack);
+            }
+        }
+
+        if (talentRepository.findByEmail("test_talent1@gmail.com").isEmpty()) {
+            var talentData = new TalentCreateDTO();
+            talentData.setFirstName("Исполнитель");
+            talentData.setLastName("Первый");
+            talentData.setAbout("Тестовый исполнитель 1");
+            talentData.setEmail("test_talent1@gmail.com");
+            talentData.setMobilePhone("+1111111111");
+            talentData.setPassword("qwerty");
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Копирайтер").get().getId(),
+                    professionRepository.findByTitle("Контент-стратег").get().getId()));
+
+            var talent = talentMapper.map(talentData);
+            Role talentRole = roleRepository.findByName("ROLE_TALENT");
+            talent.setRoles(Arrays.asList(talentRole));
+
+            talentRepository.save(talent);
+        }
+
+        if (talentRepository.findByEmail("test_talent2@gmail.com").isEmpty()) {
+            var talentData = new TalentCreateDTO();
+            talentData.setFirstName("Исполнитель");
+            talentData.setLastName("Второй");
+            talentData.setAbout("Тестовый исполнитель 2");
+            talentData.setEmail("test_talent2@gmail.com");
+            talentData.setMobilePhone("+2222222222");
+            talentData.setPassword("qwerty");
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Маркетолог").get().getId(),
+                    professionRepository.findByTitle("Контент-стратег").get().getId()));
+
+            var talent = talentMapper.map(talentData);
+            Role talentRole = roleRepository.findByName("ROLE_TALENT");
+            talent.setRoles(Arrays.asList(talentRole));
+
+            talentRepository.save(talent);
+        }
+
+        if (talentRepository.findByEmail("test_talent3@gmail.com").isEmpty()) {
+            var talentData = new TalentCreateDTO();
+            talentData.setFirstName("Исполнитель");
+            talentData.setLastName("Третий");
+            talentData.setAbout("Тестовый исполнитель 3");
+            talentData.setEmail("test_talent3@gmail.com");
+            talentData.setMobilePhone("+33333333333");
+            talentData.setPassword("qwerty");
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Художник").get().getId(),
+                    professionRepository.findByTitle("Моушен дизайнер").get().getId(),
+                    professionRepository.findByTitle("Редактор").get().getId()));
+
+            var talent = talentMapper.map(talentData);
+            Role talentRole = roleRepository.findByName("ROLE_TALENT");
+            talent.setRoles(Arrays.asList(talentRole));
+
+            talentRepository.save(talent);
+        }
+
+        if (talentRepository.findByEmail("test_talent4@gmail.com").isEmpty()) {
+            var talentData = new TalentCreateDTO();
+            talentData.setFirstName("Исполнитель");
+            talentData.setLastName("Четвертый");
+            talentData.setAbout("Тестовый исполнитель 4");
+            talentData.setEmail("test_talent4@gmail.com");
+            talentData.setMobilePhone("+44444444444");
+            talentData.setPassword("qwerty");
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Режиссер").get().getId(),
+                    professionRepository.findByTitle("Сценарист").get().getId(),
+                    professionRepository.findByTitle("Оператор").get().getId()));
+
+            var talent = talentMapper.map(talentData);
+            Role talentRole = roleRepository.findByName("ROLE_TALENT");
+            talent.setRoles(Arrays.asList(talentRole));
+
+            talentRepository.save(talent);
+        }
+
+        if (talentRepository.findByEmail("test_talent5@gmail.com").isEmpty()) {
+            var talentData = new TalentCreateDTO();
+            talentData.setFirstName("Исполнитель");
+            talentData.setLastName("Пятый");
+            talentData.setAbout("Тестовый исполнитель 5");
+            talentData.setEmail("test_talent5@gmail.com");
+            talentData.setMobilePhone("+5555555555");
+            talentData.setPassword("qwerty");
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("PR менеджер").get().getId()));
+
+            var talent = talentMapper.map(talentData);
+            Role talentRole = roleRepository.findByName("ROLE_TALENT");
+            talent.setRoles(Arrays.asList(talentRole));
+
+            talentRepository.save(talent);
+        }
+
+        if (teamRepository.findByTitle("Контент-стратег/креативный копирайтер").isEmpty()) {
+            var teamData = new TeamCreateDTO();
+            teamData.setTitle("Контент-стратег/креативный копирайтер");
+            teamData.setDescription("Команда разработает контент-стратегию вашего бренда");
+
+            var team = teamMapper.map(teamData);
+            team.addTalent(talentRepository.findByEmail("test_talent1@gmail.com").get());
+            team.addTalent(talentRepository.findByEmail("test_talent2@gmail.com").get());
+
+            teamRepository.save(team);
+
+            var pack = packageRepository.findByTitle("Контент-стратегия").get();
+            pack.addTeam(team);
+            packageRepository.save(pack);
+        }
+
+        if (teamRepository.findByTitle("Тестовая команда").isEmpty()) {
+            var teamData = new TeamCreateDTO();
+            teamData.setTitle("Тестовая команда");
+            teamData.setDescription("Команда разработает что угодно");
+
+            var team = teamMapper.map(teamData);
+            team.addTalent(talentRepository.findByEmail("test_talent2@gmail.com").get());
+            team.addTalent(talentRepository.findByEmail("test_talent3@gmail.com").get());
+            team.addTalent(talentRepository.findByEmail("test_talent4@gmail.com").get());
+            team.addTalent(talentRepository.findByEmail("test_talent5@gmail.com").get());
+            team.getTalents().stream().forEach(t -> System.out.println(t.getEmail()));
+
+            teamRepository.save(team);
+
+            var pack = packageRepository.findByTitle("Бренд-платформа для новых компаний").get();
+            pack.addTeam(team);
+            packageRepository.save(pack);
+        }
+
         if (talentRepository.findByEmail("elenaiarygina@gmail.com").isEmpty()) {
-            System.out.println("Start talent initialisation");
             var talentData = new TalentCreateDTO();
             talentData.setFirstName("Елена");
             talentData.setLastName("Ярыгина");
@@ -114,7 +274,6 @@ public class DataInitializer implements ApplicationRunner {
             talentData.setPassword("qwerty");
             talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Продюсер").get().getId(),
                     professionRepository.findByTitle("Контент-стратег").get().getId()));
-            System.out.println(talentData.getPassword());
 
             var talent = talentMapper.map(talentData);
             Role talentRole = roleRepository.findByName("ROLE_TALENT");
@@ -127,7 +286,6 @@ public class DataInitializer implements ApplicationRunner {
         }
 
         if (clientRepository.findByEmail("test_client@gmail.com").isEmpty()) {
-            System.out.println("Start client initialisation");
             var clientData = new ClientCreateDTO();
             clientData.setFirstName("Тест");
             clientData.setLastName("Тестович");
@@ -141,8 +299,8 @@ public class DataInitializer implements ApplicationRunner {
             Role clientRole = roleRepository.findByName("ROLE_CLIENT");
             client.setRoles(Arrays.asList(clientRole));
             clientRepository.save(client);
-            System.out.println("End client initialisation");
         }
+
     }
 
     public static Profession getProfession(String title, String description) {
@@ -158,6 +316,30 @@ public class DataInitializer implements ApplicationRunner {
         project.setDescription(description);
         project.setCreator(creator);
         return project;
+    }
+
+    public static Project getProject(String title, String description, Team performer) {
+        var project = new Project();
+        project.setTitle(title);
+        project.setDescription(description);
+        project.setPerformer(performer);
+        return project;
+    }
+
+    public static Team getTeam(String title, String description) {
+        var team = new Team();
+        team.setTitle(title);
+        team.setDescription(description);
+        return team;
+    }
+
+    public static Package getPackage(String title, String description, String term, String price) {
+        var pack = new Package();
+        pack.setTitle(title);
+        pack.setDescription(description);
+        pack.setTerm(term);
+        pack.setPrice(price);
+        return pack;
     }
 
     @Transactional

@@ -1,7 +1,6 @@
 package com.circule.talent.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +32,7 @@ public class Profession implements BaseEntity {
     private String title;
 
     @ToString.Include
+    @Column(length = 2000)
     private String description;
 
     @CreatedDate

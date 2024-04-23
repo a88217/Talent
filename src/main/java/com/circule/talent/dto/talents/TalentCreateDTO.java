@@ -1,6 +1,5 @@
 package com.circule.talent.dto.talents;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +23,8 @@ public class TalentCreateDTO {
     private Set<Long> projectIds;
 
     private Set<Long> professionIds;
+
+    private Set<Long> teamIds;
 
     @Size(min = 3)
     private String password;

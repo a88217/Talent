@@ -50,6 +50,7 @@ public class User implements UserDetails, BaseEntity {
 
     private String mobilePhone;
 
+    @Column(length = 2000)
     private String about;
 
     @NotBlank

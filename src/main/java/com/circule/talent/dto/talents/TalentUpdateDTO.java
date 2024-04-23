@@ -26,6 +26,8 @@ public class TalentUpdateDTO {
 
     private JsonNullable<Set<Long>> professionIds;
 
+    private JsonNullable<Set<Long>> teamIds;
+
     @NotBlank
     @Size(min = 3)
     private JsonNullable<String> password;

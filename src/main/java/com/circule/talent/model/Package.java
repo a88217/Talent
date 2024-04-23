@@ -1,7 +1,6 @@
 package com.circule.talent.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,18 +9,18 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "packages")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Project implements BaseEntity {
-
+public class Package implements BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @ToString.Include
@@ -29,23 +28,36 @@ public class Project implements BaseEntity {
     private long id;
 
     @ToString.Include
-    @Column(unique = true)
     private String title;
 
     @ToString.Include
-    @Column(length = 2000)
+    @Column(columnDefinition = "text")
     private String description;
 
-    private String photoName;
+    @Column(length = 2000)
+    private String term;
 
-    @ManyToOne
-    @NotNull
-    private Talent creator;
+    private String price;
 
-    @ManyToOne
-    private Team performer;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "packages_teams",
+            joinColumns = @JoinColumn(
+                    name = "package_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "team_id", referencedColumnName = "id"))
+    private Set<Team> teams;
 
     @CreatedDate
     private LocalDate createdAt;
 
+    public void addTeam(Team team) {
+        teams.add(team);
+        team.addPackage(this);
+    }
+
+    public void removeTeam(Team team) {
+        teams.remove(team);
+        team.removePackage(this);
+    }
 }

@@ -29,6 +29,8 @@ public class TalentDTO {
 
     private Set<Long> professionIds;
 
+    private Set<Long> teamIds;
+
     private LocalDate createdAt;
 
 }
