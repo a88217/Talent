@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,20 +17,20 @@
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-6 align-self-center">
-        <div th:if="${param.error}">
-          Некорректное имя пользователя или пароль.
-        </div>
-        <div th:if="${param.logout}">
-          Вы вышли.
-        </div>
-        <form th:action="@{/authenticateTheUser}" method="post">
+        <form th:action="@{/teams}" method="post" th:object="${team}">
           <div class="mb-3">
-            <label for="Email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="Email" name="username">
+            <label for="Title" class="form-label">Название команды</label>
+            <input type="text" class="form-control" id="Title" name="title" th:field="*{title}">
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('title')}" th:text="${err}">Validation error</small>
           </div>
           <div class="mb-3">
-            <label for="InputPassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="InputPassword" name="password">
+            <label for="Description" class="form-label">Описание команды</label>
+            <textarea type="text" class="form-control" id="Description" name="description" th:field="*{description}"  rows="3"></textarea>
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('description')}" th:text="${err}">Validation error</small>
+          </div>
+          <div th:each="talent : ${talents}">
+            <input th:id="${talent.id}" th:name="${talentIds}" th:field="*{talentIds}" type="checkbox" th:value="${talent.id}">
+            <label th:for="${talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></label>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -54,9 +54,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/authenticateTheUser")
                         .permitAll()
                 )
-                .logout((logout) -> logout
-                        .logoutSuccessUrl("/login")
-                        .permitAll())
+                .logout((logout) -> logout.permitAll())
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
                 .httpBasic(Customizer.withDefaults())
                 .build();

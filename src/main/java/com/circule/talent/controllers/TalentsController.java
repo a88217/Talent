@@ -111,6 +111,7 @@ public class TalentsController {
         talentUpdate.setLastName(JsonNullable.of(talentData.getLastName()));
         talentUpdate.setAbout(JsonNullable.of(talentData.getAbout()));
         talentUpdate.setMobilePhone(JsonNullable.of(talentData.getMobilePhone()));
+        talentUpdate.setProfessionIds(JsonNullable.of(talentData.getProfessionIds()));
 
         talentService.update(talentUpdate, id);
 
@@ -118,15 +119,18 @@ public class TalentsController {
     }
 
     @GetMapping(path = "/update/{id}")
-    public String updeteTalentForm(@PathVariable Long id, Model model) {
+    public String updateTalentForm(@PathVariable Long id, Model model) {
 
         var talent = talentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Talent with id " + id + " not found"));
+
+        var professions = professionService.index();
 
         var talentDTO = talentMapper.map(talent);
 
         model.addAttribute("user", talentDTO);
         model.addAttribute("talent_id", id);
+        model.addAttribute("professions", professions);
         return "talent_update";
     }
 

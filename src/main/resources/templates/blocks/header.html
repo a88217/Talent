@@ -8,9 +8,10 @@
             </a>
 
             <ul class="nav nav-pills me-3 mt-1">
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a th:href="@{/admin}" class="nav-link text-dark btn btn-primary">Админка</a></li>
                 <li class="nav-item"><a href="/about" class="nav-link text-dark">О нас</a></li>
                 <li class="nav-item"><a th:href="@{/talents}" class="nav-link text-dark">Таланты</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-dark">Проекты</a></li>
+                <li class="nav-item"><a th:href="@{/packages}" class="nav-link text-dark">Проекты</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-dark">Контакты</a></li>
                 <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{/register}" class="nav-link text-dark">Регистрация</a></li>
                 <li sec:authorize="hasRole('TALENT')" class="nav-item"><a th:href="'/talents/' + ${#authentication.principal.id}" class="btn btn-primary me-1">Профиль</a></li>
@@ -18,7 +19,7 @@
                 <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{/login}" class="btn btn-primary">Войти</a></li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
                     <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
-                        <button class="btn btn-primary">Выйти</button>
+                        <input type="submit" class="btn btn-primary" value="Выйти"/>
                     </form>
                 </li>
             </ul>

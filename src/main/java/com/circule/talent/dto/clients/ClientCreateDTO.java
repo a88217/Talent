@@ -4,8 +4,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 public class ClientCreateDTO {
@@ -24,5 +22,9 @@ public class ClientCreateDTO {
 
     @Size(min = 3)
     private String password;
+
+    @Size(min = 3)
+    private String passwordConfirmation;
+
 
 }

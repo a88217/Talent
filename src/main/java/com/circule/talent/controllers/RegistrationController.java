@@ -49,13 +49,18 @@ public class RegistrationController {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String createTalent(@Valid @ModelAttribute("user") TalentCreateDTO talentData, BindingResult bindingResult) {
+    public String createTalent(@Valid @ModelAttribute("user") TalentCreateDTO talentData, Model model, BindingResult bindingResult) {
+
+        if (!talentData.getPassword().equals(talentData.getPasswordConfirmation())) {
+            model.addAttribute("passwordIncorrect", "Пароли не совпадают");
+            return "talent_registration";
+        }
 
         if (bindingResult.hasErrors()) {
             return "talent_registration";
         }
 
-        if (talentRepository.findByEmail(talentData.getEmail()).isPresent()) {
+        if (talentRepository.findByEmail(talentData.getEmail()).isPresent() || clientRepository.findByEmail(talentData.getEmail()).isPresent() ) {
             bindingResult.rejectValue("email", "", "Пользователь с почтой " + talentData.getEmail() + " уже зарегистрирован");
             return "talent_registration";
         }
@@ -73,13 +78,18 @@ public class RegistrationController {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String createClient(@Valid @ModelAttribute("user") ClientCreateDTO clientData, BindingResult bindingResult) {
+    public String createClient(@Valid @ModelAttribute("user") ClientCreateDTO clientData, Model model, BindingResult bindingResult) {
+
+        if (!clientData.getPassword().equals(clientData.getPasswordConfirmation())) {
+            model.addAttribute("passwordIncorrect", "Пароли не совпадают");
+            return "client_registration";
+        }
 
         if (bindingResult.hasErrors()) {
             return "client_registration";
         }
 
-        if (clientRepository.findByEmail(clientData.getEmail()).isPresent()) {
+        if (clientRepository.findByEmail(clientData.getEmail()).isPresent() || talentRepository.findByEmail(clientData.getEmail()).isPresent()) {
             bindingResult.rejectValue("email", "", "Пользователь с почтой " + clientData.getEmail() + " уже зарегистрирован");
             return "client_registration";
         }

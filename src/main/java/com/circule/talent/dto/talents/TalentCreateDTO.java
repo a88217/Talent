@@ -29,4 +29,7 @@ public class TalentCreateDTO {
     @Size(min = 3)
     private String password;
 
+    @Size(min = 3)
+    private String passwordConfirmation;
+
 }

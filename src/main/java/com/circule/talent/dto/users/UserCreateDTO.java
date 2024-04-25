@@ -20,7 +20,7 @@ public class UserCreateDTO {
     private String mobilePhone;
 
     @NotBlank
-    @Size(min = 3)
+    @Size(min = 5)
     private String password;
 
 }

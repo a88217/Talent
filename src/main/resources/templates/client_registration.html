@@ -38,6 +38,11 @@
             <input type="password" class="form-control" id="InputPassword" name="password" th:field="*{password}">
             <small class="form-text text-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}">Validation error</small>
           </div>
+          <div class="mb-3">
+            <label for="ConfirmPassword" class="form-label">Password confirmation</label>
+            <input type="password" class="form-control" id="ConfirmPassword" name="passwordConfirmation" th:field="*{passwordConfirmation}">
+            <small class="form-text text-danger" th:text="${passwordIncorrect}">Пароли не совпадают</small>
+          </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
