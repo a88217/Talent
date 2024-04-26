@@ -14,7 +14,7 @@
                 <li class="nav-item"><a th:href="@{/packages}" class="nav-link text-dark">Проекты</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-dark">Контакты</a></li>
                 <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{/register}" class="nav-link text-dark">Регистрация</a></li>
-                <li sec:authorize="hasRole('TALENT')" class="nav-item"><a th:href="'/talents/' + ${#authentication.principal.id}" class="btn btn-primary me-1">Профиль</a></li>
+                <li sec:authorize="hasRole('TALENT')" class="nav-item"><a th:href="'/talents/' + ${#authentication.principal.id} + '/profile'" class="btn btn-primary me-1">Профиль</a></li>
                 <li sec:authorize="hasRole('CLIENT')" class="nav-item"><a th:href="'/clients/' + ${#authentication.principal.id}" class="btn btn-primary me-1">Профиль</a></li>
                 <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{/login}" class="btn btn-primary">Войти</a></li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">

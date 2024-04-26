@@ -8,11 +8,13 @@ import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.service.ProfessionService;
 import com.circule.talent.service.ProjectService;
 import com.circule.talent.service.TalentService;
+import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +40,8 @@ public class TalentsController {
 
     private final TalentMapper talentMapper;
 
+    private final UserUtils userUtils;
+
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -62,7 +66,21 @@ public class TalentsController {
         return "talent";
     }
 
+    @GetMapping(path = "/{id}/profile")
+    @PreAuthorize("@userUtils.isCurrentUser(#id)")
+    public String showProfile(@PathVariable Long id, Model model) {
+
+        var talentDTO = talentService.show(id);
+        var professions = professionService.index();
+        var projects = projectService.index();
+        model.addAttribute("talent", talentDTO);
+        model.addAttribute("professions", professions);
+        model.addAttribute("projects", projects);
+        return "talent_profile";
+    }
+
     @PostMapping(path = "/{id}")
+    @PreAuthorize("@userUtils.isCurrentUser(#id)")
     public String updatePhoto(@PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
         var talent = talentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Talent with id " + id + " not found"));
@@ -98,6 +116,7 @@ public class TalentsController {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
+    @PreAuthorize("@userUtils.isCurrentUser(#id)")
     public String updateTalent(@Valid @ModelAttribute("user") TalentCreateDTO talentData, @PathVariable Long id, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -119,6 +138,7 @@ public class TalentsController {
     }
 
     @GetMapping(path = "/update/{id}")
+    @PreAuthorize("@userUtils.isCurrentUser(#id)")
     public String updateTalentForm(@PathVariable Long id, Model model) {
 
         var talent = talentRepository.findById(id)
