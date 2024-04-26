@@ -4,18 +4,19 @@ import com.circule.talent.dto.clients.ClientCreateDTO;
 import com.circule.talent.dto.talents.TalentCreateDTO;
 import com.circule.talent.repository.ClientRepository;
 import com.circule.talent.repository.TalentRepository;
+import com.circule.talent.repository.UserRepository;
 import com.circule.talent.service.ClientService;
 import com.circule.talent.service.TalentService;
+import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
@@ -28,6 +29,12 @@ public class RegistrationController {
     private final TalentService talentService;
 
     private final ClientService clientService;
+
+    private final UserRepository userRepository;
+
+    private final UserUtils userUtils;
+
+    private PasswordEncoder encoder;
 
     @GetMapping("/talent_registration")
     public String talentRegistration(Model model) {
@@ -102,6 +109,41 @@ public class RegistrationController {
     @GetMapping("/register")
     public String registration() {
         return "registration";
+    }
+
+    @GetMapping("/users/{id}/change_password")
+    public String changePasswordForm(@PathVariable Long id, Model model) {
+        model.addAttribute("userId", id);
+        return "change_password";
+    }
+
+    @PostMapping("/users/{id}")
+    @PreAuthorize("@userUtils.isCurrentUser(#id)")
+    public String changeUserPassword(@PathVariable Long id, Model model,
+                                              @RequestParam("password") String password,
+                                              @RequestParam("oldPassword") String oldPassword,
+                                              @RequestParam("passwordConfirmation") String passwordConfirmation) {
+
+        if (!password.equals(passwordConfirmation)) {
+            System.out.println("Не совпадают новые пароли");
+            model.addAttribute("userId", id);
+            model.addAttribute("passwordMismatch", "Пароли не совпадают");
+            return "change_password";
+        }
+
+        var user = userUtils.getCurrentUser();
+
+        if (!encoder.matches(oldPassword, user.getPassword())) {
+            System.out.println("Не совпадает старый пароль");
+            model.addAttribute("userId", id);
+            model.addAttribute("wrongOldPassword", "Старый пароль введён неверно!");
+            return "change_password";
+        }
+
+        user.setPasswordDigest(encoder.encode(password));
+        userRepository.save(user);
+
+        return "redirect:/home";
     }
 
 }

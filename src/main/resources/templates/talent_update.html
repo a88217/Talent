@@ -19,6 +19,7 @@
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-6 align-self-center">
+        <a class="btn btn-primary" th:href="'/users/' + ${talent_id} + '/change_password'">Сменить пароль</a>
         <form th:action="'/talents/update/' + ${talent_id}" method="post" th:object="${user}">
           <div class="mb-3">
             <label for="FirstName" class="form-label">Имя</label>

@@ -23,12 +23,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     private final PasswordEncoder passwordEncoder;
 
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        return userRepository.findByEmail(email)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
@@ -40,10 +34,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
                     " ", " ", true, true, true, true,
                     null);
         }
-
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getUsername(), user.getPassword(), user.isEnabled(), true, true,
-//                true, user.getAuthorities(user.getRoles()));
 
         return new CustomUserDetails.Builder().withId(user.getId())
                 .withFirstName(user.getFirstName())
