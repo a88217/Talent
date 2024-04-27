@@ -1,6 +1,7 @@
 package com.circule.talent.controllers;
 
 import com.circule.talent.dto.talents.TalentCreateDTO;
+import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.dto.talents.TalentUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.TalentMapper;
@@ -46,8 +47,8 @@ public class TalentsController {
     private String uploadPath;
 
     @GetMapping(path = "")
-    public String index(Model model) {
-        var talents = talentService.index();
+    public String index(TalentParamsDTO params, Model model) {
+        var talents = talentService.index(params);
         var professions = professionService.index();
         model.addAttribute("talents", talents);
         model.addAttribute("professions", professions);

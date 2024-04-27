@@ -1,5 +1,6 @@
 package com.circule.talent.controllers;
 
+import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.dto.teams.TeamCreateDTO;
 import com.circule.talent.dto.teams.TeamUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
@@ -36,10 +37,10 @@ public class TeamsController {
     private final TeamMapper teamMapper;
 
     @GetMapping(path = "")
-    public String index(Model model) {
+    public String index(TalentParamsDTO params, Model model) {
         var packages = packageService.index();
         var teams = teamService.index();
-        var talents = talentService.index();
+        var talents = talentService.index(params);
         model.addAttribute("packages", packages);
         model.addAttribute("teams", teams);
         model.addAttribute("talents", talents);
@@ -47,10 +48,10 @@ public class TeamsController {
     }
 
     @GetMapping(path = "/{id}")
-    public String show(@PathVariable Long id, Model model) {
+    public String show(@PathVariable Long id, TalentParamsDTO params, Model model) {
 
         var teamDTO = teamService.show(id);
-        var talents = talentService.index();
+        var talents = talentService.index(params);
         var projects = projectService.index();
         model.addAttribute("team", teamDTO);
         model.addAttribute("talents", talents);
@@ -59,9 +60,9 @@ public class TeamsController {
     }
 
     @GetMapping(path = "/build")
-    public String buildTeam(Model model) {
+    public String buildTeam(TalentParamsDTO params, Model model) {
 
-        var talents = talentService.index();
+        var talents = talentService.index(params);
 
         model.addAttribute("talents", talents);
         model.addAttribute("team", new TeamCreateDTO());
@@ -87,12 +88,12 @@ public class TeamsController {
     }
 
     @GetMapping(path = "/update/{id}")
-    public String updateTeamForm(@PathVariable Long id, Model model) {
+    public String updateTeamForm(@PathVariable Long id, TalentParamsDTO params, Model model) {
 
         var team = teamRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Team with id " + id + " not found"));
         var teamDTO = teamMapper.map(team);
-        var talents = talentService.index();
+        var talents = talentService.index(params);
         model.addAttribute("team", teamDTO);
         model.addAttribute("talents", talents);
         return "team_update";

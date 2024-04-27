@@ -16,18 +16,19 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-9">
+                <div class="col-12">
                     <h1 th:text="${package.title}"></h1>
-                    <p class="card-text" th:utext="${package.description}"></p>
+                    <div class="my-5 fs-4" style="min-height: 10rem;" th:utext="${package.description}"></div>
                     <p class="card-text" th:text="'Срок выполнения: ' + ${package.term}"></p>
                     <p class="card-text" th:text="'Стоимость: ' + ${package.price}"></p>
                     <p class="h5">Команды, готовые выполнить задачу: </p>
-
-                    <div th:each="t : ${package.teamIds}" class="card" style="width: 14rem; display: inline-block">
-                        <div class="card-body">
-                            <h5 class="card-title" th:each="team : ${teams}" th:if="${t == team.id}" th:text="${team.title}">Название команды</h5>
-                            <p class="card-text" th:each="team : ${teams}" th:if="${t == team.id}" th:text="${team.description}">О команде</p>
-                            <a th:href="@{'/teams/' + ${team.id}}" class="card-link" th:each="team : ${teams}" th:if="${t == team.id}">К команде</a>
+                    <div class="d-flex">
+                        <div th:each="t : ${package.teamIds}" class="card mt-3 me-4 rounded-5" style="width: 15rem; min-height: 15rem; background-image: url(/static/бэк_min.png);">
+                            <div class="card-body" style="">
+                                <h5 class="card-title" th:each="team : ${teams}" th:if="${t == team.id}" th:text="${team.title}">Название команды</h5>
+                                <p class="card-text" th:each="team : ${teams}" th:if="${t == team.id}" th:text="${team.description}">О команде</p>
+                                <a style="position: absolute; bottom: 0; display: block" class="btn btn-outline-primary text-black my-3" th:href="@{'/teams/' + ${team.id}}" th:each="team : ${teams}" th:if="${t == team.id}">К команде</a>
+                            </div>
                         </div>
                     </div>
                     <div>

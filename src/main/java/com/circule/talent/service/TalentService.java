@@ -1,12 +1,14 @@
 package com.circule.talent.service;
 
-import com.circule.talent.dto.talents.TalentDTO;
 import com.circule.talent.dto.talents.TalentCreateDTO;
+import com.circule.talent.dto.talents.TalentDTO;
+import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.dto.talents.TalentUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.TalentMapper;
 import com.circule.talent.repository.RoleRepository;
 import com.circule.talent.repository.TalentRepository;
+import com.circule.talent.specification.TalentSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,11 @@ public class TalentService {
 
     private final RoleRepository roleRepository;
 
-    public List<TalentDTO> index() {
-        return talentMapper.map(talentRepository.findAll());
+    private final TalentSpecification talentSpecification;
+
+    public List<TalentDTO> index(TalentParamsDTO params) {
+        var spec = talentSpecification.build(params);
+        return talentMapper.map(talentRepository.findAll(spec));
     }
 
     public TalentDTO show(Long id) {

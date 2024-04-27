@@ -2,6 +2,7 @@ package com.circule.talent.controllers.api;
 
 import com.circule.talent.dto.talents.TalentCreateDTO;
 import com.circule.talent.dto.talents.TalentDTO;
+import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.dto.talents.TalentUpdateDTO;
 import com.circule.talent.service.TalentService;
 import jakarta.validation.Valid;
@@ -20,8 +21,8 @@ public class TalentController {
     private final TalentService talentService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<TalentDTO>> index() {
-        var result = talentService.index();
+    public ResponseEntity<List<TalentDTO>> index(TalentParamsDTO params) {
+        var result = talentService.index(params);
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(result.size()))
                 .body(result);

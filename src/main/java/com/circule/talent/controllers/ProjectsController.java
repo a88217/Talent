@@ -2,6 +2,7 @@ package com.circule.talent.controllers;
 
 import com.circule.talent.dto.projects.ProjectCreateDTO;
 import com.circule.talent.dto.projects.ProjectUpdateDTO;
+import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.ProjectMapper;
 import com.circule.talent.repository.ProjectRepository;
@@ -45,8 +46,8 @@ public class ProjectsController {
     private String uploadPath;
 
     @GetMapping(path = "/projects")
-    public String index(Model model) {
-        var talents = talentService.index();
+    public String index(TalentParamsDTO params, Model model) {
+        var talents = talentService.index(params);
         var projects = projectService.index();
         model.addAttribute("talents", talents);
         model.addAttribute("professions", projects);
@@ -54,10 +55,10 @@ public class ProjectsController {
     }
 
     @GetMapping(path = "/projects/{projectId}")
-    public String show(@PathVariable Long projectId, Model model) {
+    public String show(TalentParamsDTO params, @PathVariable Long projectId, Model model) {
 
         var projectDTO = projectService.show(projectId);
-        var talents = talentService.index();
+        var talents = talentService.index(params);
         model.addAttribute("talents", talents);
         model.addAttribute("project", projectDTO);
         return "project";
@@ -72,10 +73,10 @@ public class ProjectsController {
 
 
     @GetMapping(path = "/talents/{talentId}/projects/{projectId}")
-    public String showTalentsProject(@PathVariable Long projectId, @PathVariable Long talentId, Model model) {
+    public String showTalentsProject(@PathVariable Long projectId, @PathVariable Long talentId, TalentParamsDTO params, Model model) {
 
         var projectDTO = projectService.show(projectId);
-        var talents = talentService.index();
+        var talents = talentService.index(params);
         model.addAttribute("talents", talents);
         model.addAttribute("project", projectDTO);
         model.addAttribute("talent_id", talentId);
