@@ -40,6 +40,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.4")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-mail:3.2.5")
 	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
 	implementation("org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE")
 	// https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure

@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class ProjectsController {
+public class ProjectsTalentsController {
 
     private final ProjectService projectService;
 
@@ -65,7 +65,7 @@ public class ProjectsController {
     }
 
     @GetMapping(path = "/talents/{talentId}/project_build")
-    public String buildProject(@PathVariable Long talentId, Model model) {
+    public String buildTalentProject(@PathVariable Long talentId, Model model) {
         model.addAttribute("project", new ProjectCreateDTO());
         model.addAttribute("talent_id", talentId);
         return "project_build";
@@ -91,7 +91,7 @@ public class ProjectsController {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String createProject(@Valid @ModelAttribute("project") ProjectCreateDTO projectData, @PathVariable Long talentId, Model model, BindingResult bindingResult) {
+    public String createTalentProject(@Valid @ModelAttribute("project") ProjectCreateDTO projectData, @PathVariable Long talentId, Model model, BindingResult bindingResult) {
 
         projectData.setCreatorId(talentId);
         if (bindingResult.hasErrors()) {
@@ -109,7 +109,7 @@ public class ProjectsController {
     }
 
     @PostMapping(path = "/talents/{talentId}/projects/{id}")
-    public String updatePhoto(@PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+    public String updateTalentPhoto(@PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
         var project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
         if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -133,7 +133,7 @@ public class ProjectsController {
     }
 
     @GetMapping(path = "/talents/{talentId}/projects/{id}/update")
-    public String updateProjectForm(@PathVariable Long talentId, @PathVariable Long id, Model model) {
+    public String updateTalentProjectForm(@PathVariable Long talentId, @PathVariable Long id, Model model) {
 
         var project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
@@ -154,7 +154,7 @@ public class ProjectsController {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String updateProject(@Valid @ModelAttribute("user") ProjectCreateDTO projectData, @PathVariable Long talentId, @PathVariable Long id, BindingResult bindingResult) {
+    public String updateTalentProject(@Valid @ModelAttribute("user") ProjectCreateDTO projectData, @PathVariable Long talentId, @PathVariable Long id, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "project_update";
@@ -171,7 +171,7 @@ public class ProjectsController {
     }
 
     @PostMapping(path = "/talents/{talentId}/projects/{id}/delete")
-    public String deleteProject(@PathVariable Long talentId, @PathVariable Long id) {
+    public String deleteTalentProject(@PathVariable Long talentId, @PathVariable Long id) {
         System.out.println("Start Delete");
         projectService.delete(id);
         System.out.println("Back to delete controller");

@@ -35,6 +35,9 @@
                     </p>
                 </div>
             </div>
+            <form sec:authorize="hasRole('ADMIN')" th:action="'/teams/' + ${team_id} + '/projects/' + ${project.id} + '/delete'" method="post">
+                <button type="submit" class="btn btn-primary mt-2">Удалить кейс команды</button>
+            </form>
             <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id} + '/delete'" method="post">
                 <button type="submit" class="btn btn-primary mt-2">Удалить проект</button>
             </form>

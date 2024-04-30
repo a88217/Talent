@@ -25,7 +25,6 @@
           <img th:each="talent : ${talents}" th:if="${t == talent.id}" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="card-img-top" alt="Фото профиля">
           <div class="card-body">
             <h6 class="card-title" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></h6>
-            <p class="card-text" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.about}">Об исполнителе</p>
             <a th:href="@{'/talents/' + ${talent.id}}" class="card-link" th:each="talent : ${talents}" th:if="${t == talent.id}">К исполнителю</a>
           </div>
         </div>

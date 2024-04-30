@@ -20,13 +20,15 @@
                     <h1 th:text="${team.title}"></h1>
                     <p class="card-text" th:text="${team.description}"></p>
                     <p class="h5">Состав команды: </p>
-
-                    <div th:each="t : ${team.talentIds}" class="card" style="width: 10rem; display: inline-block">
-                        <img th:each="talent : ${talents}" th:if="${t == talent.id}" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="card-img-top" alt="Фото профиля">
-                        <div class="card-body">
-                            <h6 class="card-title" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></h6>
-                            <p class="card-text" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.about}">Об исполнителе</p>
-                            <a th:href="@{'/talents/' + ${talent.id}}" class="card-link" th:each="talent : ${talents}" th:if="${t == talent.id}">К исполнителю</a>
+                    <div class="d-flex flex-wrap py-2 my-2">
+                        <div th:each="t : ${team.talentIds}" class="card p-2 me-3" style="width: 10rem; display: inline-block; background-image: url(/static/бэк_mid.png);">
+                            <div style="max-width: 100%; height: 0; padding-bottom: 100%; position: relative;">
+                                <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:each="talent : ${talents}" th:if="${t == talent.id}" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}"class="img-fluid rounded-circle" alt="Фото профиля">
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></h6>
+                                <a th:href="@{'/talents/' + ${talent.id}}" class="btn btn-outline-primary" th:each="talent : ${talents}" th:if="${t == talent.id}">Подробнее</a>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -35,6 +37,31 @@
                         </p>
                     </div>
                 </div>
+            </div>
+            <div class="mt-5">
+                <h2>Кейсы</h2>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col" th:each="p : ${team.projectIds}">
+                        <div class="card shadow-sm">
+                            <div th:each="project : ${projects}" th:if="${p == project.id}" >
+                                <img th:src="'/img/' + ${project.photoName != null ? project.photoName : 'default_project.png'}" class="img-fluid rounded" alt="Обложка проекта">
+                            </div>
+                            <div class="card-body">
+                                <h3 th:each="project : ${projects}" th:if="${p == project.id}" th:text="${project.title}">Название проекта</h3>
+                                <p class="card-text" th:each="project : ${projects}" th:if="${p == project.id}" th:text="${project.description}">Описание проекта</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group" th:each="project : ${projects}" th:if="${p == project.id}">
+                                        <a th:href="'/teams/' + ${team.id} + '/projects/' + ${project.id}" class="btn btn-sm btn-outline-secondary">View</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')" class="btn-group">
+                <a th:href="'/teams/' + ${team.id} + '/project_build'" class="btn btn-primary mt-2">Добавить кейс</a>
             </div>
         </div>
     </main>

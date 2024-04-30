@@ -1,6 +1,21 @@
 ---
 
 spring:
+  mail:
+    default-encoding: UTF-8
+    host: smtp.mail.ru
+    username: muzalev_as@mail.ru
+    password: 18LNePAB03pfqvKjL2jw
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
+    protocol: smtps
+    test-connection: false
   jpa:
     show-sql: true
     properties:
@@ -19,6 +34,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/circule
   freemarker:
     expose-request-attributes: true
+
+mail:
+  debug: true
 
 rsa:
   private-key: classpath:certs/private.pem

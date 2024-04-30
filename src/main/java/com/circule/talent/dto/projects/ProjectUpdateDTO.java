@@ -16,4 +16,6 @@ public class ProjectUpdateDTO {
     private JsonNullable<String> description;
 
     private JsonNullable<Long> creatorId;
+
+    private JsonNullable<Long> performerId;
 }

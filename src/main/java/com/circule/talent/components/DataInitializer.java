@@ -140,16 +140,39 @@ public class DataInitializer implements ApplicationRunner {
             }
         }
 
-        if (talentRepository.findByEmail("test_talent1@gmail.com").isEmpty()) {
+        if (talentRepository.findByEmail("elenaiarygina@gmail.com").isEmpty()) {
             var talentData = new TalentCreateDTO();
-            talentData.setFirstName("Исполнитель");
-            talentData.setLastName("Первый");
-            talentData.setAbout("Тестовый исполнитель 1");
-            talentData.setEmail("test_talent1@gmail.com");
-            talentData.setMobilePhone("+1111111111");
+            talentData.setFirstName("Елена");
+            talentData.setLastName("Ярыгина");
+            talentData.setAbout("Более 12 лет опыта в продюсировании контентных проектов, рекламы, фильмов, более 5 лет в предпринимательстве.");
+            talentData.setEmail("elenaiarygina@gmail.com");
+            talentData.setMobilePhone("+79152378222");
+            talentData.setPhotoName("лена.png");
             talentData.setPassword("qwerty");
-            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Копирайтер").get().getId(),
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Продюсер").get().getId(),
                     professionRepository.findByTitle("Контент-стратег").get().getId()));
+
+            var talent = talentMapper.map(talentData);
+            Role talentRole = roleRepository.findByName("ROLE_TALENT");
+            talent.setRoles(Arrays.asList(talentRole));
+
+            talentRepository.save(talent);
+            var project = getProject("Одри", "Воспитание самой лучшей и послушной собаки", talent);
+            talent.addProject(project);
+            projectRepository.save(project);
+        }
+
+        if (talentRepository.findByEmail("marina_lomteva@gmail.com").isEmpty()) {
+            var talentData = new TalentCreateDTO();
+            talentData.setFirstName("Марина");
+            talentData.setLastName("Ломтева");
+            talentData.setAbout("В креативном предпринимательстве более 20 лет. Руководство проектами в сфере маркетинга, рекламы, игрового и документального кино, внутренних коммуникаций, ивент-маркетинга и спецпроектов.");
+            talentData.setEmail("marina_lomteva@gmail.com");
+            talentData.setMobilePhone("+1111111111");
+            talentData.setPhotoName("марина.png");
+            talentData.setPassword("qwerty");
+            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Продюсер").get().getId(),
+                    professionRepository.findByTitle("Сценарист").get().getId(), professionRepository.findByTitle("Копирайтер").get().getId()));
 
             var talent = talentMapper.map(talentData);
             Role talentRole = roleRepository.findByName("ROLE_TALENT");
@@ -201,6 +224,7 @@ public class DataInitializer implements ApplicationRunner {
             talentData.setLastName("Четвертый");
             talentData.setAbout("Тестовый исполнитель 4");
             talentData.setEmail("test_talent4@gmail.com");
+            talentData.setPhotoName("Operator.jpg");
             talentData.setMobilePhone("+44444444444");
             talentData.setPassword("qwerty");
             talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Режиссер").get().getId(),
@@ -237,7 +261,7 @@ public class DataInitializer implements ApplicationRunner {
             teamData.setDescription("Команда разработает контент-стратегию вашего бренда");
 
             var team = teamMapper.map(teamData);
-            team.addTalent(talentRepository.findByEmail("test_talent1@gmail.com").get());
+            team.addTalent(talentRepository.findByEmail("marina_lomteva@gmail.com").get());
             team.addTalent(talentRepository.findByEmail("test_talent2@gmail.com").get());
 
             teamRepository.save(team);
@@ -266,26 +290,7 @@ public class DataInitializer implements ApplicationRunner {
             packageRepository.save(pack);
         }
 
-        if (talentRepository.findByEmail("elenaiarygina@gmail.com").isEmpty()) {
-            var talentData = new TalentCreateDTO();
-            talentData.setFirstName("Елена");
-            talentData.setLastName("Ярыгина");
-            talentData.setAbout("Сладкий котик");
-            talentData.setEmail("elenaiarygina@gmail.com");
-            talentData.setMobilePhone("+79152378222");
-            talentData.setPassword("qwerty");
-            talentData.setProfessionIds(Set.of(professionRepository.findByTitle("Продюсер").get().getId(),
-                    professionRepository.findByTitle("Контент-стратег").get().getId()));
 
-            var talent = talentMapper.map(talentData);
-            Role talentRole = roleRepository.findByName("ROLE_TALENT");
-            talent.setRoles(Arrays.asList(talentRole));
-
-            talentRepository.save(talent);
-            var project = getProject("Одри", "Воспитание самой лучшей и послушной собаки", talent);
-            talent.addProject(project);
-            projectRepository.save(project);
-        }
 
         if (clientRepository.findByEmail("test_client@gmail.com").isEmpty()) {
             var clientData = new ClientCreateDTO();

@@ -7,10 +7,12 @@ import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.ProjectMapper;
 import com.circule.talent.repository.ProjectRepository;
 import com.circule.talent.repository.TalentRepository;
+import com.circule.talent.repository.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +23,8 @@ public class ProjectService {
     private final ProjectMapper projectMapper;
 
     private final TalentRepository talentRepository;
+
+    private final TeamRepository teamRepository;
 
     public List<ProjectDTO> index() {
         var projects = projectRepository.findAll();
@@ -45,6 +49,16 @@ public class ProjectService {
         return projectMapper.map(project);
     }
 
+    public ProjectDTO createTeamProject(ProjectCreateDTO projectData) {
+        var team = teamRepository.findById(projectData.getPerformerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Team with id " + projectData.getPerformerId() + " not found"));
+        var project = projectMapper.map(projectData);
+        projectRepository.save(project);
+        team.addProject(project);
+        teamRepository.save(team);
+        return projectMapper.map(project);
+    }
+
     public ProjectDTO update(ProjectUpdateDTO projectData, Long id) {
         var project =  projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Profession with id " + id + " not found"));
@@ -54,15 +68,20 @@ public class ProjectService {
     }
 
     public void delete(Long id) {
-        System.out.println("Start Delete service");
-        System.out.println(projectRepository.findById(id).get().getCreator().getId());
+
+        var project =  projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
 
         var talent = projectRepository.findById(id).get().getCreator();
-        var project =  projectRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Profession with id " + id + " not found"));
-        talent.removeProject(project);
-        System.out.println("project deleted from Talent");
+        var team = projectRepository.findById(id).get().getPerformer();
+
+        if(Objects.nonNull(talent)) {
+            talent.removeProject(project);
+        }
+        if(Objects.nonNull(team)) {
+            team.removeProject(project);
+        }
+
         projectRepository.deleteById(id);
-        System.out.println("finish Delete service");
     }
 }

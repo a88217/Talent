@@ -46,9 +46,9 @@
                                     <h5 style="display: inline-block;" class="card-title" th:text="${talent.firstName}"></h5>
                                     <h5 style="display: inline-block;" class="card-title" th:text="${talent.lastName}"></h5>
                                 </div>
-                                <div style="min-height: 5rem;" class="card-text" th:text="${talent.about}"></div>
+                                <div style="height: 8rem; overflow-x: hidden; overflow-y: auto;" class="card-text" th:text="${talent.about}"></div>
 
-                                <p>Профессии: </p>
+                                <p class="mt-2">Профессии: </p>
                                 <div style="min-height: 7rem">
                                     <div th:each="p : ${talent.professionIds}">
                                         <div th:each="profession : ${professions}" th:if="${p == profession.id}" style="text-decoration: none;">

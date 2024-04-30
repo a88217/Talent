@@ -16,4 +16,6 @@ public class ProjectCreateDTO {
 
     private Long creatorId;
 
+    private Long performerId;
+
 }

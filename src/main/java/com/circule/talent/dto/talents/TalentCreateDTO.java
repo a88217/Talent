@@ -20,6 +20,8 @@ public class TalentCreateDTO {
 
     private String about;
 
+    private String photoName;
+
     private Set<Long> projectIds;
 
     private Set<Long> professionIds;

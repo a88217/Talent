@@ -17,20 +17,19 @@
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-6 align-self-center">
-        <div class="card justify-content-center align-items-center" style="width: 30rem;">
-          <div class="card-body">
-            <h5 class="card-title">Зарегистрироваться как исполнитель</h5>
-            <a th:href="@{/talent_registration}" class="btn btn-primary">Зарегистрироваться</a>
+        <form th:action="'/teams/' + ${team_id} + '/projects'" method="post" th:object="${project}">
+          <div class="mb-3">
+            <label for="Title" class="form-label">Название проекта</label>
+            <input type="text" class="form-control" id="Title" name="title" th:field="*{title}">
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('title')}" th:text="${err}">Validation error</small>
           </div>
-        </div>
-      </div>
-      <div class="col-6 align-self-center">
-        <div class="card justify-content-center align-items-center" style="width: 30rem;">
-          <div class="card-body">
-            <h5 class="card-title">Зарегистрироваться как клиент</h5>
-            <a th:href="@{/client_registration}" class="btn btn-primary">Зарегистрироваться</a>
+          <div class="mb-3">
+            <label for="Description" class="form-label">Описание проекта</label>
+            <textarea type="text" class="form-control" id="Description" name="description" th:field="*{description}"  rows="3"></textarea>
+            <small class="form-text text-danger" th:each="err : ${#fields.errors('description')}" th:text="${err}">Validation error</small>
           </div>
-        </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
     </div>
   </div>
