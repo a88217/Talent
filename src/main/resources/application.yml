@@ -1,6 +1,16 @@
 ---
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 837786861628-btss4cslc1l7bqrtlslrsmeb0fv0mria.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
   mail:
     default-encoding: UTF-8
     host: smtp.mail.ru

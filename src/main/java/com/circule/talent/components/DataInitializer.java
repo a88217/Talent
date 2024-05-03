@@ -100,7 +100,7 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        if (userRepository.findByEmail("muzalev.as@gmail.com").isEmpty()) {
+        if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
 
             Privilege readPrivilege
                     = createPrivilegeIfNotFound("READ_PRIVILEGE");
@@ -118,9 +118,9 @@ public class DataInitializer implements ApplicationRunner {
             Role adminRole = roleRepository.findByName("ROLE_ADMIN");
 
             var userData = new UserCreateDTO();
-            userData.setEmail("muzalev.as@gmail.com");
-            userData.setFirstName("Александр");
-            userData.setLastName("Музалёв");
+            userData.setEmail("admin@gmail.com");
+            userData.setFirstName("Admin");
+            userData.setLastName("Admin");
             userData.setPassword("qwerty");
             var user = userMapper.map(userData);
             user.setRoles(Arrays.asList(adminRole));

@@ -2,6 +2,7 @@ package com.circule.talent.controllers;
 
 import com.circule.talent.dto.clients.ClientCreateDTO;
 import com.circule.talent.dto.talents.TalentCreateDTO;
+import com.circule.talent.model.User;
 import com.circule.talent.repository.ClientRepository;
 import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.repository.UserRepository;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -38,13 +41,17 @@ public class RegistrationController {
 
     @GetMapping("/talent_registration")
     public String talentRegistration(Model model) {
-        model.addAttribute("user", new TalentCreateDTO());
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("userDTO", new TalentCreateDTO());
         return "talent_registration";
     }
 
     @GetMapping("/client_registration")
     public String clientRegistration(Model model) {
-        model.addAttribute("user", new ClientCreateDTO());
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("userDTO", new ClientCreateDTO());
         return "client_registration";
     }
 
@@ -107,12 +114,16 @@ public class RegistrationController {
     }
 
     @GetMapping("/register")
-    public String registration() {
+    public String registration(Model model) {
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         return "registration";
     }
 
     @GetMapping("/users/{id}/change_password")
     public String changePasswordForm(@PathVariable Long id, Model model) {
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("userId", id);
         return "change_password";
     }
@@ -126,22 +137,26 @@ public class RegistrationController {
 
         if (!password.equals(passwordConfirmation)) {
             System.out.println("Не совпадают новые пароли");
+            var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+            model.addAttribute("user", user);
             model.addAttribute("userId", id);
             model.addAttribute("passwordMismatch", "Пароли не совпадают");
             return "change_password";
         }
 
-        var user = userUtils.getCurrentUser();
+        var currentUser = userUtils.getCurrentUser();
 
-        if (!encoder.matches(oldPassword, user.getPassword())) {
+        if (!encoder.matches(oldPassword, currentUser.getPassword())) {
             System.out.println("Не совпадает старый пароль");
+            var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+            model.addAttribute("user", user);
             model.addAttribute("userId", id);
             model.addAttribute("wrongOldPassword", "Старый пароль введён неверно!");
             return "change_password";
         }
 
-        user.setPasswordDigest(encoder.encode(password));
-        userRepository.save(user);
+        currentUser.setPasswordDigest(encoder.encode(password));
+        userRepository.save(currentUser);
 
         return "redirect:/home";
     }

@@ -5,6 +5,7 @@ import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.dto.talents.TalentUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.TalentMapper;
+import com.circule.talent.model.User;
 import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.service.ProfessionService;
 import com.circule.talent.service.ProjectService;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -50,6 +52,8 @@ public class TalentsController {
     public String index(TalentParamsDTO params, Model model) {
         var talents = talentService.index(params);
         var professions = professionService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talents", talents);
         model.addAttribute("professions", professions);
         return "talents";
@@ -61,6 +65,8 @@ public class TalentsController {
         var talentDTO = talentService.show(id);
         var professions = professionService.index();
         var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);
@@ -74,13 +80,15 @@ public class TalentsController {
         var talentDTO = talentService.show(id);
         var professions = professionService.index();
         var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);
         return "talent_profile";
     }
 
-    @PostMapping(path = "/{id}")
+    @PostMapping(path = "/{id}/profile")
     @PreAuthorize("@userUtils.isCurrentUser(#id)")
     public String updatePhoto(@PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
         var talent = talentRepository.findById(id)
@@ -106,7 +114,7 @@ public class TalentsController {
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);
-        return "talent";
+        return "talent_profile";
     }
 
     @RequestMapping(
@@ -135,7 +143,7 @@ public class TalentsController {
 
         talentService.update(talentUpdate, id);
 
-        return "redirect:/talents/" + id;
+        return "redirect:/talents/" + id + "/profile";
     }
 
     @GetMapping(path = "/update/{id}")
@@ -148,6 +156,8 @@ public class TalentsController {
         var professions = professionService.index();
 
         var talentDTO = talentMapper.map(talent);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
 
         model.addAttribute("user", talentDTO);
         model.addAttribute("talent_id", id);

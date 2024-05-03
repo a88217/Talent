@@ -5,11 +5,13 @@ import com.circule.talent.dto.teams.TeamCreateDTO;
 import com.circule.talent.dto.teams.TeamUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.TeamMapper;
+import com.circule.talent.model.User;
 import com.circule.talent.repository.TeamRepository;
 import com.circule.talent.service.PackageService;
 import com.circule.talent.service.ProjectService;
 import com.circule.talent.service.TalentService;
 import com.circule.talent.service.TeamService;
+import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/teams")
@@ -36,11 +40,15 @@ public class TeamsController {
 
     private final TeamMapper teamMapper;
 
+    private final UserUtils userUtils;
+
     @GetMapping(path = "")
     public String index(TalentParamsDTO params, Model model) {
         var packages = packageService.index();
         var teams = teamService.index();
         var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("packages", packages);
         model.addAttribute("teams", teams);
         model.addAttribute("talents", talents);
@@ -53,6 +61,8 @@ public class TeamsController {
         var teamDTO = teamService.show(id);
         var talents = talentService.index(params);
         var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("team", teamDTO);
         model.addAttribute("talents", talents);
         model.addAttribute("projects", projects);
@@ -63,6 +73,8 @@ public class TeamsController {
     public String buildTeam(TalentParamsDTO params, Model model) {
 
         var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
 
         model.addAttribute("talents", talents);
         model.addAttribute("team", new TeamCreateDTO());
@@ -94,6 +106,8 @@ public class TeamsController {
                 .orElseThrow(() -> new ResourceNotFoundException("Team with id " + id + " not found"));
         var teamDTO = teamMapper.map(team);
         var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("team", teamDTO);
         model.addAttribute("talents", talents);
         return "team_update";

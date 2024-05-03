@@ -4,12 +4,14 @@ import com.circule.talent.dto.projects.ProjectCreateDTO;
 import com.circule.talent.dto.projects.ProjectUpdateDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.ProjectMapper;
+import com.circule.talent.model.User;
 import com.circule.talent.repository.ProjectRepository;
 import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.repository.TeamRepository;
 import com.circule.talent.service.ProfessionService;
 import com.circule.talent.service.ProjectService;
 import com.circule.talent.service.TeamService;
+import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -43,6 +46,8 @@ public class ProjectsTeamsController {
 
     private final ProfessionService professionService;
 
+    private final UserUtils userUtils;
+
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -52,6 +57,8 @@ public class ProjectsTeamsController {
     public String buildTeamProject(@PathVariable Long teamId, Model model) {
         model.addAttribute("project", new ProjectCreateDTO());
         model.addAttribute("team_id", teamId);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         return "project_team_build";
     }
 
@@ -61,6 +68,8 @@ public class ProjectsTeamsController {
 
         var projectDTO = projectService.show(projectId);
         var teams = teamService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("teams", teams);
         model.addAttribute("project", projectDTO);
         model.addAttribute("team_id", teamId);
@@ -122,6 +131,8 @@ public class ProjectsTeamsController {
                 .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
 
         var projectDTO = projectMapper.map(project);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
 
         model.addAttribute("project", projectDTO);
         model.addAttribute("team_id", teamId);

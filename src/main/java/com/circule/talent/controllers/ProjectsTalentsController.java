@@ -5,11 +5,13 @@ import com.circule.talent.dto.projects.ProjectUpdateDTO;
 import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.ProjectMapper;
+import com.circule.talent.model.User;
 import com.circule.talent.repository.ProjectRepository;
 import com.circule.talent.repository.TalentRepository;
 import com.circule.talent.service.ProfessionService;
 import com.circule.talent.service.ProjectService;
 import com.circule.talent.service.TalentService;
+import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -41,6 +44,8 @@ public class ProjectsTalentsController {
 
     private final ProfessionService professionService;
 
+    private final UserUtils userUtils;
+
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -49,6 +54,8 @@ public class ProjectsTalentsController {
     public String index(TalentParamsDTO params, Model model) {
         var talents = talentService.index(params);
         var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talents", talents);
         model.addAttribute("professions", projects);
         return "projects";
@@ -59,6 +66,8 @@ public class ProjectsTalentsController {
 
         var projectDTO = projectService.show(projectId);
         var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talents", talents);
         model.addAttribute("project", projectDTO);
         return "project";
@@ -66,6 +75,8 @@ public class ProjectsTalentsController {
 
     @GetMapping(path = "/talents/{talentId}/project_build")
     public String buildTalentProject(@PathVariable Long talentId, Model model) {
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("project", new ProjectCreateDTO());
         model.addAttribute("talent_id", talentId);
         return "project_build";
@@ -77,6 +88,8 @@ public class ProjectsTalentsController {
 
         var projectDTO = projectService.show(projectId);
         var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talents", talents);
         model.addAttribute("project", projectDTO);
         model.addAttribute("talent_id", talentId);
@@ -139,6 +152,8 @@ public class ProjectsTalentsController {
                 .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
 
         var projectDTO = projectMapper.map(project);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
 
         model.addAttribute("project", projectDTO);
         model.addAttribute("talent_id", talentId);
