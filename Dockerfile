@@ -23,5 +23,5 @@ COPY . .
 
 RUN gradle installDist
 
-CMD build/install/talent/bin/app
+CMD build/install/talent/bin/talent
 
