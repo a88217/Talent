@@ -1,0 +1,45 @@
+---
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${TALENT_GOOGLE_CLIENT_ID}
+            client-secret: ${TALENT_GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+  mail:
+    default-encoding: UTF-8
+    host: smtp.mail.ru
+    username: muzalev_as@mail.ru
+    password: 18LNePAB03pfqvKjL2jw
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
+    protocol: smtps
+    test-connection: false
+  jpa:
+    show-sql: true
+    properties:
+      connection:
+        characterEncoding: utf-8
+        Charset: utf-8
+        useUnicode: true
+    hibernate:
+      ddl-auto: update
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    username: postgres
+    password: JbEyNkRCoKUwspYdWoNYBOQoDoEEOupS
+    url: jdbc:postgresql://JbEyNkRCoKUwspYdWoNYBOQoDoEEOupS@monorail.proxy.rlwy.net:32983/railway
+
+

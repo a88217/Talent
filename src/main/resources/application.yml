@@ -1,16 +1,7 @@
 ---
-
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 837786861628-btss4cslc1l7bqrtlslrsmeb0fv0mria.apps.googleusercontent.com
-            client-secret: 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
-            scope:
-              - email
-              - profile
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:development}
   mail:
     default-encoding: UTF-8
     host: smtp.mail.ru
@@ -38,10 +29,6 @@ spring:
   output:
     ansi:
       enabled: always
-  datasource:
-    username: aleksandr
-    password: PnarZtok1278
-    url: jdbc:postgresql://localhost:5432/circule
   freemarker:
     expose-request-attributes: true
 

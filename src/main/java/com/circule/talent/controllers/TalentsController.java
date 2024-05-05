@@ -14,7 +14,9 @@ import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -45,11 +48,30 @@ public class TalentsController {
 
     private final UserUtils userUtils;
 
+    @Autowired
+    private Environment env;
+
+    public String getActiveProfile() {
+        return Arrays.stream(env.getActiveProfiles())
+                .findFirst()
+                .orElse("none"); // В случае неактивности профиля возвращаем "none".
+    }
+
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
+
+
     @GetMapping(path = "")
     public String index(TalentParamsDTO params, Model model) {
+        System.out.println(uploadPath);
+        System.out.println("GoogleSecret: " + System.getenv().get("MY_VARIABLE"));
+        System.out.println(getActiveProfile());
+        System.out.println(activeProfile);
+
+
         var talents = talentService.index(params);
         var professions = professionService.index();
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
@@ -111,6 +133,8 @@ public class TalentsController {
             talentRepository.save(talent);
         }
         var talentDTO = talentService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);

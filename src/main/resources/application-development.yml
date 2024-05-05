@@ -1,0 +1,16 @@
+---
+spring:
+  datasource:
+    username: aleksandr
+    password: PnarZtok1278
+    url: jdbc:postgresql://localhost:5432/circule
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${TALENT_GOOGLE_CLIENT_ID}
+            client-secret: ${TALENT_GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
