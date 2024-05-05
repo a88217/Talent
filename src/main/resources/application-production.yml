@@ -38,8 +38,8 @@ spring:
     ansi:
       enabled: always
   datasource:
-    username: postgres
-    password: JbEyNkRCoKUwspYdWoNYBOQoDoEEOupS
-    url: jdbc:postgresql://JbEyNkRCoKUwspYdWoNYBOQoDoEEOupS@monorail.proxy.rlwy.net:32983/railway
+    username: talents_db_user
+    password: buFggNrzxWxWo7NtS76yqdxThhrNCzf5
+    url: jdbc:postgresql://buFggNrzxWxWo7NtS76yqdxThhrNCzf5-a.frankfurt-postgres.render.com:5432/talents_db
 
 
