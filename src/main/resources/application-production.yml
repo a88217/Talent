@@ -41,5 +41,7 @@ spring:
     username: talents_db_user
     password: buFggNrzxWxWo7NtS76yqdxThhrNCzf5
     url: jdbc:postgresql://buFggNrzxWxWo7NtS76yqdxThhrNCzf5-a.frankfurt-postgres.render.com:5432/talents_db
+upload:
+  path: /uploads
 
 
