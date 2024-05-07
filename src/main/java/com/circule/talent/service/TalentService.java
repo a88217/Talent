@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -29,7 +30,9 @@ public class TalentService {
 
     public List<TalentDTO> index(TalentParamsDTO params) {
         var spec = talentSpecification.build(params);
-        return talentMapper.map(talentRepository.findAll(spec));
+        return talentMapper.map(talentRepository.findAll(spec)).stream()
+                .sorted(Comparator.comparingLong(TalentDTO::getId))
+                .toList();
     }
 
     public TalentDTO show(Long id) {

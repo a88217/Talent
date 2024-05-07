@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-3">
-                    <img th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="img-fluid rounded" alt="Фото профиля">
+                    <img th:src="${talent.photoName != null ? '/img/' + talent.photoName : '/static/Аватар.jpg'}" class="img-fluid rounded" alt="Фото профиля">
                 </div>
                 <div class="col-9">
                     <h1 th:text="${talent.firstName} + ' ' + ${talent.lastName}"></h1>
@@ -35,7 +35,7 @@
                             <div class="col" th:each="p : ${talent.projectIds}">
                                 <div class="card shadow-sm">
                                     <div th:each="project : ${projects}" th:if="${p == project.id}" >
-                                        <img th:src="'/img/' + ${project.photoName != null ? project.photoName : 'default_project.png'}" class="img-fluid rounded" alt="Обложка проекта">
+                                        <img th:src="${project.photoName != null ? '/img/' + project.photoName : '/static/default_project.png'}" class="img-fluid rounded" alt="Обложка проекта">
                                     </div>
                                     <div class="card-body">
                                         <h3 th:each="project : ${projects}" th:if="${p == project.id}" th:text="${project.title}">Название проекта</h3>

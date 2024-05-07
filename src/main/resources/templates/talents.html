@@ -41,7 +41,7 @@
                         <div class="col-12 col-md-6 col-lg-4 ps-5 pe-2" th:each="talent : ${talents}">
                             <div class="border rounded-4 p-3 mb-5" style="position: relative; min-height: 20rem; background-image: url(/static/бэк_mid.png);">
                                 <div style="max-width: 100%; height: 0; padding-bottom: 100%; position: relative;">
-                                    <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="img-fluid rounded-circle" alt="Фото профиля">
+                                    <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:src="${talent.photoName != null ? '/img/' + talent.photoName : '/static/Аватар.jpg'}" class="img-fluid rounded-circle" alt="Фото профиля">
                                 </div>
                                 <div class="my-2">
                                     <h5 style="display: inline-block;" class="card-title" th:text="${talent.firstName}"></h5>
