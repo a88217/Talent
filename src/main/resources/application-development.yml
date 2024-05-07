@@ -16,3 +16,7 @@ spring:
               - profile
 upload:
   path: /home/aleksandr/Projects/talent/uploads
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem

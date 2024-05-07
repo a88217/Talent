@@ -44,4 +44,8 @@ spring:
 upload:
   path: /uploads
 
+rsa:
+  private-key: classpath:etc/secrets/private.pem
+  public-key: classpath:etc/secrets/public.pem
+
 
