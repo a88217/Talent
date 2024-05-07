@@ -6,10 +6,6 @@ ARG GRADLE_VERSION=8.4
 
 RUN apt-get update && apt-get install -yq make unzip
 
-RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem
-
-RUN --mount=type=secret,id=public_pem,dst=/etc/secrets/public.pem
-
 RUN wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
     && unzip gradle-${GRADLE_VERSION}-bin.zip \
     && rm gradle-${GRADLE_VERSION}-bin.zip
@@ -21,7 +17,7 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
 WORKDIR /project
-RUN mkdir /project/code
+RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem mkdir /project/code
 
 ENV GRADLE_USER_HOME /project/.gradle
 
