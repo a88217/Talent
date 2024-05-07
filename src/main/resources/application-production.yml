@@ -45,7 +45,7 @@ upload:
   path: /uploads
 
 rsa:
-  private-key: /etc/secrets/private
-  public-key: /etc/secrets/public
+  private-key: /etc/secrets/private.pem
+  public-key: /etc/secrets/public.pem
 
 
