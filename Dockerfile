@@ -1,4 +1,4 @@
-syntax = docker/dockerfile:1.2
+# syntax = docker/dockerfile:1.2
 
 FROM eclipse-temurin:20-jdk
 
