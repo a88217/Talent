@@ -38,14 +38,14 @@ spring:
     ansi:
       enabled: always
   datasource:
-    username: talents_db_user
-    password: buFggNrzxWxWo7NtS76yqdxThhrNCzf5
-    url: jdbc:postgresql://buFggNrzxWxWo7NtS76yqdxThhrNCzf5-a.frankfurt-postgres.render.com:5432/talents_db
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
 upload:
   path: /uploads
 
 rsa:
-  private-key: etc/secrets/private.pem
-  public-key: etc/secrets/public.pem
+  private-key: /etc/secrets/private.pem
+  public-key: /etc/secrets/public.pem
 
 
