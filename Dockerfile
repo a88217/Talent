@@ -27,7 +27,7 @@ ENV GRADLE_USER_HOME /project/.gradle
 
 COPY . .
 
-RUN gradle installDist
+RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem gradle installDist
 
-CMD build/install/talent/bin/talent
+CMD --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem build/install/talent/bin/talent
 
