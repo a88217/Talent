@@ -29,5 +29,5 @@ COPY . .
 
 RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem gradle installDist
 
-CMD --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem build/install/talent/bin/talent
+CMD build/install/talent/bin/talent
 
