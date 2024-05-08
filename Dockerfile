@@ -21,13 +21,13 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
 WORKDIR /project
-RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem mkdir /project/code
+RUN mkdir /project/code
 
 ENV GRADLE_USER_HOME /project/.gradle
 
 COPY . .
 
-RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem gradle installDist
+RUN gradle installDist
 
 CMD build/install/talent/bin/talent
 
