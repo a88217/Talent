@@ -21,7 +21,7 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
 WORKDIR /project
-RUN mkdir /project/code
+RUN --mount=type=secret,id=private_pem,dst=/etc/secrets/private.pem mkdir /project/code
 
 ENV GRADLE_USER_HOME /project/.gradle
 
