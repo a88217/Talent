@@ -45,7 +45,7 @@ upload:
   path: /uploads
 
 rsa:
-  private-key: classpath:private.pem
-  public-key: classpath:public.pem
+  private-key: private.pem
+  public-key: public.pem
 
 
