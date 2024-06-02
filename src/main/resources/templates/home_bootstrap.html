@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="utf-8">
+    <title>Talents | Creative teams marketplace</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Talents - Creative teams marketplace">
+    <meta name="keywords" content="creative teams, business, creative agency, marketplace, services, e-commerce, seo, portfolio, creative">
+    <meta name="author" content="Aleksandr Muzalev">
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Theme switcher (color modes) -->
+    <script src="/static/assets/js/theme-switcher.js"></script>
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon/fav.svg">
+    <link rel="manifest" href="/static/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
+    <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
+    <meta name="msapplication-TileColor" content="#080032">
+    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor Styles -->
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/swiper/swiper-bundle.min.css">
+
+    <!-- Main Theme Styles + Bootstrap -->
+    <link rel="stylesheet" media="screen" href="/static/assets/css/theme.min.css">
+
+    <!-- Page loading styles -->
+    <style>
+        .page-loading {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          -webkit-transition: all .4s .2s ease-in-out;
+          transition: all .4s .2s ease-in-out;
+          background-color: #fff;
+          opacity: 0;
+          visibility: hidden;
+          z-index: 9999;
+        }
+        [data-bs-theme="dark"] .page-loading {
+          background-color: #0b0f19;
+        }
+        .page-loading.active {
+          opacity: 1;
+          visibility: visible;
+        }
+        .page-loading-inner {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+          -webkit-transition: opacity .2s ease-in-out;
+          transition: opacity .2s ease-in-out;
+          opacity: 0;
+        }
+        .page-loading.active > .page-loading-inner {
+          opacity: 1;
+        }
+        .page-loading-inner > span {
+          display: block;
+          font-size: 1rem;
+          font-weight: normal;
+          color: #9397ad;
+        }
+        [data-bs-theme="dark"] .page-loading-inner > span {
+          color: #fff;
+          opacity: .6;
+        }
+        .page-spinner {
+          display: inline-block;
+          width: 2.75rem;
+          height: 2.75rem;
+          margin-bottom: .75rem;
+          vertical-align: text-bottom;
+          border: .15em solid #b4b7c9;
+          border-right-color: transparent;
+          border-radius: 50%;
+          -webkit-animation: spinner .75s linear infinite;
+          animation: spinner .75s linear infinite;
+        }
+        [data-bs-theme="dark"] .page-spinner {
+          border-color: rgba(255,255,255,.4);
+          border-right-color: transparent;
+        }
+        @-webkit-keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+
+    <!-- Page loading scripts -->
+    <script>
+        (function () {
+          window.onload = function () {
+            const preloader = document.querySelector('.page-loading');
+            preloader.classList.remove('active');
+            setTimeout(function () {
+              preloader.remove();
+            }, 1000);
+          };
+        })();
+    </script>
+</head>
+
+
+<!-- Body -->
+<body>
+
+<!-- Page loading spinner -->
+<div class="page-loading active">
+    <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+    </div>
+</div>
+
+
+<!-- Page wrapper for sticky footer -->
+<!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+<main class="page-wrapper">
+
+
+    <!-- Navbar -->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page -->
+    <header class="header navbar navbar-expand-lg bg-light navbar-sticky">
+        <div class="container px-3">
+            <a href="/home" class="navbar-brand pe-3">
+                <img src="/static/assets/img/circule_logo_black.svg" width="100" alt="Cir-cule">
+            </a>
+            <div id="navbarNav" class="offcanvas offcanvas-end">
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a th:href="@{/packages}" class="nav-link">Услуги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/about}" class="nav-link">Команда</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/contact}" class="nav-link">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
+                        </li>
+                    </ul>
+                </div>
+                <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Войти
+                    </a>
+                </div>
+                <div sec:authorize="hasRole('TALENT')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+                <div sec:authorize="hasAuthority('OAUTH2_USER')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+            </div>
+            <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
+                <input type="checkbox" class="form-check-input" id="theme-mode">
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label>
+            </div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Войти
+            </a>
+            <a sec:authorize="hasRole('TALENT')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+            <a sec:authorize="hasAuthority('OAUTH2_USER')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+        </div>
+    </header>
+
+
+    <!-- Hero section with layer parallax gfx -->
+    <section class="position-relative py-5">
+        <p th:if="${message}" class="alert alert-success" th:text="${message}"></p>
+
+        <!-- Gradient BG -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-10"></div>
+
+        <!-- Content -->
+        <div class="container position-relative zindex-2 py-lg-4">
+            <div class="row">
+                <div class="col-lg-5 d-flex flex-column pt-lg-4 pt-xl-5">
+                    <img class="my-5" src="assets/img/circule_logo_black.svg" width="500" alt="Cir-cule">
+
+                        <p class="fs-lg mb-5">маркетплейс проектных команд в креативных индустриях</p>
+                        <div class="d-md-flex align-items-md-start">
+                            <a href="contacts-v1.html" class="btn btn-lg btn-info flex-shrink-0 me-md-4 mb-md-0 mb-sm-4 mb-3">Работать с нами</a>
+                            <p class="d-lg-block d-none mb-0 ps-md-3">Арендуй готовую команду под проект, собери свою или инвестируй в топовых талантов</p>
+                        </div>
+                </div>
+                <div class="col-lg-7">
+
+                    <!-- Parallax gfx -->
+                    <div class="parallax mx-auto me-lg-0" style="max-width: 648px;">
+                        <div class="parallax-layer" data-depth="0.1">
+                            <img src="assets/img/landing/online-courses/hero/layer01.png" alt="Layer">
+                        </div>
+                        <div class="parallax-layer" data-depth="0.13">
+                            <img src="assets/img/landing/online-courses/hero/layer02.png" alt="Layer">
+                        </div>
+                        <div class="parallax-layer zindex-5" data-depth="-0.12">
+                            <img src="assets/img/landing/online-courses/hero/layer03.png" alt="Layer">
+                        </div>
+                        <div class="parallax-layer zindex-3" data-depth="0.27">
+                            <img src="assets/img/landing/online-courses/hero/layer04.png" alt="Layer">
+                        </div>
+                        <div class="parallax-layer zindex-1" data-depth="-0.18">
+                            <img src="assets/img/landing/online-courses/hero/layer05.png" alt="Layer">
+                        </div>
+                        <div class="parallax-layer zindex-1" data-depth="0.1">
+                            <img src="assets/img/landing/online-courses/hero/layer06.png" alt="Layer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About company -->
+    <section class="container pb-5 mb-md-2 my-lg-4">
+        <h1 class="border-bottom pb-4">Наша философия</h1>
+        <div class="row pt-2 pt-md-3 justify-content-center">
+            <div class="col-md-6">
+                <p class="fs-lg pe-lg-4 mb-1 mb-lg-4">Мы собрали в одном месте лучшие команды, независимых топ-экспертов и начинающие таланты из креативных индустрий и запускаем сервис, который позволит вам находить и арендовать проектные команды точно под ваши задачи, чтобы реализовывать самые смелые кейсы профессионально, быстро и финансово выгодно.</p>
+            </div>
+            <div class="col-md-6">
+                <p class="fs-lg ps-lg-4 mb-1 mb-lg-4">Circule появился из понимания, что мир меняется. Мы видим, как талантливые люди все чаще работают
+                    в проектных командах, гиг-экономика растет по всем мире, технологии такие как AI открывают новые возможности для брендов и компаний, и одновременно с этим наступает Imagination эра — время, когда во главе всего оказывается талант и воображение.</p>
+            </div>
+            <div class="col-md-6">
+                <p class="fs-lg ps-lg-4 mb-1 mb-lg-4">Создавая наш сервис, мы хотели сделать место, где бренды и таланты могут легко находить друг друга для работы над общими проектами, где всегда можно найти крепкую команду под свою задачу, где можно реализовывать проекты на стыке дисциплин, придумывая и превнося что-то новое.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What we offer -->
+    <section class="overflow-hidden pt-md-2 pt-lg-3 pb-3 pb-md-4 pb-xl-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row flex-md-nowrap align-items-start">
+                <div class="col-md-7 ps-0 pe-lg-4 mb-5 mb-md-0">
+                    <div style="max-width: 660px;">
+                        <h2 class="h1 pb-3 mb-2 mb-md-3">Что мы предлагаем?</h2>
+                        <div class="row row-cols-1 row-cols-sm-2 gx-lg-5 g-4">
+                            <div class="col pt-1 pt-sm-2 pt-lg-3">
+                                <i class="bx bx-rocket d-block fs-2 text-info mb-2 mb-sm-3"></i>
+                                <h3 class="h5 pb-sm-1 mb-2">Уникальные креативные команды</h3>
+                                <p class="mb-0"></p>
+                            </div>
+                            <div class="col pt-1 pt-sm-2 pt-lg-3">
+                                <i class="bx bx-like d-block fs-2 text-info mb-2 mb-sm-3"></i>
+                                <h3 class="h5 pb-sm-1 mb-2">У каждой команды профессиональный тим-лид</h3>
+                                <p class="mb-0"></p>
+                            </div>
+                            <div class="col pt-1 pt-sm-2 pt-lg-3">
+                                <i class="bx bx-group d-block fs-2 text-info mb-2 mb-sm-3"></i>
+                                <h3 class="h5 pb-sm-1 mb-2">Таланты со всего мира</h3>
+                                <p class="mb-0"></p>
+                            </div>
+                            <div class="col pt-1 pt-sm-2 pt-lg-3">
+                                <i class="bx bx-time-five d-block fs-2 text-info mb-2 mb-sm-3"></i>
+                                <h3 class="h5 pb-sm-1 mb-2">Быстрее и дешевле</h3>
+                                <p class="mb-0">Процесы оптимизированы. Дешевле чем в агентстве на 20-30 процентов.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/img/services/single/dashboard.png" width="836" class="ms-3 ms-sm-5 ms-xl-3" alt="Dashboard">
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Popular courses -->
+    <section class="container mt-2 mt-sm-3 py-md-3 py-lg-5">
+        <div class="row py-5">
+            <div class="col-lg-3 col-md-4">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs flex-nowrap overflow-auto flex-md-column pb-2 pb-md-0 mb-3 mb-md-5" role="tablist">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Контент</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Брендинг</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Маркетинг</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">SMM</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Дизайн</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Анимация и CG</a>
+                    </li>
+                </ul>
+                <a href="portfolio-courses.html" class="btn btn-outline-info btn-lg d-none d-md-inline-flex">
+                    у меня уникальный кейс
+                    <i class="bx bx-right-arrow-alt fs-xl ms-2"></i>
+                </a>
+            </div>
+            <div class="col-lg-9 col-md-8">
+
+                <!-- Title + prev/next buttons -->
+                <div class="d-flex align-items-center justify-content-between pb-4 mb-3">
+                    <h2 class="h1 mb-0 me-3">Популярные услуги</h2>
+                    <div class="d-flex">
+                        <button type="button" id="popular-prev" class="btn btn-prev btn-icon btn-sm me-2" aria-label="Previous">
+                            <i class="bx bx-chevron-left"></i>
+                        </button>
+                        <button type="button" id="popular-next" class="btn btn-next btn-icon btn-sm ms-2" aria-label="Next">
+                            <i class="bx bx-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Courses slider -->
+                <div class="swiper swiper-nav-onhover mx-n2" data-swiper-options='{
+                "slidesPerView": 1,
+                "spaceBetween": 8,
+                "pagination": {
+                  "el": ".swiper-pagination",
+                  "clickable": true
+                },
+                "navigation": {
+                  "prevEl": "#popular-prev",
+                  "nextEl": "#popular-next"
+                },
+                "breakpoints": {
+                  "560": {
+                    "slidesPerView": 2
+                  },
+                  "768": {
+                    "slidesPerView": 1
+                  },
+                  "850": {
+                    "slidesPerView": 2
+                  },
+                  "1200": {
+                    "slidesPerView": 2
+                  }
+                }
+              }'>
+                    <div class="swiper-wrapper">
+
+                        <!-- Item -->
+                        <div class="swiper-slide h-auto pb-3 d-flex flex-wrap"  th:each="package : ${packages}">
+                            <article class="card h-100 border-0 shadow-sm mx-2">
+
+                                <div class="card-body pb-3">
+                                    <h3 class="h5 mb-2">
+                                        <a th:href="@{'/packages/' + ${package.id}}" th:text="${package.title}">Контент-стратегия</a>
+                                    </h3>
+                                    <div style="min-height: 15rem;" class="card-text" th:utext="${package.description}"></div>
+                                    <p>Команды:</p>
+                                    <div th:each="tId : ${package.teamIds}" style="display: inline-block;" class="me-5">
+                                        <div th:each="team : ${teams}" th:if="${tId == team.id}">
+                                            <div class="d-flex flex-wrap py-2 my-2" style="position: relative;" >
+
+                                                <div style="width: 3rem; display: inline-block;" th:each="talId : ${team.talentIds}">
+                                                    <div class="py-2" style="width: 4rem; display: inline-block; position: relative;">
+                                                        <div style="max-width: 100%; height: 0; padding-bottom: 100%; position: relative;">
+                                                            <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:each="talent : ${talents}" th:if="${talId == talent.id}" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="img-fluid rounded-circle" alt="Фото профиля">
+
+                                                        </div>
+                                                        <p style="font-size: xx-small; font-weight: 700;" th:each="talent : ${talents}" th:if="${talId == talent.id}" th:text="${talent.firstName}">Второй</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="fs-lg fw-semibold text-info mb-0">от 150 тыс. р.</p>
+                                </div>
+
+                                <div class="card-footer d-flex align-items-center fs-sm text-muted py-4 justify-content-between">
+
+                                    <div class="d-flex align-items-center me-4">
+                                        <i class="bx bx-time fs-xl me-1"></i>
+                                        14 рабочих дней
+                                    </div>
+
+                                    <button class="btn btn-info my-1 me-1" type="button">Подробнее</button>
+
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- Pagination (bullets) -->
+                    <div class="swiper-pagination position-relative pt-2 pt-sm-3 mt-4"></div>
+                </div>
+                <a href="portfolio-courses.html" class="btn btn-outline-primary btn-lg w-100 d-md-none mt-3">
+                    See all courses
+                    <i class="bx bx-right-arrow-alt fs-xl ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works (Steps + Video) -->
+    <section class="container">
+        <div class="text-center pb-4 pb-md-0 mb-2 mb-md-5 mx-auto" style="max-width: 530px;">
+            <h2 class="h1">Как мы работаем?</h2>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps steps-sm steps-horizontal-md steps-center pb-5 mb-md-2 mb-lg-3">
+            <div class="step">
+                <div class="step-number">
+                    <div class="step-number-inner">1</div>
+                </div>
+                <div class="step-body">
+                    <h3 class="h4 mb-3">Выберете услугу</h3>
+                    <p class="mb-0">Вы выбираете услугу, к каждой опции мы собрали для вас профессиональные команды, которые прошли валидацию и онбординг на платформу. Вы не тратите время и силы на поиск, отбор и проверку специалистов</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">
+                    <div class="step-number-inner">2</div>
+                </div>
+                <div class="step-body">
+                    <h3 class="h4 mb-3">Изучите команду</h3>
+                    <p class="mb-0">Все прозрачно и просто. Вы можете ознакомиться с опытом, кейсами и гонорарами команды. Больше не нужно ничего запрашивать дополнительно и тратить время на лишние коммуникации</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">
+                    <div class="step-number-inner">3</div>
+                </div>
+                <div class="step-body">
+                    <h3 class="h4 mb-3">Забронируйте команду</h3>
+                    <p class="mb-0">Пока наша платформа работает в beta версии, вы можете забронировать команду и мы свяжемся с вами, выясним детали и если вас все устроим - начнем работу</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">
+                    <div class="step-number-inner">4</div>
+                </div>
+                <div class="step-body">
+                    <h3 class="h4 mb-3">Начните работу</h3>
+                    <p class="mb-0">Мы упростили все процессы, берем на себя онбординг, оплаты, юридические вопросы проекта</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Contact form -->
+        <section class="container pb-5 mb-2 mb-md-4 mb-lg-5">
+            <div class="position-relative bg-secondary rounded-3 py-5 mb-2">
+                <div class="row pb-2 py-md-3 py-lg-5 px-4 px-lg-0 position-relative zindex-3">
+                    <div class="col-xl-3 col-lg-4 col-md-5 offset-lg-1">
+                        <p class="lead mb-2 mb-md-3">Готовы начать?</p>
+                        <h2 class="h1 pb-3">Давайте обсудим ваш проект</h2>
+                    </div>
+                    <form class="col-lg-6 col-md-7 offset-xl-1 needs-validation" novalidate action="/home" method="post">
+                        <div class="row">
+                            <div class="col-sm-6 mb-4">
+                                <label for="name" class="form-label fs-base">Кас вас зовут</label>
+                                <input name="name" type="text" id="name" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Пожалуйста введите ваши имя и фамилию!</div>
+                            </div>
+                            <div class="col-sm-6 mb-4">
+                                <label for="email" class="form-label fs-base">Email</label>
+                                <input name="email" type="email" id="email" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Пожалуйста введите действительный адрес электронной почты!</div>
+                            </div>
+                            <div class="col-sm-6 mb-4">
+                                <label for="mobilePhone" class="form-label fs-base">Телефон</label>
+                                <input name="mobilePhone" type="text" id="mobilePhone" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Пожалуйста введите телефон!</div>
+                            </div>
+                            <div class="col-12 pb-2 mb-4">
+                                <label for="message" class="form-label fs-base">Сообщение</label>
+                                <textarea name="message" id="message" class="form-control form-control-lg" rows="4" required></textarea>
+                                <div class="invalid-feedback">Пожалуйста введите ваше сообщение!</div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-info shadow-primary btn-lg">Отправить запрос</button>
+                    </form>
+                </div>
+
+                <!-- Pattern -->
+                <div class="position-absolute end-0 bottom-0 text-info">
+                    <svg width="416" height="444" viewBox="0 0 416 444" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.08" fill-rule="evenodd" clip-rule="evenodd" d="M240.875 615.746C389.471 695.311 562.783 640.474 631.69 504.818C700.597 369.163 645.201 191.864 496.604 112.299C348.007 32.7335 174.696 87.5709 105.789 223.227C36.8815 358.882 92.278 536.18 240.875 615.746ZM208.043 680.381C388.035 776.757 605.894 713.247 694.644 538.527C783.394 363.807 709.428 144.04 529.436 47.6636C349.443 -48.7125 131.584 14.7978 42.8343 189.518C-45.916 364.238 28.0504 584.005 208.043 680.381Z" fill="currentColor"/><path opacity="0.08" fill-rule="evenodd" clip-rule="evenodd" d="M262.68 572.818C382.909 637.194 526.686 594.13 584.805 479.713C642.924 365.295 595.028 219.601 474.799 155.224C354.57 90.8479 210.793 133.912 152.674 248.33C94.5545 362.747 142.45 508.442 262.68 572.818ZM253.924 590.054C382.526 658.913 538.182 613.536 601.593 488.702C665.004 363.867 612.156 206.847 483.554 137.988C354.953 69.129 199.296 114.506 135.886 239.341C72.4752 364.175 125.323 521.195 253.924 590.054Z" fill="currentColor"/></svg>
+                </div>
+            </div>
+        </section>
+</main>
+
+
+<!-- Footer -->
+<footer class="footer bg-dark py-5" data-bs-theme="dark">
+    <div class="container pt-2 pt-sm-4">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 col-xl-4 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                <div class="navbar-brand text-dark p-0 me-0 mb-3 mb-lg-4">
+                    <img src="assets/img/circule_logo_white.svg" width="100" alt="Silicon">
+                </div>
+                <p class="text-body mb-0"></p>
+            </div>
+            <div class="col-md-6 col-xxl-5 offset-lg-1 offset-xl-2 offset-xxl-3">
+                <div class="row row-cols-1 row-cols-sm-2">
+                    <div class="col pb-2 pb-sm-0 mb-4 mb-sm-0">
+                        <h3 class="h5 pb-1 pb-sm-2 pb-lg-3">Свяжитесь с нами</h3>
+                        <ul class="nav flex-column mb-3">
+                            <li>
+                                <a href="tel:+79152566372" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-phone-call fs-4 me-2"></i>
+                                    (915)&nbsp;526&#8209;6372
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:el.iarygina@gmail.com&body=Добрый день!?subject=Предложение сотрудничества" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-envelope fs-4 me-2"></i>
+                                    elenaiarygina@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="d-flex pt-2 pt-sm-3 pt-md-4">
+
+                            <a href="https://t.me/elenaiarygina" class="btn btn-icon btn-sm btn-secondary btn-telegram rounded-circle me-3" aria-label="Telegram">
+                                <i class="bx bxl-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="nav d-block fs-sm pt-5 mb-0">
+            <span class="text-light opacity-60">&copy; All rights reserved. Made by </span>
+            <a class="nav-link d-inline-block p-0" href="https://github.com/a88217" target="_blank" rel="noopener">Aleksandr Muzalev</a>
+        </p>
+    </div>
+</footer>
+
+
+<!-- Back to top button -->
+<a href="#top" class="btn-scroll-top" data-scroll>
+    <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+    <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+
+<!-- Vendor Scripts -->
+<script src="assets/vendor/parallax-js/dist/parallax.min.js"></script>
+<script src="assets/vendor/rellax/rellax.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main Theme Script -->
+<script src="assets/js/theme.min.js"></script>
+</body>
+</html>

@@ -17,11 +17,11 @@ public class LoginController {
     private final UserUtils userUtils;
 
     @GetMapping("/login")
-    public String talentRegistration(Model model) {
+    public String talentLogin(Model model) {
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("userDTO", new TalentCreateDTO());
         model.addAttribute("user", user);
-        return "login";
+        return "login_bootstrap";
     }
 
 }

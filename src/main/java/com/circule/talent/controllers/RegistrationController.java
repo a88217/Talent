@@ -39,12 +39,12 @@ public class RegistrationController {
 
     private PasswordEncoder encoder;
 
-    @GetMapping("/talent_registration")
+    @GetMapping("/register")
     public String talentRegistration(Model model) {
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
         model.addAttribute("userDTO", new TalentCreateDTO());
-        return "talent_registration";
+        return "register_bootstrap";
     }
 
     @GetMapping("/client_registration")
@@ -56,27 +56,27 @@ public class RegistrationController {
     }
 
     @RequestMapping(
-            path = "/talent_registration",
+            path = "/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = {
                     MediaType.APPLICATION_ATOM_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE
             })
-    public String createTalent(@Valid @ModelAttribute("user") TalentCreateDTO talentData, Model model, BindingResult bindingResult) {
+    public String createTalent(@Valid @ModelAttribute("userDTO") TalentCreateDTO talentData, Model model, BindingResult bindingResult) {
 
         if (!talentData.getPassword().equals(talentData.getPasswordConfirmation())) {
             model.addAttribute("passwordIncorrect", "Пароли не совпадают");
-            return "talent_registration";
+            return "register_bootstrap";
         }
 
         if (bindingResult.hasErrors()) {
-            return "talent_registration";
+            return "register_bootstrap";
         }
 
         if (talentRepository.findByEmail(talentData.getEmail()).isPresent() || clientRepository.findByEmail(talentData.getEmail()).isPresent() ) {
             bindingResult.rejectValue("email", "", "Пользователь с почтой " + talentData.getEmail() + " уже зарегистрирован");
-            return "talent_registration";
+            return "register_bootstrap";
         }
 
         talentService.create(talentData);
@@ -113,12 +113,12 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-    @GetMapping("/register")
-    public String registration(Model model) {
-        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
-        model.addAttribute("user", user);
-        return "registration";
-    }
+//    @GetMapping("/register")
+//    public String registration(Model model) {
+//        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+//        model.addAttribute("user", user);
+//        return "registration";
+//    }
 
     @GetMapping("/users/{id}/change_password")
     public String changePasswordForm(@PathVariable Long id, Model model) {

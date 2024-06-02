@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="utf-8">
+    <title>Talents | Creative teams marketplace</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Talents - Creative teams marketplace">
+    <meta name="keywords" content="creative teams, business, creative agency, marketplace, services, e-commerce, seo, portfolio, creative">
+    <meta name="author" content="Aleksandr Muzalev">
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Theme switcher (color modes) -->
+    <script src="/static/assets/js/theme-switcher.js"></script>
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon/fav.svg">
+    <link rel="manifest" href="/static/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
+    <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
+    <meta name="msapplication-TileColor" content="#080032">
+    <meta name="msapplication-config" content="/static/assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor Styles -->
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/swiper/swiper-bundle.min.css">
+
+    <!-- Main Theme Styles + Bootstrap -->
+    <link rel="stylesheet" media="screen" href="/static/assets/css/theme.min.css">
+
+    <!-- Page loading styles -->
+    <style>
+        .page-loading {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          -webkit-transition: all .4s .2s ease-in-out;
+          transition: all .4s .2s ease-in-out;
+          background-color: #fff;
+          opacity: 0;
+          visibility: hidden;
+          z-index: 9999;
+        }
+        [data-bs-theme="dark"] .page-loading {
+          background-color: #0b0f19;
+        }
+        .page-loading.active {
+          opacity: 1;
+          visibility: visible;
+        }
+        .page-loading-inner {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+          -webkit-transition: opacity .2s ease-in-out;
+          transition: opacity .2s ease-in-out;
+          opacity: 0;
+        }
+        .page-loading.active > .page-loading-inner {
+          opacity: 1;
+        }
+        .page-loading-inner > span {
+          display: block;
+          font-size: 1rem;
+          font-weight: normal;
+          color: #9397ad;
+        }
+        [data-bs-theme="dark"] .page-loading-inner > span {
+          color: #fff;
+          opacity: .6;
+        }
+        .page-spinner {
+          display: inline-block;
+          width: 2.75rem;
+          height: 2.75rem;
+          margin-bottom: .75rem;
+          vertical-align: text-bottom;
+          border: .15em solid #b4b7c9;
+          border-right-color: transparent;
+          border-radius: 50%;
+          -webkit-animation: spinner .75s linear infinite;
+          animation: spinner .75s linear infinite;
+        }
+        [data-bs-theme="dark"] .page-spinner {
+          border-color: rgba(255,255,255,.4);
+          border-right-color: transparent;
+        }
+        @-webkit-keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+
+    <!-- Page custom styles -->
+    <style>
+
+        /* Spin animation */
+        @-webkit-keyframes hero-spin {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes hero-spin {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        .hero-animation-spin {
+          -webkit-animation: hero-spin 35s linear infinite;
+          animation: hero-spin 35s linear infinite;
+        }
+
+        /* Fade animation */
+        @-webkit-keyframes hero-fade {
+          0%, 100% { opacity: 0 }
+          50% { opacity: 1 }
+        }
+        @keyframes hero-fade {
+          0%, 100% { opacity: 0 }
+          50% { opacity: 1 }
+        }
+        .hero-animation-fade {
+          -webkit-animation: hero-fade 4s ease-in infinite;
+          animation: hero-fade 4s ease-in infinite;
+        }
+        .hero-animation-delay-1,
+        .hero-animation-delay-2,
+        .hero-animation-delay-3 {
+          opacity: 0;
+        }
+        .hero-animation-delay-1 { animation-delay: .75s; }
+        .hero-animation-delay-2 { animation-delay: 1.5s; }
+        .hero-animation-delay-3 { animation-delay: 2s; }
+    </style>
+
+
+    <!-- Page loading scripts -->
+    <script>
+        (function () {
+          window.onload = function () {
+            const preloader = document.querySelector('.page-loading');
+            preloader.classList.remove('active');
+            setTimeout(function () {
+              preloader.remove();
+            }, 1000);
+          };
+        })();
+    </script>
+</head>
+
+
+<!-- Body -->
+<body>
+
+<!-- Page loading spinner -->
+<div class="page-loading active">
+    <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+    </div>
+</div>
+
+
+<!-- Page wrapper for sticky footer -->
+<!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+<main class="page-wrapper">
+
+
+    <!-- Navbar -->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page -->
+    <header class="header navbar navbar-expand-lg navbar-dark position-absolute navbar-sticky">
+        <div class="container px-3">
+            <a href="/home" class="navbar-brand pe-3">
+                <img src="/static/assets/img/circule_logo_white.svg" width="100" alt="Cir-cule">
+            </a>
+            <div id="navbarNav" class="offcanvas offcanvas-end bg-dark">
+                <div class="offcanvas-header border-bottom border-light">
+                    <h5 class="offcanvas-title text-white">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a th:href="@{/packages}" class="nav-link">Услуги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/about}" class="nav-link">Команда</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/contact}" class="nav-link">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
+                        </li>
+                    </ul>
+                </div>
+                <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Войти
+                    </a>
+                </div>
+                <div sec:authorize="hasRole('TALENT')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+                <div sec:authorize="hasAuthority('OAUTH2_USER')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+            </div>
+            <div class="pe-lg-1 ms-auto me-4" data-bs-theme="dark">
+                <div class="form-check form-switch mode-switch" data-bs-toggle="mode">
+                    <input type="checkbox" class="form-check-input" id="theme-mode">
+                    <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
+                    <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label>
+                </div>
+            </div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Войти
+            </a>
+            <a sec:authorize="hasRole('TALENT')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+            <a sec:authorize="hasAuthority('OAUTH2_USER')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+        </div>
+    </header>
+
+
+    <!-- Hero + animations -->
+    <section class="position-relative d-flex align-items-center min-vh-100 py-5 bg-dark overflow-hidden">
+        <span class="position-absolute top-0 start-0 d-dark-mode-block d-none w-100 h-100 bg-secondary opacity-75"></span>
+        <div class="container position-relative mt-5 mb-lg-5 mb-md-4 mb-3 pt-3 pb-xl-3" data-bs-theme="dark">
+            <div class="row gy-5">
+                <div class="col-xl-5 col-lg-6">
+                    <div class="position-relative zindex-5 text-lg-start text-center">
+                        <h1 class="display-2 mb-4 pb-lg-3 pb-md-2">Соединяем бренды и таланты
+                            по всему миру</h1>
+
+                        <a th:href="@{/login}" class="btn btn-lg btn-primary">Начни работать с нами</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-xl-1">
+                    <div class="position-relative ms-xl-0 ms-lg-4">
+                        <div class="position-absolute top-50 start-50 translate-middle ratio ratio-1x1" style="width: 125%; max-width: 49.75rem;">
+                            <div class="p-md-0 p-5">
+                                <img src="/static/assets/img/landing/software-agency-3/hero-bg.png" alt="Shape" class="hero-animation-spin p-md-0 p-5">
+                            </div>
+                        </div>
+                        <div class="position-relative row row-cols-sm-2 row-cols-1 gx-xl-4 gx-lg-3 gx-md-4 gx-3">
+                            <div class="col">
+                                <div class="d-sm-grid d-flex gap-xl-4 gap-lg-3 gap-md-4 gap-sm-3 gap-2">
+                                    <div class="d-flex align-items-center justify-content-center bg-secondary rounded-3" style="min-height: 176px; backdrop-filter: blur(6px);">
+                                        <div class="p-xl-4 p-sm-3 p-2 fs-xl fw-semibold text-center">
+                                            <span class="hero-animation-fade text-white">Проекты</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center bg-secondary rounded-3" style="min-height: 176px; backdrop-filter: blur(6px);">
+                                        <div class="p-xl-4 p-sm-3 p-2 fs-xl fw-semibold text-center">
+                                            <span class="hero-animation-fade hero-animation-delay-2 text-white">Свобода</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mt-sm-5 mt-2 pt-sm-5">
+                                <div class="d-sm-grid d-flex gap-xl-4 gap-lg-3 gap-md-4 gap-sm-3 gap-2">
+                                    <div class="d-flex align-items-center justify-content-center bg-secondary rounded-3" style="min-height: 176px; backdrop-filter: blur(6px);">
+                                        <div class="p-xl-4 p-sm-3 p-2 fs-xl fw-semibold text-center">
+                                            <span class="hero-animation-fade hero-animation-delay-1 text-white">Комьюнити</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center bg-secondary rounded-3" style="min-height: 176px; backdrop-filter: blur(6px);">
+                                        <div class="p-xl-4 p-sm-3 p-2 fs-xl fw-semibold text-center">
+                                            <span class="hero-animation-fade hero-animation-delay-3 text-white">Шик и великолепие</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About -->
+    <section class="container my-5 py-lg-5 py-md-4 py-3">
+        <div class="row gy-4 py-xl-3">
+            <div class="col-md-6">
+                <img src="/static/assets/img/лена.png" alt="Image" class="rounded-3">
+            </div>
+            <div class="col-lg-5 col-md-6 offset-lg-1 d-flex">
+                <div class="align-self-center ps-lg-0 ps-md-4">
+                    <h2 class="h1 mb-lg-4 mb-3">Друзья!</h2>
+                    <p class="mb-4 pb-lg-3 fs-lg">Я Лена. Основатель проекта. Независимый продюсер и креативный предприниматель. В моём портфеле 4 созданных видеопродакшена, более 1000 реализованных рекламных и ПР- проектов, более 200 специальных программ и ивентов для известных компаний.
+
+                        Работая в креативных полях много лет, я помню, что еще недавно большие компании отказывались работать с фрилансерами. Сейчас это стало обычной практикой. Большинство процессов в творческих индустриях зиждется на экспертизе независимых специалистов и мастерстве фрилансеров. Я также знаю, какое количество крутых команд и талантов-одиночек сейчас разбросаны по всему миру, сколько прекрасных специалистов есть в малых городах и они не всегда имеют возможность находить проекты того уровня, которому соответствуют.
+
+                        Поэтому я и решила создать платформу, которая будет помогать независимым командам, фрилансерам и начинающим талантам находить интересные проекты, объединяться в команды и реализовывать классные кейсы в России, на растущих рынках стран СНГ, Ближнего Востока, Индии, Юго-Восточной Азии, ЮАР и Южной Америки.</p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Industries (Slider) -->
+    <section class="container mb-5 pb-lg-5 pb-md-4 pb-3">
+        <h2 class="h1 mb-4 text-center d-lg-none">Почему мы?</h2>
+        <div class="row gy-md-5 gy-4 mb-xl-3">
+            <div class="col-xl-4 col-lg-5 d-flex flex-column order-2 order-lg-1">
+                <h2 class="h1 mb-4 pb-3 pt-2 d-none d-lg-block">Почему мы?</h2>
+
+                <!-- Swiper slider -->
+                <div class="swiper mx-0" data-swiper-options='{
+              "spaceBetween": 24,
+              "loop": true,
+              "tabs": true,
+              "autoHeight": true,
+              "navigation": {
+                "prevEl": "#prev-industry",
+                "nextEl": "#next-industry"
+              }
+            }'>
+                    <div class="swiper-wrapper text-lg-start text-center">
+
+                        <!-- Swiper item -->
+                        <div class="swiper-slide" data-swiper-tab="#industry-1">
+                            <h3 class="h5 mb-lg-4 mb-3">Проекты, которые вам действительно подходят</h3>
+                            <p>Мы используем smart-hiring - принцип подбора, когда в командный проект привлекают людей не обязательно с максимальным опытом и навыками, но с опытом и навыками, наиболее подходящими к конкретным задачам конкретного проекта. Также вы получаете приглашение в команду или на проект точечно: на основе ваших предпочтений, цены и занятости.</p>
+                        </div>
+
+                        <!-- Swiper item -->
+                        <div class="swiper-slide" data-swiper-tab="#industry-2">
+                            <h3 class="h5 mb-lg-4 mb-3">Страховки и гарантированные выплаты в срок</h3>
+                            <p>Circule берет на себя все вопросы оперативки - юридического сопровождения, передачи прав, оплат и расчета налогов. Мы строим прозрачные процессы, где все участники видят таймлайн проекта, фиксируют часы занятости, получая за них фактическую оплату.</p>
+                        </div>
+
+                        <!-- Swiper item -->
+                        <div class="swiper-slide" data-swiper-tab="#industry-3">
+                            <h3 class="h5 mb-lg-4 mb-3">Продажа своих идей и проектов прямо на платформе</h3>
+                            <p>Мы верим, что каждый человек больше проекта. Больше должностей и профессий. Мы знаем, что у многих из вас есть свои проекты и творческие работы, которые ищут своих заказчиков или инвесторов. Поэтому Циркуль стал площадкой, где каждый может поделиться своей идеей или проектом, выставить на продажу работы или найти инвестора. Реализуйтесь на 100%.</p>
+                        </div>
+
+                        <!-- Swiper item -->
+                        <div class="swiper-slide" data-swiper-tab="#industry-4">
+                            <h3 class="h5 mb-lg-4 mb-3">Крутое комьюнити</h3>
+                            <p>Circule дает возможность подключиться к любому интересующему вас проекту и пройти обучение на практике, не важно в какой индустрии вы работаете и какой у вас опыт. Также вы можете найти ментора, получать «помощь зала» от коллег по вашему проекту и объединяться в собственные команды, если захотите.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Swiper controls (Prev / next buttons) -->
+                <div class="d-flex justify-content-center justify-content-lg-start mt-2 mt-lg-auto">
+                    <button type="button" id="prev-industry" class="btn btn-prev btn-icon btn-sm me-2" aria-label="Previous">
+                        <i class="bx bx-chevron-left"></i>
+                    </button>
+                    <button type="button" id="next-industry" class="btn btn-next btn-icon btn-sm ms-2" aria-label="Next">
+                        <i class="bx bx-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-7 offset-xl-1 order-1 order-lg-2">
+
+                <!-- Swiper tabs (Industry images) -->
+                <div class="swiper-tabs">
+
+                    <!-- Industry 1 -->
+                    <div id="industry-1" class="swiper-tab active">
+                        <img src="/static/assets/img/calvin-lupiya-Mx4auh.jpg" class="rounded-3" alt="Image">
+                    </div>
+
+                    <!-- Industry 2 -->
+                    <div id="industry-2" class="swiper-tab">
+                        <img src="/static/assets/img/good-faces-AHoHjNqME.jpg" class="rounded-3" alt="Image">
+                    </div>
+
+                    <!-- Industry 3 -->
+                    <div id="industry-3" class="swiper-tab">
+                        <img src="/static/assets/img/alireza-esmaeeli-SGp.jpg" class="rounded-3" alt="Image">
+                    </div>
+
+                    <!-- Industry 4 -->
+                    <div id="industry-4" class="swiper-tab">
+                        <img src="/static/assets/img/pexels-fauxels-32288.jpg" class="rounded-3" alt="Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="position-relative bg-dark py-5">
+        <span class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(255, 255, 255, .05)"></span>
+        <div class="container position-relative zindex-5 text-center my-xl-3 py-1 py-md-4 py-lg-5">
+            <p class="lead text-light opacity-70 mb-3">Готов начать?</p>
+            <h2 class="h1 text-light pb-3 pb-lg-0 mb-lg-5">Регистрируйся на платформе</h2>
+            <a th:href="@{/login}" class="btn btn-primary shadow-primary btn-lg">Присоединиться</a>
+        </div>
+    </section>
+</main>
+
+
+<!-- Footer -->
+<footer class="footer bg-dark py-5" data-bs-theme="dark">
+    <div class="container pt-2 pt-sm-4">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 col-xl-4 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                <div class="navbar-brand text-dark p-0 me-0 mb-3 mb-lg-4">
+                    <img src="assets/img/circule_logo_white.svg" width="100" alt="Silicon">
+                </div>
+                <p class="text-body mb-0"></p>
+            </div>
+            <div class="col-md-6 col-xxl-5 offset-lg-1 offset-xl-2 offset-xxl-3">
+                <div class="row row-cols-1 row-cols-sm-2">
+                    <div class="col pb-2 pb-sm-0 mb-4 mb-sm-0">
+                        <h3 class="h5 pb-1 pb-sm-2 pb-lg-3">Свяжитесь с нами</h3>
+                        <ul class="nav flex-column mb-3">
+                            <li>
+                                <a href="tel:+79152566372" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-phone-call fs-4 me-2"></i>
+                                    (915)&nbsp;526&#8209;6372
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:el.iarygina@gmail.com&body=Добрый день!?subject=Предложение сотрудничества" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-envelope fs-4 me-2"></i>
+                                    elenaiarygina@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="d-flex pt-2 pt-sm-3 pt-md-4">
+
+                            <a href="https://t.me/elenaiarygina" class="btn btn-icon btn-sm btn-secondary btn-telegram rounded-circle me-3" aria-label="Telegram">
+                                <i class="bx bxl-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="nav d-block fs-sm pt-5 mb-0">
+            <span class="text-light opacity-60">&copy; All rights reserved. Made by </span>
+            <a class="nav-link d-inline-block p-0" href="https://github.com/a88217" target="_blank" rel="noopener">Aleksandr Muzalev</a>
+        </p>
+    </div>
+</footer>
+
+
+<!-- Back to top button -->
+<a href="#top" class="btn-scroll-top" data-scroll>
+    <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+    <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+
+<!-- Vendor Scripts -->
+<script src="assets/vendor/rellax/rellax.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main Theme Script -->
+<script src="assets/js/theme.min.js"></script>
+</body>
+</html>

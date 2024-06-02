@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="utf-8">
+  <title>Talents | Creative teams marketplace</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Talents - Creative teams marketplace">
+  <meta name="keywords" content="creative teams, business, creative agency, marketplace, services, e-commerce, seo, portfolio, creative">
+  <meta name="author" content="Aleksandr Muzalev">
+
+  <!-- Viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Theme switcher (color modes) -->
+  <script src="/static/assets/js/theme-switcher.js"></script>
+
+  <!-- Favicon and Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/favicon/fav.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon/fav.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon/fav.svg">
+  <link rel="manifest" href="/static/assets/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
+  <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
+  <meta name="msapplication-TileColor" content="#080032">
+  <meta name="msapplication-config" content="/static/assets/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Vendor Styles -->
+  <link rel="stylesheet" media="screen" href="/static/assets/vendor/boxicons/css/boxicons.min.css">
+  <link rel="stylesheet" media="screen" href="/static/assets/vendor/swiper/swiper-bundle.min.css">
+
+  <!-- Main Theme Styles + Bootstrap -->
+  <link rel="stylesheet" media="screen" href="/static/assets/css/theme.min.css">
+
+  <!-- Page loading styles -->
+  <style>
+    .page-loading {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: all .4s .2s ease-in-out;
+      transition: all .4s .2s ease-in-out;
+      background-color: #fff;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 9999;
+    }
+    [data-bs-theme="dark"] .page-loading {
+      background-color: #0b0f19;
+    }
+    .page-loading.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .page-loading-inner {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      -webkit-transition: opacity .2s ease-in-out;
+      transition: opacity .2s ease-in-out;
+      opacity: 0;
+    }
+    .page-loading.active > .page-loading-inner {
+      opacity: 1;
+    }
+    .page-loading-inner > span {
+      display: block;
+      font-size: 1rem;
+      font-weight: normal;
+      color: #9397ad;
+    }
+    [data-bs-theme="dark"] .page-loading-inner > span {
+      color: #fff;
+      opacity: .6;
+    }
+    .page-spinner {
+      display: inline-block;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin-bottom: .75rem;
+      vertical-align: text-bottom;
+      border: .15em solid #b4b7c9;
+      border-right-color: transparent;
+      border-radius: 50%;
+      -webkit-animation: spinner .75s linear infinite;
+      animation: spinner .75s linear infinite;
+    }
+    [data-bs-theme="dark"] .page-spinner {
+      border-color: rgba(255,255,255,.4);
+      border-right-color: transparent;
+    }
+    @-webkit-keyframes spinner {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes spinner {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <!-- Page custom styles -->
+  <style>
+
+    /* Spin animation */
+    @-webkit-keyframes hero-spin {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes hero-spin {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    .hero-animation-spin {
+      -webkit-animation: hero-spin 35s linear infinite;
+      animation: hero-spin 35s linear infinite;
+    }
+
+    /* Fade animation */
+    @-webkit-keyframes hero-fade {
+      0%, 100% { opacity: 0 }
+      50% { opacity: 1 }
+    }
+    @keyframes hero-fade {
+      0%, 100% { opacity: 0 }
+      50% { opacity: 1 }
+    }
+    .hero-animation-fade {
+      -webkit-animation: hero-fade 4s ease-in infinite;
+      animation: hero-fade 4s ease-in infinite;
+    }
+    .hero-animation-delay-1,
+    .hero-animation-delay-2,
+    .hero-animation-delay-3 {
+      opacity: 0;
+    }
+    .hero-animation-delay-1 { animation-delay: .75s; }
+    .hero-animation-delay-2 { animation-delay: 1.5s; }
+    .hero-animation-delay-3 { animation-delay: 2s; }
+  </style>
+
+
+  <!-- Page loading scripts -->
+  <script>
+    (function () {
+      window.onload = function () {
+        const preloader = document.querySelector('.page-loading');
+        preloader.classList.remove('active');
+        setTimeout(function () {
+          preloader.remove();
+        }, 1000);
+      };
+    })();
+  </script>
+</head>
+
+
+<!-- Body -->
+<body>
+
+<!-- Page loading spinner -->
+<div class="page-loading active">
+  <div class="page-loading-inner">
+    <div class="page-spinner"></div><span>Loading...</span>
+  </div>
+</div>
+
+
+<!-- Page wrapper for sticky footer -->
+<!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+<main class="page-wrapper">
+
+
+  <!-- Navbar -->
+  <!-- Remove "fixed-top" class to make navigation bar scrollable with the page -->
+  <header class="header navbar navbar-expand-lg position-absolute navbar-sticky">
+    <div class="container px-3">
+      <a href="/home" class="navbar-brand pe-3">
+        <img src="/static/assets/img/circule_logo_black.svg" width="100" alt="Cir-cule">
+      </a>
+      <div id="navbarNav" class="offcanvas offcanvas-end">
+        <div class="offcanvas-header border-bottom">
+          <h5 class="offcanvas-title">Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a th:href="@{/packages}" class="nav-link">Услуги</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/about}" class="nav-link">Команда</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/contact}" class="nav-link">Контакты</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
+            </li>
+          </ul>
+        </div>
+        <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
+          <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+            Войти
+          </a>
+        </div>
+        <div sec:authorize="hasRole('TALENT')" class="offcanvas-header border-top">
+          <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+            Профиль
+          </a>
+        </div>
+        <div sec:authorize="hasAuthority('OAUTH2_USER')" class="offcanvas-header border-top">
+          <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+            Профиль
+          </a>
+        </div>
+      </div>
+      <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
+        <input type="checkbox" class="form-check-input" id="theme-mode">
+        <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
+        <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label>
+      </div>
+      <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+        Войти
+      </a>
+      <a sec:authorize="hasRole('TALENT')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+        Профиль
+      </a>
+      <a sec:authorize="hasAuthority('OAUTH2_USER')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+        Профиль
+      </a>
+    </div>
+  </header>
+
+
+  <!-- Page content -->
+  <section class="position-relative h-100 pt-5 pb-4">
+
+    <!-- Sign up form -->
+    <div class="container d-flex flex-wrap justify-content-center justify-content-xl-start h-100 pt-5">
+      <div class="w-100 align-self-end pt-1 pt-md-4 pb-4" style="max-width: 526px;">
+        <h1 class="text-center text-xl-start">Зарегистироваться</h1>
+        <p class="text-center text-xl-start pb-3 mb-3">Уже регистрировались? <a th:href="@{/login}">Вход здесь.</a></p>
+        <form th:action="@{/register}" method="post" th:object="${userDTO}" class="needs-validation" novalidate>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="position-relative mb-4">
+                <label for="firstName" class="form-label fs-base">Имя</label>
+                <input name="firstName" type="text" id="firstName" th:field="*{firstName}" class="form-control form-control-lg" required>
+                <div class="invalid-feedback position-absolute start-0 top-100">Пожалуйста введите имя!</div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="position-relative mb-4">
+                <label for="lastName" class="form-label fs-base">Фамилия</label>
+                <input name="lastName" type="text" id="lastName" th:field="*{lastName}" class="form-control form-control-lg" required>
+                <div class="invalid-feedback position-absolute start-0 top-100">Пожалуйста введите фамилию!</div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="position-relative mb-4">
+                <label for="email" class="form-label fs-base">Email</label>
+                <input name="email" th:field="*{email}" type="email" id="email" class="form-control form-control-lg" required>
+                <div class="invalid-feedback position-absolute start-0 top-100">Please enter a valid email address!</div>
+                <small class="form-text text-danger" th:each="err : ${#fields.errors('email')}" th:text="${err}">Validation error</small>
+              </div>
+            </div>
+            <div class="col-12 mb-4">
+              <label for="password" class="form-label fs-base">Пароль</label>
+              <div class="password-toggle">
+                <input name="password" th:field="*{password}" type="password" id="password" class="form-control form-control-lg" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                  <input class="password-toggle-check" type="checkbox">
+                  <span class="password-toggle-indicator"></span>
+                </label>
+                <div class="invalid-feedback position-absolute start-0 top-100">Please enter a password!</div>
+              </div>
+            </div>
+            <div class="col-12 mb-4">
+              <label for="password-confirm" class="form-label fs-base">Подтверждение пароля</label>
+              <div class="password-toggle">
+                <input name="passwordConfirmation" th:field="*{passwordConfirmation}" type="password" id="password-confirm" class="form-control form-control-lg" required>
+                <label class="password-toggle-btn" aria-label="Show/hide password">
+                  <input class="password-toggle-check" type="checkbox">
+                  <span class="password-toggle-indicator"></span>
+                </label>
+                <div class="invalid-feedback position-absolute start-0 top-100">Please enter a password!</div>
+                <small class="form-text text-danger" th:text="${passwordIncorrect}">Пароли не совпадают</small>
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-check">
+              <input type="checkbox" id="terms" class="form-check-input">
+              <label for="terms" class="form-check-label fs-base">Я согласен с <a href="#">Условиями использования</a></label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary shadow-primary btn-lg w-100">Зарегистрироваться</button>
+        </form>
+        <hr class="my-4">
+        <h6 class="text-center mb-4">Или зарегистрироваться с помощью Google</h6>
+        <div class="row row-cols-1 row-cols-sm-2">
+          <div class="col mb-3">
+            <a th:href="@{/oauth2/authorization/google}" class="btn btn-icon btn-secondary btn-google btn-lg w-100">
+              <i class="bx bxl-google fs-xl me-2"></i>
+              Google
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="w-100 align-self-end">
+        <p class="nav d-block fs-xs text-center text-xl-start pb-2 mb-0">
+          &copy; All rights reserved. Made by
+          <a class="nav-link d-inline-block p-0" href="https://github.com/a88217" target="_blank" rel="noopener">Aleksandr Muzalev</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="position-absolute top-0 end-0 w-50 h-100 bg-position-center bg-repeat-0 bg-size-cover d-none d-xl-block" style="background-image: url(assets/img/account/signin-bg.jpg);"></div>
+  </section>
+</main>
+
+
+<!-- Back to top button -->
+<a href="#top" class="btn-scroll-top" data-scroll>
+  <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+  <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+
+<!-- Main Theme Script -->
+<script src="assets/js/theme.min.js"></script>
+</body>
+</html>

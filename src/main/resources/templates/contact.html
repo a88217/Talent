@@ -1,69 +1,317 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+<html lang="ru" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talents</title>
-    <link rel="shortcut icon" href="/static/fav.svg" type="image/x-icon">
+    <meta charset="utf-8">
+    <title>Talents | Creative teams marketplace</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Talents - Creative teams marketplace">
+    <meta name="keywords" content="creative teams, business, creative agency, marketplace, services, e-commerce, seo, portfolio, creative">
+    <meta name="author" content="Aleksandr Muzalev">
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Theme switcher (color modes) -->
+    <script src="/static/assets/js/theme-switcher.js"></script>
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon/fav.svg">
+    <link rel="manifest" href="/static/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
+    <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
+    <meta name="msapplication-TileColor" content="#080032">
+    <meta name="msapplication-config" content="/static/assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor Styles -->
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/swiper/swiper-bundle.min.css">
+
+    <!-- Main Theme Styles + Bootstrap -->
+    <link rel="stylesheet" media="screen" href="/static/assets/css/theme.min.css">
+
+    <!-- Page loading styles -->
+    <style>
+        .page-loading {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          -webkit-transition: all .4s .2s ease-in-out;
+          transition: all .4s .2s ease-in-out;
+          background-color: #fff;
+          opacity: 0;
+          visibility: hidden;
+          z-index: 9999;
+        }
+        [data-bs-theme="dark"] .page-loading {
+          background-color: #0b0f19;
+        }
+        .page-loading.active {
+          opacity: 1;
+          visibility: visible;
+        }
+        .page-loading-inner {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+          -webkit-transition: opacity .2s ease-in-out;
+          transition: opacity .2s ease-in-out;
+          opacity: 0;
+        }
+        .page-loading.active > .page-loading-inner {
+          opacity: 1;
+        }
+        .page-loading-inner > span {
+          display: block;
+          font-size: 1rem;
+          font-weight: normal;
+          color: #9397ad;
+        }
+        [data-bs-theme="dark"] .page-loading-inner > span {
+          color: #fff;
+          opacity: .6;
+        }
+        .page-spinner {
+          display: inline-block;
+          width: 2.75rem;
+          height: 2.75rem;
+          margin-bottom: .75rem;
+          vertical-align: text-bottom;
+          border: .15em solid #b4b7c9;
+          border-right-color: transparent;
+          border-radius: 50%;
+          -webkit-animation: spinner .75s linear infinite;
+          animation: spinner .75s linear infinite;
+        }
+        [data-bs-theme="dark"] .page-spinner {
+          border-color: rgba(255,255,255,.4);
+          border-right-color: transparent;
+        }
+        @-webkit-keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+
+    <!-- Page loading scripts -->
+    <script>
+        (function () {
+          window.onload = function () {
+            const preloader = document.querySelector('.page-loading');
+            preloader.classList.remove('active');
+            setTimeout(function () {
+              preloader.remove();
+            }, 1000);
+          };
+        })();
+    </script>
 </head>
-<body>
-    <header th:insert="blocks/header :: header"></header>
-    <main>
-        <p th:if="${message}" class="alert alert-success" th:text="${message}"></p>
 
-        <div class="d-flex flex-wrap justify-content-center py-2 my-2">
-            <div class="col-12 col-md-6 ps-5 pe-2" >
-                <div class="p-3">
-                    <p class="col-6" style="line-height: 1; font-size: 4rem; font-family: 'Cormorant', Arial, sans-serif;">Давайте обсудим ваш проект</p>
-                    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex mt-5">
-                        <li class="ms-3">
-                            <a class="text-body-secondary" href="https://t.me/elenaiarygina">
-                                <i class="bi bi-telegram" style="font-size: 2rem; color: cornflowerblue;"></i>
-                            </a>
+
+<!-- Body -->
+<body>
+
+<!-- Page loading spinner -->
+<div class="page-loading active">
+    <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+    </div>
+</div>
+
+
+<!-- Page wrapper for sticky footer -->
+<!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+<main class="page-wrapper">
+
+
+    <!-- Navbar -->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page -->
+    <header class="header navbar navbar-expand-lg bg-light navbar-sticky">
+        <div class="container px-3">
+            <a href="/home" class="navbar-brand pe-3">
+                <img src="/static/assets/img/circule_logo_black.svg" width="100" alt="Cir-cule">
+            </a>
+            <div id="navbarNav" class="offcanvas offcanvas-end">
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a th:href="@{/packages}" class="nav-link">Услуги</a>
                         </li>
-                        <li class="ms-3">
-                            <a class="text-body-secondary" href="tel:+79152566372"><i class="bi bi-telephone-fill" style="font-size: 2rem; color: cornflowerblue;"></i></use></svg></a>
+                        <li class="nav-item">
+                            <a th:href="@{/about}" class="nav-link">Команда</a>
                         </li>
-                        <li class="ms-3">
-                            <a class="text-body-secondary" href="mailto:el.iarygina@gmail.com&body=Добрый день!?subject=Предложение сотрудничества"><i class="bi bi-envelope-fill" style="font-size: 2rem; color: cornflowerblue;"></i></use></svg></a>
+                        <li class="nav-item">
+                            <a th:href="@{/contact}" class="nav-link">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
                         </li>
                     </ul>
-
-
+                </div>
+                <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Войти
+                    </a>
+                </div>
+                <div sec:authorize="hasRole('TALENT')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+                <div sec:authorize="hasAuthority('OAUTH2_USER')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
                 </div>
             </div>
-            <div class="col-12 col-md-6 pe-5 ps-2" >
-                <div class="p-3">
-                    <form action="/contact" method="post">
-                        <div class="mb-3">
-                            <label for="Name" class="form-label">Имя и фамилия</label>
-                            <input type="text" class="form-control" id="Name" name="name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Tel" class="form-label">Телефон</label>
-                            <input type="tel" class="form-control" id="Tel" name="mobilPhone">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="Email" name="email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Body" class="form-label">Расскажите о проекте</label>
-                            <textarea class="form-control" id="Body" name="message" rows="3"></textarea>
-                        </div>
+            <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
+                <input type="checkbox" class="form-check-input" id="theme-mode">
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label>
+            </div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Войти
+            </a>
+            <a sec:authorize="hasRole('TALENT')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+            <a sec:authorize="hasAuthority('OAUTH2_USER')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+        </div>
+    </header>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <!-- Contact form -->
+        <section class="container pb-5 mb-2 mb-md-4 mb-lg-5">
+            <div class="position-relative bg-secondary rounded-3 py-5 mb-2">
+                <div class="row pb-2 py-md-3 py-lg-5 px-4 px-lg-0 position-relative zindex-3">
+                    <div class="col-xl-3 col-lg-4 col-md-5 offset-lg-1">
+                        <p class="lead mb-2 mb-md-3">Готовы начать?</p>
+                        <h2 class="h1 pb-3">Давайте обсудим ваш проект</h2>
+                    </div>
+                    <form class="col-lg-6 col-md-7 offset-xl-1 needs-validation" novalidate action="/home" method="post">
+                        <div class="row">
+                            <div class="col-sm-6 mb-4">
+                                <label for="name" class="form-label fs-base">Кас вас зовут</label>
+                                <input name="name" type="text" id="name" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Пожалуйста введите ваши имя и фамилию!</div>
+                            </div>
+                            <div class="col-sm-6 mb-4">
+                                <label for="email" class="form-label fs-base">Email</label>
+                                <input name="email" type="email" id="email" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Пожалуйста введите действительный адрес электронной почты!</div>
+                            </div>
+                            <div class="col-sm-6 mb-4">
+                                <label for="mobilePhone" class="form-label fs-base">Телефон</label>
+                                <input name="mobilePhone" type="text" id="mobilePhone" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Пожалуйста введите телефон!</div>
+                            </div>
+                            <div class="col-12 pb-2 mb-4">
+                                <label for="message" class="form-label fs-base">Сообщение</label>
+                                <textarea name="message" id="message" class="form-control form-control-lg" rows="4" required></textarea>
+                                <div class="invalid-feedback">Пожалуйста введите ваше сообщение!</div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-info shadow-primary btn-lg">Отправить запрос</button>
                     </form>
+                </div>
+
+                <!-- Pattern -->
+                <div class="position-absolute end-0 bottom-0 text-info">
+                    <svg width="416" height="444" viewBox="0 0 416 444" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.08" fill-rule="evenodd" clip-rule="evenodd" d="M240.875 615.746C389.471 695.311 562.783 640.474 631.69 504.818C700.597 369.163 645.201 191.864 496.604 112.299C348.007 32.7335 174.696 87.5709 105.789 223.227C36.8815 358.882 92.278 536.18 240.875 615.746ZM208.043 680.381C388.035 776.757 605.894 713.247 694.644 538.527C783.394 363.807 709.428 144.04 529.436 47.6636C349.443 -48.7125 131.584 14.7978 42.8343 189.518C-45.916 364.238 28.0504 584.005 208.043 680.381Z" fill="currentColor"/><path opacity="0.08" fill-rule="evenodd" clip-rule="evenodd" d="M262.68 572.818C382.909 637.194 526.686 594.13 584.805 479.713C642.924 365.295 595.028 219.601 474.799 155.224C354.57 90.8479 210.793 133.912 152.674 248.33C94.5545 362.747 142.45 508.442 262.68 572.818ZM253.924 590.054C382.526 658.913 538.182 613.536 601.593 488.702C665.004 363.867 612.156 206.847 483.554 137.988C354.953 69.129 199.296 114.506 135.886 239.341C72.4752 364.175 125.323 521.195 253.924 590.054Z" fill="currentColor"/></svg>
+                </div>
+            </div>
+        </section>
+</main>
+
+
+<!-- Footer -->
+<footer class="footer bg-dark py-5" data-bs-theme="dark">
+    <div class="container pt-2 pt-sm-4">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 col-xl-4 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                <div class="navbar-brand text-dark p-0 me-0 mb-3 mb-lg-4">
+                    <img src="assets/img/circule_logo_white.svg" width="100" alt="Silicon">
+                </div>
+                <p class="text-body mb-0"></p>
+            </div>
+            <div class="col-md-6 col-xxl-5 offset-lg-1 offset-xl-2 offset-xxl-3">
+                <div class="row row-cols-1 row-cols-sm-2">
+                    <div class="col pb-2 pb-sm-0 mb-4 mb-sm-0">
+                        <h3 class="h5 pb-1 pb-sm-2 pb-lg-3">Свяжитесь с нами</h3>
+                        <ul class="nav flex-column mb-3">
+                            <li>
+                                <a href="tel:+79152566372" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-phone-call fs-4 me-2"></i>
+                                    (915)&nbsp;526&#8209;6372
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:el.iarygina@gmail.com&body=Добрый день!?subject=Предложение сотрудничества" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-envelope fs-4 me-2"></i>
+                                    elenaiarygina@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="d-flex pt-2 pt-sm-3 pt-md-4">
+
+                            <a href="https://t.me/elenaiarygina" class="btn btn-icon btn-sm btn-secondary btn-telegram rounded-circle me-3" aria-label="Telegram">
+                                <i class="bx bxl-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+        <p class="nav d-block fs-sm pt-5 mb-0">
+            <span class="text-light opacity-60">&copy; All rights reserved. Made by </span>
+            <a class="nav-link d-inline-block p-0" href="https://github.com/a88217" target="_blank" rel="noopener">Aleksandr Muzalev</a>
+        </p>
+    </div>
+</footer>
+
+
+<!-- Back to top button -->
+<a href="#top" class="btn-scroll-top" data-scroll>
+    <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+    <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+
+<!-- Vendor Scripts -->
+<script src="assets/vendor/parallax-js/dist/parallax.min.js"></script>
+<script src="assets/vendor/rellax/rellax.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main Theme Script -->
+<script src="assets/js/theme.min.js"></script>
 </body>
 </html>
