@@ -24,7 +24,7 @@
     <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
     <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
     <meta name="msapplication-TileColor" content="#080032">
-    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
+    <meta name="msapplication-config" content="/static/assets/favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
     <!-- Vendor Styles -->
@@ -210,69 +210,25 @@
     </header>
 
 
-    <!-- Hero section with layer parallax gfx -->
-    <section class="position-relative py-5">
-        <p th:if="${message}" class="alert alert-success" th:text="${message}"></p>
-
-        <!-- Gradient BG -->
-        <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-10"></div>
-
-        <!-- Content -->
-        <div class="container position-relative zindex-2 py-lg-4">
-            <div class="row">
-                <div class="col-lg-5 d-flex flex-column pt-lg-4 pt-xl-5">
-                    <img class="my-5 d-dark-mode-none" src="/static/assets/img/circule_logo_black.svg" width="500" alt="Cir-cule">
-                    <img class="my-5 d-none d-dark-mode-block" src="/static/assets/img/circule_logo_white.svg" width="500" alt="Cir-cule">
-
-                        <p class="fs-lg mb-5">маркетплейс проектных команд в креативных индустриях</p>
-                        <div class="d-md-flex align-items-md-start">
-                            <a href="contacts-v1.html" class="btn btn-lg btn-info flex-shrink-0 me-md-4 mb-md-0 mb-sm-4 mb-3">Работать с нами</a>
-                            <p class="d-lg-block d-none mb-0 ps-md-3">Арендуй готовую команду под проект, собери свою или инвестируй в топовых талантов</p>
-                        </div>
-                </div>
-                <div class="col-lg-7">
-
-                    <!-- Parallax gfx -->
-                    <div class="parallax mx-auto me-lg-0" style="max-width: 648px;">
-                        <div class="parallax-layer" data-depth="0.1">
-                            <img src="assets/img/landing/online-courses/hero/layer01.png" alt="Layer">
-                        </div>
-                        <div class="parallax-layer" data-depth="0.13">
-                            <img src="assets/img/landing/online-courses/hero/layer02.png" alt="Layer">
-                        </div>
-                        <div class="parallax-layer zindex-5" data-depth="-0.12">
-                            <img src="assets/img/landing/online-courses/hero/layer03.png" alt="Layer">
-                        </div>
-                        <div class="parallax-layer zindex-3" data-depth="0.27">
-                            <img src="assets/img/landing/online-courses/hero/layer04.png" alt="Layer">
-                        </div>
-                        <div class="parallax-layer zindex-1" data-depth="-0.18">
-                            <img src="assets/img/landing/online-courses/hero/layer05.png" alt="Layer">
-                        </div>
-                        <div class="parallax-layer zindex-1" data-depth="0.1">
-                            <img src="assets/img/landing/online-courses/hero/layer06.png" alt="Layer">
-                        </div>
-                    </div>
-                </div>
+    <!-- Page title -->
+    <section class="container mt-lg-5 pb-5 mb-md-2 mb-lg-4 mb-xl-5">
+        <div class="row pb-5 mb-md-2 mb-lg-4 mb-xl-5">
+            <div class="col-lg-6">
+                <h1 class="display-2 mb-0">Контент-стратегия</h1>
+            </div>
+            <div class="col-lg-6 col-xl-5 offset-xl-1 pt-3 pt-sm-4 pt-lg-3">
+                <p class="fs-xl pb-4 mb-1 mb-md-2 mb-xl-3">Что такое контент-стратегия?</p>
+                <p class="fs-xl pb-4 mb-1 mb-md-2 mb-xl-3">Это набор правил, которые определяют, какой контент вы будете создавать, где вы будете его публиковать, зачем вы это делаете и для кого.</p>
+                <p class="fs-xl pb-4 mb-1 mb-md-2 mb-xl-3">Контент-стратегия - ваша карта, которая поможет вам:</p>
+                <ul class="fs-xl pb-4 mb-1 mb-md-2 mb-xl-3">
+                    <li>Создавать контент, который будет интересен вашей аудитории.</li>
+                    <li>Публиковать его в нужных местах и в нужное время.</li>
+                    <li>Распространять его, чтобы о нем узнали как можно больше людей.</li>
+                    <li>Достигать своих бизнес целей.</li>
+                </ul>
             </div>
         </div>
-    </section>
-
-    <!-- About company -->
-    <section class="container pb-5 mb-md-2 my-lg-4">
-        <h1 class="border-bottom pb-4">Наша философия</h1>
-        <div class="row pt-2 pt-md-3 justify-content-center">
-            <div class="col-md-6">
-                <p class="fs-lg pe-lg-4 mb-1 mb-lg-4">Мы собрали в одном месте лучшие команды, независимых топ-экспертов и начинающие таланты из креативных индустрий и запускаем сервис, который позволит вам находить и арендовать проектные команды точно под ваши задачи, чтобы реализовывать самые смелые кейсы профессионально, быстро и финансово выгодно.</p>
-            </div>
-            <div class="col-md-6">
-                <p class="fs-lg ps-lg-4 mb-1 mb-lg-4">Circule появился из понимания, что мир меняется. Мы видим, как талантливые люди все чаще работают
-                    в проектных командах, гиг-экономика растет по всем мире, технологии такие как AI открывают новые возможности для брендов и компаний, и одновременно с этим наступает Imagination эра — время, когда во главе всего оказывается талант и воображение.</p>
-            </div>
-            <div class="col-md-6">
-                <p class="fs-lg ps-lg-4 mb-1 mb-lg-4">Создавая наш сервис, мы хотели сделать место, где бренды и таланты могут легко находить друг друга для работы над общими проектами, где всегда можно найти крепкую команду под свою задачу, где можно реализовывать проекты на стыке дисциплин, придумывая и превнося что-то новое.</p>
-            </div>
-        </div>
+        <hr>
     </section>
 
     <!-- What we offer -->
@@ -281,73 +237,232 @@
             <div class="d-flex flex-column flex-md-row flex-md-nowrap align-items-start">
                 <div class="col-md-7 ps-0 pe-lg-4 mb-5 mb-md-0">
                     <div style="max-width: 660px;">
-                        <h2 class="h1 pb-3 mb-2 mb-md-3">Что мы предлагаем?</h2>
+                        <h2 class="h1 pb-3 mb-2 mb-md-3">Зачем нужна контент-стратегия?</h2>
                         <div class="row row-cols-1 row-cols-sm-2 gx-lg-5 g-4">
                             <div class="col pt-1 pt-sm-2 pt-lg-3">
                                 <i class="bx bx-rocket d-block fs-2 text-info mb-2 mb-sm-3"></i>
-                                <h3 class="h5 pb-sm-1 mb-2">Уникальные креативные команды</h3>
+                                <h3 class="h5 pb-sm-1 mb-2">Постановка целей</h3>
                                 <p class="mb-0"></p>
                             </div>
                             <div class="col pt-1 pt-sm-2 pt-lg-3">
                                 <i class="bx bx-like d-block fs-2 text-info mb-2 mb-sm-3"></i>
-                                <h3 class="h5 pb-sm-1 mb-2">У каждой команды профессиональный тим-лид</h3>
+                                <h3 class="h5 pb-sm-1 mb-2">Экономия бюджета и времени</h3>
                                 <p class="mb-0"></p>
                             </div>
                             <div class="col pt-1 pt-sm-2 pt-lg-3">
                                 <i class="bx bx-group d-block fs-2 text-info mb-2 mb-sm-3"></i>
-                                <h3 class="h5 pb-sm-1 mb-2">Таланты со всего мира</h3>
+                                <h3 class="h5 pb-sm-1 mb-2">KPI и метрики</h3>
                                 <p class="mb-0"></p>
-                            </div>
-                            <div class="col pt-1 pt-sm-2 pt-lg-3">
-                                <i class="bx bx-time-five d-block fs-2 text-info mb-2 mb-sm-3"></i>
-                                <h3 class="h5 pb-sm-1 mb-2">Быстрее и дешевле</h3>
-                                <p class="mb-0">Процесы оптимизированы. Дешевле чем в агентстве на 20-30 процентов.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <img src="assets/img/services/single/dashboard.png" width="836" class="ms-3 ms-sm-5 ms-xl-3" alt="Dashboard">
+                <img src="/static/assets/img/services/single/dashboard.png" width="836" class="ms-3 ms-sm-5 ms-xl-3" alt="Dashboard">
             </div>
         </div>
     </section>
 
 
+    <!-- How it works (Steps) -->
+    <section class="container pt-4 pt-lg-0 pb-4 pb-lg-5">
+        <h2 class="h1 text-center pb-3 pb-md-0 mb-md-5">Этапы работы над контент-стратегией</h2>
+        <div class="steps">
+            <div class="step pt-0 pt-md-3 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">1</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.4" data-disable-parallax-down="lg">
+                        <h3 class="h4">Цели и задачи</h3>
+                        <p class="mb-0">Делаем аудит текущей ситуации с контентом в вашей компании, анализируем конкурентов и контекст, определяем цели, которых нужно достичь в соответствии с задачами бизнеса.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="step pt-0 pt-md-4 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">2</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.5" data-disable-parallax-down="lg">
+                        <h3 class="h4">Аудитория</h3>
+                        <p class="mb-0">Детально изучаем аудиторию. Для кого мы делаем контент? Помогает ли он нашим клиентам? Отвечает ли на их вопросы?
+                            Анализируем портрет аудитории на каждом этапе воронки продаж. Это помогает сделать контент максимально релевантный аудитории.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step pt-0 pt-md-4 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">3</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.4" data-disable-parallax-down="lg">
+                        <h3 class="h4">Анализ рынка и конкурентов</h3>
+                        <p class="mb-0">Какая сейчас ситуация на рынке в вашей области? Кто конкуренты и какой контент они производят? Где публикуют контент? Какие темы используют? Какой tone of voice? Что заходит аудитории? На все эти вопросы отвечаем на этом этапе.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step pt-0 pt-md-4 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">4</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.6" data-disable-parallax-down="lg">
+                        <h3 class="h4">Форматы и каналы дистрибуции</h3>
+                        <p class="mb-0">Какие форматы подходят для наших задач? Где публикуем контент? С какой периодичностью?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step pt-0 pt-md-4 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">5</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.6" data-disable-parallax-down="lg">
+                        <h3 class="h4">Бюджет и продакшн</h3>
+                        <p class="mb-0">Сколько денег вы готовы вкладывать в продакшн и продвижение? Кто будет заниматься созданием? Какая нужна команда?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step pt-0 pt-md-4 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">6</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.6" data-disable-parallax-down="lg">
+                        <h3 class="h4">Контент-план</h3>
+                        <p class="mb-0">Формулируем редакционную политику, темы, периодичность выхода контента.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step pt-0 pt-md-4 pb-5">
+                <div class="step-number">
+                    <div class="step-number-inner">7</div>
+                </div>
+                <div class="step-body d-flex align-items-center ps-xl-5">
+
+                    <div class="rellax ps-md-4 ps-xl-5" data-rellax-percentage="0.5" data-rellax-speed="0.6" data-disable-parallax-down="lg">
+                        <h3 class="h4">Оценка эффективности</h3>
+                        <p class="mb-0">Как будем анализировать результаты и понимать что достигли цели? Устанавливаем метрики и KPI, по которым мы сможем отследить наш успех, составляем прогноз, определяем сроки</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- What you get (Icon boxes) -->
+    <section class="container pt-1 pt-xl-3 pb-5">
+        <h2 class="h1 text-center pb-3 pb-md-0 mb-md-5">Что вы получите в итоге?</h2>
+        <div class="swiper swiper-nav-onhover mt-n3 mx-n2" data-swiper-options='{
+          "slidesPerView": 1,
+          "spaceBetween": 8,
+          "pagination": {
+            "el": ".swiper-pagination",
+            "clickable": true
+          },
+          "breakpoints": {
+            "600": {
+              "slidesPerView": 2
+            },
+            "1000": {
+              "slidesPerView": 3
+            }
+          }
+        }'>
+            <div class="swiper-wrapper">
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto py-3">
+                    <div class="card card-hover h-100 mx-2">
+                        <div class="card-body">
+                            <div class="d-table position-relative p-3 mb-4">
+                                <img src="/static/assets/img/landing/online-courses/icons/01.svg" class="position-relative zindex-2" width="32" alt="Icon">
+                                <span class="bg-primary position-absolute top-0 start-0 w-100 h-100 rounded-circle opacity-8"></span>
+                            </div>
+                            <h3 class="h5 pb-1 mb-2">Цели контент-стратегии</h3>
+                            <p class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto py-3">
+                    <div class="card card-hover h-100 mx-2">
+                        <div class="card-body">
+                            <div class="d-table position-relative p-3 mb-4">
+                                <img src="/static/assets/img/landing/online-courses/icons/02.svg" class="position-relative zindex-2" width="32" alt="Icon">
+                                <span class="bg-primary position-absolute top-0 start-0 w-100 h-100 rounded-circle opacity-8"></span>
+                            </div>
+                            <h3 class="h5 pb-1 mb-2">Конкурентный анализ</h3>
+                            <p class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto py-3">
+                    <div class="card card-hover h-100 mx-2">
+                        <div class="card-body">
+                            <div class="d-table position-relative p-3 mb-4">
+                                <img src="/static/assets/img/landing/online-courses/icons/03.svg" class="position-relative zindex-2" width="32" alt="Icon">
+                                <span class="bg-primary position-absolute top-0 start-0 w-100 h-100 rounded-circle opacity-8"></span>
+                            </div>
+                            <h3 class="h5 pb-1 mb-2">Анализ и описание портретов ЦА</h3>
+                            <p class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto py-3">
+                    <div class="card card-hover h-100 mx-2">
+                        <div class="card-body">
+                            <div class="d-table position-relative p-3 mb-4">
+                                <img src="/static/assets/img/landing/online-courses/icons/04.svg" class="position-relative zindex-2" width="32" alt="Icon">
+                                <span class="bg-primary position-absolute top-0 start-0 w-100 h-100 rounded-circle opacity-8"></span>
+                            </div>
+                            <h3 class="h5 pb-1 mb-2">Контент-план с каналами, форматами и примерами тем</h3>
+                            <p class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto py-3">
+                    <div class="card card-hover h-100 mx-2">
+                        <div class="card-body">
+                            <div class="d-table position-relative p-3 mb-4">
+                                <img src="/static/assets/img/landing/online-courses/icons/05.svg" class="position-relative zindex-2" width="32" alt="Icon">
+                                <span class="bg-primary position-absolute top-0 start-0 w-100 h-100 rounded-circle opacity-8"></span>
+                            </div>
+                            <h3 class="h5 pb-1 mb-2">Описание ориентировочного бюджета на продакшн и состав команды</h3>
+                            <p class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination (bullets) -->
+            <div class="swiper-pagination position-relative pt-2 pt-sm-3 mt-4"></div>
+        </div>
+    </section>
+
     <!-- Popular courses -->
     <section class="container mt-2 mt-sm-3 py-md-3 py-lg-5">
         <div class="row py-5">
-            <div class="col-lg-3 col-md-4">
 
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs flex-nowrap overflow-auto flex-md-column pb-2 pb-md-0 mb-3 mb-md-5" role="tablist">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Контент</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Брендинг</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Маркетинг</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">SMM</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Дизайн</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link d-inline-block text-nowrap" role="tab" aria-selected="false">Анимация и CG</a>
-                    </li>
-                </ul>
-                <a href="portfolio-courses.html" class="btn btn-outline-info btn-lg d-none d-md-inline-flex">
-                    у меня уникальный кейс
-                    <i class="bx bx-right-arrow-alt fs-xl ms-2"></i>
-                </a>
-            </div>
-            <div class="col-lg-9 col-md-8">
+            <div class="col-12">
 
                 <!-- Title + prev/next buttons -->
                 <div class="d-flex align-items-center justify-content-between pb-4 mb-3">
-                    <h2 class="h1 mb-0 me-3">Популярные услуги</h2>
+                    <h2 class="h1 mb-0 me-3">Команды</h2>
                     <div class="d-flex">
                         <button type="button" id="popular-prev" class="btn btn-prev btn-icon btn-sm me-2" aria-label="Previous">
                             <i class="bx bx-chevron-left"></i>
@@ -381,50 +496,38 @@
                     "slidesPerView": 2
                   },
                   "1200": {
-                    "slidesPerView": 2
+                    "slidesPerView": 3
                   }
                 }
               }'>
                     <div class="swiper-wrapper">
 
                         <!-- Item -->
-                        <div class="swiper-slide h-auto pb-3 d-flex flex-wrap"  th:each="package : ${packages}">
-                            <article class="card h-100 border-0 shadow-sm mx-2">
+                        <div class="swiper-slide h-auto pb-3 d-flex flex-wrap" th:each="team : ${teams}">
+                            <article class="col-12 card h-100 border-0 shadow-sm mx-2">
 
                                 <div class="card-body pb-3">
                                     <h3 class="h5 mb-2">
-                                        <a th:href="@{'/packages/' + ${package.slug}}" th:text="${package.title}">Контент-стратегия</a>
+                                        <a th:href="@{'/teams/' + ${team.id}}" th:text="${team.title}">Команда</a>
                                     </h3>
-                                    <div style="min-height: 15rem;" class="card-text" th:utext="${package.description}"></div>
-                                    <p>Команды:</p>
-                                    <div th:each="tId : ${package.teamIds}" style="display: inline-block;" class="me-5">
-                                        <div th:each="team : ${teams}" th:if="${tId == team.id}">
-                                            <div class="d-flex flex-wrap py-2 my-2" style="position: relative;" >
+                                    <div style="min-height: 15rem;" class="card-text" th:utext="${team.description}"></div>
+                                    <p>Состав команды:</p>
+                                    <ul>
+                                        <li style="display: inline; list-style-type: none; padding-right: 20px;" th:each="t : ${team.talentIds}">
+                                            <p style="display: inline;" th:href="@{'/talents/' + ${talent.id}}" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></p>
+                                        </li>
+                                    </ul>
 
-                                                <div style="width: 3rem; display: inline-block;" th:each="talId : ${team.talentIds}">
-                                                    <div class="py-2" style="width: 4rem; display: inline-block; position: relative;">
-                                                        <div style="max-width: 100%; height: 0; padding-bottom: 100%; position: relative;">
-                                                            <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:each="talent : ${talents}" th:if="${talId == talent.id}" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}" class="img-fluid rounded-circle" alt="Фото профиля">
-
-                                                        </div>
-                                                        <p style="font-size: xx-small; font-weight: 700;" th:each="talent : ${talents}" th:if="${talId == talent.id}" th:text="${talent.firstName}">Второй</p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="fs-lg fw-semibold text-info mb-0" th:text="${package.price}">от 150 тыс. р.</p>
                                 </div>
 
                                 <div class="card-footer d-flex align-items-center fs-sm text-muted py-4 justify-content-between">
 
                                     <div class="d-flex align-items-center me-4">
                                         <i class="bx bx-time fs-xl me-1"></i>
-                                        <p th:text="${package.term}">14 рабочих дней</p>
+                                        14 рабочих дней
                                     </div>
 
-                                    <a th:href="@{'/packages/' + ${package.slug}}" class="btn btn-info my-1 me-1" type="button">Подробнее</a>
+                                    <a th:href="@{'/teams/' + ${team.id}}" class="btn btn-info my-1 me-1" type="button">Подробнее</a>
 
                                 </div>
                             </article>
@@ -434,59 +537,13 @@
                     <!-- Pagination (bullets) -->
                     <div class="swiper-pagination position-relative pt-2 pt-sm-3 mt-4"></div>
                 </div>
-                <a href="portfolio-courses.html" class="btn btn-outline-primary btn-lg w-100 d-md-none mt-3">
-                    See all courses
+                <a th:href="@{/teams}" class="btn btn-outline-primary btn-lg w-100 d-md-none mt-3">
+                    Посмотреть все команды
                     <i class="bx bx-right-arrow-alt fs-xl ms-2"></i>
                 </a>
             </div>
         </div>
     </section>
-
-    <!-- How it works (Steps + Video) -->
-    <section class="container">
-        <div class="text-center pb-4 pb-md-0 mb-2 mb-md-5 mx-auto" style="max-width: 530px;">
-            <h2 class="h1">Как мы работаем?</h2>
-        </div>
-
-        <!-- Steps -->
-        <div class="steps steps-sm steps-horizontal-md steps-center pb-5 mb-md-2 mb-lg-3">
-            <div class="step">
-                <div class="step-number">
-                    <div class="step-number-inner">1</div>
-                </div>
-                <div class="step-body">
-                    <h3 class="h4 mb-3">Выберете услугу</h3>
-                    <p class="mb-0">Вы выбираете услугу, к каждой опции мы собрали для вас профессиональные команды, которые прошли валидацию и онбординг на платформу. Вы не тратите время и силы на поиск, отбор и проверку специалистов</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">
-                    <div class="step-number-inner">2</div>
-                </div>
-                <div class="step-body">
-                    <h3 class="h4 mb-3">Изучите команду</h3>
-                    <p class="mb-0">Все прозрачно и просто. Вы можете ознакомиться с опытом, кейсами и гонорарами команды. Больше не нужно ничего запрашивать дополнительно и тратить время на лишние коммуникации</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">
-                    <div class="step-number-inner">3</div>
-                </div>
-                <div class="step-body">
-                    <h3 class="h4 mb-3">Забронируйте команду</h3>
-                    <p class="mb-0">Пока наша платформа работает в beta версии, вы можете забронировать команду и мы свяжемся с вами, выясним детали и если вас все устроим - начнем работу</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">
-                    <div class="step-number-inner">4</div>
-                </div>
-                <div class="step-body">
-                    <h3 class="h4 mb-3">Начните работу</h3>
-                    <p class="mb-0">Мы упростили все процессы, берем на себя онбординг, оплаты, юридические вопросы проекта</p>
-                </div>
-            </div>
-        </div>
 
 
         <!-- Contact form -->

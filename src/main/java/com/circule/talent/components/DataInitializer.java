@@ -28,6 +28,7 @@ public class DataInitializer implements ApplicationRunner {
 
     private static final List<Package> PACKAGES = List.of(
             getPackage(
+            "content_strategy",
             "Контент-стратегия",
             "<p>Создаём вам карту, которая поможет:</p>" +
                     "<ul>" +
@@ -38,6 +39,7 @@ public class DataInitializer implements ApplicationRunner {
             "14 рабочих дней",
             "от 150 тыс. р."),
             getPackage(
+            "brand_platform",
             "Бренд-платформа для новых компаний",
             "<p>Платформа бренда - это как документ, в котором подробно описаны все идеи," +
                     " принципы и ценности вашей компании. Её главная цель - сформировать четкую" +
@@ -340,8 +342,9 @@ public class DataInitializer implements ApplicationRunner {
         return team;
     }
 
-    public static Package getPackage(String title, String description, String term, String price) {
+    public static Package getPackage(String slug, String title, String description, String term, String price) {
         var pack = new Package();
+        pack.setSlug(slug);
         pack.setTitle(title);
         pack.setDescription(description);
         pack.setTerm(term);

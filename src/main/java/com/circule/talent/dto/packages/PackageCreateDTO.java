@@ -8,6 +8,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class PackageCreateDTO {
+    private String slug;
     private String title;
     private String description;
     private String term;

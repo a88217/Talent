@@ -37,13 +37,11 @@ public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @GetMapping("/home")
-    public String homeBootstrap(TalentParamsDTO params, Model model) {
+    public String homeBootstrap(Model model) {
         var packages = packageService.index();
         var teams = teamService.index();
-        var talents = talentService.index(params);
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
-        model.addAttribute("talents", talents);
         model.addAttribute("teams", teams);
         model.addAttribute("packages", packages);
         return "home_bootstrap";

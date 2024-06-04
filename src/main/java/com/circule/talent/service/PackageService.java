@@ -29,6 +29,12 @@ public class PackageService {
         return packageMapper.map(pack);
     }
 
+    public PackageDTO show(String slug) {
+        var pack = packageRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Package " + slug + " not found"));
+        return packageMapper.map(pack);
+    }
+
     public PackageDTO create(PackageCreateDTO packageData) {
         var pack = packageMapper.map(packageData);
         packageRepository.save(pack);

@@ -10,6 +10,7 @@ import java.util.Set;
 @Getter
 public class PackageDTO {
     private Long id;
+    private String slug;
     private String title;
     private String description;
     private String term;

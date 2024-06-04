@@ -27,6 +27,9 @@ public class Package implements BaseEntity {
     @EqualsAndHashCode.Include
     private long id;
 
+    @Column(unique = true)
+    private String slug;
+
     @ToString.Include
     private String title;
 

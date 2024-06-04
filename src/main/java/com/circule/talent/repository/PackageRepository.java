@@ -8,5 +8,6 @@ import java.util.Set;
 
 public interface PackageRepository extends JpaRepository<Package, Long> {
     Optional<Package> findByTitle(String name);
+    Optional<Package> findBySlug(String name);
     Set<Package> findByIdIn(Set<Long> packageIds);
 }

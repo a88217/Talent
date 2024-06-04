@@ -2,11 +2,13 @@ package com.circule.talent.controllers;
 
 import com.circule.talent.dto.packages.PackageCreateDTO;
 import com.circule.talent.dto.packages.PackageUpdateDTO;
+import com.circule.talent.dto.talents.TalentParamsDTO;
 import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.PackageMapper;
 import com.circule.talent.model.User;
 import com.circule.talent.repository.PackageRepository;
 import com.circule.talent.service.PackageService;
+import com.circule.talent.service.TalentService;
 import com.circule.talent.service.TeamService;
 import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
@@ -29,6 +31,8 @@ public class PackagesController {
 
     private final TeamService teamService;
 
+    private final TalentService talentService;
+
     private final PackageRepository packageRepository;
 
     private final PackageMapper packageMapper;
@@ -47,15 +51,44 @@ public class PackagesController {
     }
 
     @GetMapping(path = "/{id}")
-    public String show(@PathVariable Long id, Model model) {
+    public String show(TalentParamsDTO params, @PathVariable Long id, Model model) {
 
         var packageDTO = packageService.show(id);
         var teams = teamService.index();
+        var talents = talentService.index(params);
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
         model.addAttribute("package", packageDTO);
         model.addAttribute("teams", teams);
         return "package";
+    }
+
+    @GetMapping(path = "/content_strategy")
+    public String showContentStrategy(TalentParamsDTO params, Model model) {
+
+        var packageDTO = packageService.show("content_strategy");
+        var teams = teamService.index();
+        var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("package", packageDTO);
+        model.addAttribute("teams", teams);
+        model.addAttribute("talents", talents);
+        return "content_strategy";
+    }
+
+    @GetMapping(path = "/brand_platform")
+    public String showBrandPlatform(TalentParamsDTO params, Model model) {
+
+        var packageDTO = packageService.show("brand_platform");
+        var teams = teamService.index();
+        var talents = talentService.index(params);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("package", packageDTO);
+        model.addAttribute("teams", teams);
+        model.addAttribute("talents", talents);
+        return "brand_platform";
     }
 
     @GetMapping(path = "/build")
