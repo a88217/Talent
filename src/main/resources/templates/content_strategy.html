@@ -503,34 +503,46 @@
                     <div class="swiper-wrapper">
 
                         <!-- Item -->
-                        <div class="swiper-slide h-auto pb-3 d-flex flex-wrap" th:each="team : ${teams}">
-                            <article class="col-12 card h-100 border-0 shadow-sm mx-2">
+                        <div class="swiper-slide h-auto pb-3 d-flex flex-wrap" th:each="tId : ${package.teamIds}">
+                            <div th:each="team : ${teams}" th:if="${tId == team.id}">
+                                <article class="col-12 card h-100 border-0 shadow-sm mx-2">
 
-                                <div class="card-body pb-3">
-                                    <h3 class="h5 mb-2">
-                                        <a th:href="@{'/teams/' + ${team.id}}" th:text="${team.title}">Команда</a>
-                                    </h3>
-                                    <div style="min-height: 15rem;" class="card-text" th:utext="${team.description}"></div>
-                                    <p>Состав команды:</p>
-                                    <ul>
-                                        <li style="display: inline; list-style-type: none; padding-right: 20px;" th:each="t : ${team.talentIds}">
-                                            <p style="display: inline;" th:href="@{'/talents/' + ${talent.id}}" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></p>
-                                        </li>
-                                    </ul>
+                                    <div class="card-body pb-3">
+                                        <h3 style="height: 5rem;" class="h5 mb-2">
+                                            <a th:href="@{'/teams/' + ${team.id}}" th:text="${team.title}">Команда</a>
+                                        </h3>
 
-                                </div>
+                                        <div style="min-height: 15rem;" class="card-text">
+                                            <ul style="padding-left: 0px; height: 4rem;">
+                                                <li style="display: inline; list-style-type: none; padding-right: 20px;" th:each="t : ${team.talentIds}">
+                                                    <p style="display: inline;" th:href="@{'/talents/' + ${talent.id}}" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></p>
+                                                </li>
+                                            </ul>
+                                            <div style="display: flex;">
+                                                <div th:each="t : ${team.talentIds}">
+                                                    <div style="width: 80px; height: 0; padding-bottom: 80px; position: relative;" th:each="talent : ${talents}" th:if="${t == talent.id}">
+                                                        <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:src="${talent.photoName != null ? '/img/' + talent.photoName : '/static/Аватар.jpg'}" class="img-fluid rounded-circle" alt="Фото профиля">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="py-3 mb-0 fw-semibold">Кейсы:</p>
+                                            <ul style="padding-left: 0px;">
+                                                <li style="display: inline; list-style-type: none; padding-right: 10px;" th:each="p : ${team.projectIds}">
+                                                    <p style="display: inline;" th:each="project : ${projects}" th:if="${p == project.id}" th:text="${project.title}"></p>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                <div class="card-footer d-flex align-items-center fs-sm text-muted py-4 justify-content-between">
 
-                                    <div class="d-flex align-items-center me-4">
-                                        <i class="bx bx-time fs-xl me-1"></i>
-                                        14 рабочих дней
                                     </div>
 
-                                    <a th:href="@{'/teams/' + ${team.id}}" class="btn btn-info my-1 me-1" type="button">Подробнее</a>
+                                    <div class="card-footer d-flex align-items-center fs-sm text-muted py-4 justify-content-between">
 
-                                </div>
-                            </article>
+                                        <a th:href="@{'/teams/' + ${team.id}}" class="btn btn-info my-1 me-1" type="button">Работать с командой</a>
+
+                                    </div>
+                                </article>
+                            </div>
                         </div>
                     </div>
 

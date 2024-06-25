@@ -37,13 +37,15 @@ public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @GetMapping("/home")
-    public String homeBootstrap(Model model) {
+    public String homeBootstrap(Model model, TalentParamsDTO params) {
         var packages = packageService.index();
         var teams = teamService.index();
+        var talents = talentService.index(params);
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
         model.addAttribute("teams", teams);
         model.addAttribute("packages", packages);
+        model.addAttribute("talents", talents);
         return "home_bootstrap";
     }
 
@@ -79,10 +81,16 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String mainPage(Model model) {
+    public String mainPage(Model model, TalentParamsDTO params) {
+        var packages = packageService.index();
+        var teams = teamService.index();
+        var talents = talentService.index(params);
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
-        return "home";
+        model.addAttribute("teams", teams);
+        model.addAttribute("packages", packages);
+        model.addAttribute("talents", talents);
+        return "home_bootstrap";
     }
 
     @GetMapping("/contact")

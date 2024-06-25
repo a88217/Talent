@@ -8,6 +8,7 @@ import com.circule.talent.mapper.PackageMapper;
 import com.circule.talent.model.User;
 import com.circule.talent.repository.PackageRepository;
 import com.circule.talent.service.PackageService;
+import com.circule.talent.service.ProjectService;
 import com.circule.talent.service.TalentService;
 import com.circule.talent.service.TeamService;
 import com.circule.talent.utils.UserUtils;
@@ -32,6 +33,8 @@ public class PackagesController {
     private final TeamService teamService;
 
     private final TalentService talentService;
+
+    private final ProjectService projectService;
 
     private final PackageRepository packageRepository;
 
@@ -69,11 +72,13 @@ public class PackagesController {
         var packageDTO = packageService.show("content_strategy");
         var teams = teamService.index();
         var talents = talentService.index(params);
+        var projects = projectService.index();
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
         model.addAttribute("package", packageDTO);
         model.addAttribute("teams", teams);
         model.addAttribute("talents", talents);
+        model.addAttribute("projects", projects);
         return "content_strategy";
     }
 

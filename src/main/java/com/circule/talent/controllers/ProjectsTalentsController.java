@@ -118,11 +118,11 @@ public class ProjectsTalentsController {
         talent.addProject(project);
         talentRepository.save(talent);
         model.addAttribute("talent_id", talentId);
-        return "redirect:/talents/" + talentId;
+        return "redirect:/talents/" + talentId + "/portfolio";
     }
 
-    @PostMapping(path = "/talents/{talentId}/projects/{id}")
-    public String updateTalentPhoto(@PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping(path = "/talents/{talentId}/projects/{id}/update")
+    public String updateProjectPhoto(@PathVariable Long talentId, @PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
         var project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
         if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -141,8 +141,12 @@ public class ProjectsTalentsController {
             projectRepository.save(project);
         }
         var projectDTO = projectService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
         model.addAttribute("project", projectDTO);
-        return "project";
+        model.addAttribute("talent_id", talentId);
+        model.addAttribute("project_id", id);
+        return "talent_project_update";
     }
 
     @GetMapping(path = "/talents/{talentId}/projects/{id}/update")
@@ -154,11 +158,10 @@ public class ProjectsTalentsController {
         var projectDTO = projectMapper.map(project);
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
-
         model.addAttribute("project", projectDTO);
         model.addAttribute("talent_id", talentId);
         model.addAttribute("project_id", id);
-        return "project_update";
+        return "talent_project_update";
     }
 
     @RequestMapping(
@@ -182,7 +185,7 @@ public class ProjectsTalentsController {
 
         projectService.update(projectUpdate, id);
 
-        return "redirect:/talents/" + talentId;
+        return "redirect:/talents/" + talentId + "/portfolio";
     }
 
     @PostMapping(path = "/talents/{talentId}/projects/{id}/delete")
@@ -190,7 +193,7 @@ public class ProjectsTalentsController {
         System.out.println("Start Delete");
         projectService.delete(id);
         System.out.println("Back to delete controller");
-        return "redirect:/talents/" + talentId;
+        return "redirect:/talents/" + talentId + "/portfolio";
     }
 
 }

@@ -132,7 +132,6 @@ public class RegistrationController {
     @PreAuthorize("@userUtils.isCurrentUser(#id)")
     public String changeUserPassword(@PathVariable Long id, Model model,
                                               @RequestParam("password") String password,
-                                              @RequestParam("oldPassword") String oldPassword,
                                               @RequestParam("passwordConfirmation") String passwordConfirmation) {
 
         if (!password.equals(passwordConfirmation)) {
@@ -145,15 +144,6 @@ public class RegistrationController {
         }
 
         var currentUser = userUtils.getCurrentUser();
-
-        if (!encoder.matches(oldPassword, currentUser.getPassword())) {
-            System.out.println("Не совпадает старый пароль");
-            var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
-            model.addAttribute("user", user);
-            model.addAttribute("userId", id);
-            model.addAttribute("wrongOldPassword", "Старый пароль введён неверно!");
-            return "change_password";
-        }
 
         currentUser.setPasswordDigest(encoder.encode(password));
         userRepository.save(currentUser);

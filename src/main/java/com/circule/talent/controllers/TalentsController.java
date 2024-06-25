@@ -107,7 +107,7 @@ public class TalentsController {
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);
-        return "talent_profile";
+        return "talent_profile_bootstrap";
     }
 
     @PostMapping(path = "/{id}/profile")
@@ -187,6 +187,35 @@ public class TalentsController {
         model.addAttribute("talent_id", id);
         model.addAttribute("professions", professions);
         return "talent_update";
+    }
+
+    @GetMapping("/{id}/change_password")
+    public String changePasswordForm(@PathVariable Long id, Model model) {
+        var talentDTO = talentService.show(id);
+        var professions = professionService.index();
+        var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("talent", talentDTO);
+        model.addAttribute("professions", professions);
+        model.addAttribute("projects", projects);
+        model.addAttribute("userId", id);
+        return "talent_profile_security";
+    }
+
+    @GetMapping(path = "/{id}/portfolio")
+    @PreAuthorize("@userUtils.isCurrentUser(#id)")
+    public String showProfilePortfolio(@PathVariable Long id, Model model) {
+
+        var talentDTO = talentService.show(id);
+        var professions = professionService.index();
+        var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("talent", talentDTO);
+        model.addAttribute("professions", professions);
+        model.addAttribute("projects", projects);
+        return "talent_portfolio";
     }
 
 }
