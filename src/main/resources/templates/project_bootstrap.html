@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="utf-8">
+    <title>Talents | Creative teams marketplace</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Talents - Creative teams marketplace">
+    <meta name="keywords" content="creative teams, business, creative agency, marketplace, services, e-commerce, seo, portfolio, creative">
+    <meta name="author" content="Aleksandr Muzalev">
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Theme switcher (color modes) -->
+    <script src="/static/assets/js/theme-switcher.js"></script>
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon/fav.svg">
+    <link rel="manifest" href="/static/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
+    <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
+    <meta name="msapplication-TileColor" content="#080032">
+    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor Styles -->
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/swiper/swiper-bundle.min.css">
+
+    <!-- Main Theme Styles + Bootstrap -->
+    <link rel="stylesheet" media="screen" href="/static/assets/css/theme.min.css">
+
+    <!-- Page loading styles -->
+    <style>
+        .page-loading {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          -webkit-transition: all .4s .2s ease-in-out;
+          transition: all .4s .2s ease-in-out;
+          background-color: #fff;
+          opacity: 0;
+          visibility: hidden;
+          z-index: 9999;
+        }
+        [data-bs-theme="dark"] .page-loading {
+          background-color: #0b0f19;
+        }
+        .page-loading.active {
+          opacity: 1;
+          visibility: visible;
+        }
+        .page-loading-inner {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+          -webkit-transition: opacity .2s ease-in-out;
+          transition: opacity .2s ease-in-out;
+          opacity: 0;
+        }
+        .page-loading.active > .page-loading-inner {
+          opacity: 1;
+        }
+        .page-loading-inner > span {
+          display: block;
+          font-size: 1rem;
+          font-weight: normal;
+          color: #9397ad;
+        }
+        [data-bs-theme="dark"] .page-loading-inner > span {
+          color: #fff;
+          opacity: .6;
+        }
+        .page-spinner {
+          display: inline-block;
+          width: 2.75rem;
+          height: 2.75rem;
+          margin-bottom: .75rem;
+          vertical-align: text-bottom;
+          border: .15em solid #b4b7c9;
+          border-right-color: transparent;
+          border-radius: 50%;
+          -webkit-animation: spinner .75s linear infinite;
+          animation: spinner .75s linear infinite;
+        }
+        [data-bs-theme="dark"] .page-spinner {
+          border-color: rgba(255,255,255,.4);
+          border-right-color: transparent;
+        }
+        @-webkit-keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+
+    <!-- Page loading scripts -->
+    <script>
+        (function () {
+          window.onload = function () {
+            const preloader = document.querySelector('.page-loading');
+            preloader.classList.remove('active');
+            setTimeout(function () {
+              preloader.remove();
+            }, 1000);
+          };
+        })();
+    </script>
+</head>
+
+
+<!-- Body -->
+<body>
+
+<!-- Page loading spinner -->
+<div class="page-loading active">
+    <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+    </div>
+</div>
+
+
+<!-- Page wrapper for sticky footer -->
+<!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+<main class="page-wrapper">
+
+
+    <!-- Navbar -->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page -->
+    <header class="header navbar navbar-expand-lg bg-light navbar-sticky">
+        <div class="container px-3">
+            <a href="/home" class="navbar-brand pe-3">
+                <img src="/static/assets/img/circule_logo_black.svg" class="d-dark-mode-none" width="100" alt="Cir-cule">
+                <img src="/static/assets/img/circule_logo_white.svg" class="d-none d-dark-mode-block" width="100" alt="Cir-cule">
+            </a>
+            <div id="navbarNav" class="offcanvas offcanvas-end">
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a th:href="@{/packages}" class="nav-link">Услуги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/about}" class="nav-link">Команда</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/contact}" class="nav-link">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
+                        </li>
+                        <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a th:href="@{/admin}" class="nav-link text-dark btn btn-primary">Админка</a></li>
+                    </ul>
+                </div>
+                <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Войти
+                    </a>
+                </div>
+                <div sec:authorize="hasRole('TALENT')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+                <div sec:authorize="hasAuthority('OAUTH2_USER')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+
+            </div>
+            <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
+                <input type="checkbox" class="form-check-input" id="theme-mode">
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label>
+            </div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Войти
+            </a>
+            <a sec:authorize="hasRole('TALENT')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+            <a sec:authorize="hasAuthority('OAUTH2_USER')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+        </div>
+    </header>
+
+
+    <!-- Page title -->
+    <section class="container mt-lg-5 pb-4 mb-2 mb-lg-3">
+        <h1 th:text="${project.title}">Название проекта</h1>
+    </section>
+
+
+    <!-- Hero image (Parallax) -->
+    <section class="jarallax" data-jarallax data-speed="0.4">
+        <div class="jarallax-img" th:style="'background-image: url('+${project.coverName != null ? '/img/' + project.coverName : '/static/Фон_проекта.png'}+');'"></div>
+        <div class="d-none d-xxl-block" style="height: 800px;"></div>
+        <div class="d-none d-lg-block d-xxl-none" style="height: 600px;"></div>
+        <div class="d-none d-md-block d-lg-none" style="height: 450px;"></div>
+        <div class="d-md-none" style="height: 400px;"></div>
+    </section>
+
+
+    <!-- About project -->
+    <section class="container py-5 my-1 my-md-4 my-lg-5">
+        <div class="row">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <div class="pe-lg-4 me-lg-3 pe-xl-0 me-xl-0">
+                    <h2 class="h1 mb-4">О проекте</h2>
+                    <p class="fs-lg mb-0" th:text="${project.description}">Описание проекта</p>
+                </div>
+            </div>
+            <div class="col-lg-5 col-xl-4 offset-xl-1 border-start-lg">
+                <div class="ps-lg-4 ms-lg-3">
+                    <h3 class="h5 d-flex align-items-center">
+                        <i class="bx bx-help-circle text-primary fs-4 me-2"></i>
+                        Задача
+                    </h3>
+                    <p class="pb-4 mb-0 mb-lg-3" th:text="${project.goal}"></p>
+                    <h3 class="h5 d-flex align-items-center">
+                        <i class="bx bx-bulb text-primary fs-4 me-2"></i>
+                        Решение
+                    </h3>
+                    <p class="mb-0" th:text="${project.solution}"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Gallery (carousels) -->
+    <section class="mb-5 pt-md-3 pt-lg-4 pt-xl-5">
+        <h2 class="h1 pt-lg-2 pt-xl-3 mb-5 text-center">Галерея проекта</h2>
+        <div class="pb-2 pb-sm-3 pb-md-4">
+
+            <!-- RTL -->
+            <div class="swiper mt-md-4 mt-sm-3 mt-2" dir="rtl" data-swiper-options='{
+            "loop": true,
+            "grabCursor": false,
+            "centeredSlides": true,
+            "autoplay": {
+              "delay": 0,
+              "disableOnInteraction": false
+            },
+            "freeMode": true,
+            "speed": 38000,
+            "freeModeMomentum": false,
+            "breakpoints": {
+              "0": {
+                "slidesPerView": 1,
+                "spaceBetween": 8
+              },
+              "500": {
+                "spaceBetween": 16
+              },
+              "768": {
+                "slidesPerView": 2,
+                "spaceBetween": 24
+              }
+            }
+          }'>
+                <div class="swiper-wrapper">
+
+                    <!-- Item -->
+                    <div th:if="${project.photo1Name != null}" class="swiper-slide rounded-3">
+                        <div th:style="'background-image: url('+${'/img/' + project.photo1Name}+'); height: 40rem; background-size: cover;'"></div>
+                    </div>
+
+                    <!-- Item -->
+                    <div th:if="${project.photo2Name != null}" class="swiper-slide">
+                        <div th:style="'background-image: url('+${'/img/' + project.photo2Name}+'); height: 40rem; background-size: cover;'"></div>
+                    </div>
+
+                    <!-- Item -->
+                    <div th:if="${project.photo3Name != null}" class="swiper-slide">
+                        <div th:style="'background-image: url('+${'/img/' + project.photo2Name}+'); height: 40rem; background-size: cover;'"></div>
+                    </div>
+
+                    <!-- Item -->
+                    <div th:if="${project.photo4Name != null}" class="swiper-slide">
+                        <div th:style="'background-image: url('+${'/img/' + project.photo4Name}+'); height: 40rem; background-size: cover;'"></div>
+                    </div>
+
+                    <!-- Item -->
+                    <div th:if="${project.photo5Name != null}" class="swiper-slide">
+                        <div th:style="'background-image: url('+${'/img/' + project.photo5Name}+'); height: 40rem; background-size: cover;'"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Results -->
+    <section class="container py-5 my-2 my-md-4 my-lg-5">
+        <div class="row py-md-3">
+            <div class="col-md-3 offset-lg-1">
+                <h2>Результаты</h2>
+            </div>
+            <div class="col-lg-7 col-md-9">
+                <p class="fs-lg pb-4 mb-2 mb-lg-3" th:text="${project.result}">Достигнутые результаты</p>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Related projects (Carousel on narrow screens) -->
+    <section class="container py-5 mt-2 mt-md-4 mt-lg-5 mb-xl-2">
+        <h2 class="h1 text-center pt-2 pt-md-3 pb-4 mb-2 mb-lg-3">Другие проекты</h2>
+        <div class="swiper" data-swiper-options='{
+          "slidesPerView": 1,
+          "spaceBetween": 24,
+          "pagination": {
+            "el": ".swiper-pagination",
+            "clickable": true
+          },
+          "breakpoints": {
+            "560": {
+              "slidesPerView": 2
+            },
+            "1000": {
+              "slidesPerView": 3
+            }
+          }
+        }'>
+            <div class="swiper-wrapper">
+
+                <!-- Item -->
+                <div th:each="p : ${talent.projectIds}" class="swiper-slide h-auto">
+                    <div th:each="prj : ${projects}" th:if="${p == prj.id}" class="card card-portfolio">
+                        <div class="card-img" style="max-height: 10rem;">
+                            <img th:src="'/img/' + ${prj.coverName != null ? prj.coverName : 'Фон_проекта.png'}" alt="Image">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="h4 mb-2">
+                                <a th:href="'/talents/' + ${talent.id} + '/projects/' + ${prj.id}" class="stretched-link" th:text="${prj.title}"></a>
+                            </h3>
+                            <div class="card-portfolio-meta">
+                                <span class="text-muted" th:text="${prj.description}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Pagination (bullets) -->
+            <div class="swiper-pagination position-relative pt-sm-2 mt-4"></div>
+        </div>
+    </section>
+
+
+    <!-- Contact CTA -->
+    <section class="container pb-lg-2 mt-md-n2">
+        <div class="card border-0 bg-gradient-primary">
+            <div class="card-body p-md-5 p-4 bg-size-cover" style="background-image: url(assets/img/landing/digital-agency/contact-bg.png);">
+                <div class="py-md-5 py-4 text-center">
+                    <h3 class="h4 fw-normal text-light opacity-75">Хотите работать со специалистом? Свяжитесь с нами</h3>
+                    <a href="mailto:el.iarygina@gmail.com" class="display-6 text-light">el.iarygina@gmail.com</a>
+                    <div class="pt-md-5 pt-4 pb-md-2">
+                        <a th:href="@{/contact}" class="btn btn-lg btn-light">Contact us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<!-- Footer -->
+<footer class="footer bg-dark py-5" data-bs-theme="dark">
+    <div class="container pt-2 pt-sm-4">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 col-xl-4 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                <div class="navbar-brand text-dark p-0 me-0 mb-3 mb-lg-4">
+                    <img src="/static/assets/img/circule_logo_white.svg" width="100" alt="Silicon">
+                </div>
+                <p class="text-body mb-0"></p>
+            </div>
+            <div class="col-md-6 col-xxl-5 offset-lg-1 offset-xl-2 offset-xxl-3">
+                <div class="row row-cols-1 row-cols-sm-2">
+                    <div class="col pb-2 pb-sm-0 mb-4 mb-sm-0">
+                        <h3 class="h5 pb-1 pb-sm-2 pb-lg-3">Свяжитесь с нами</h3>
+                        <ul class="nav flex-column mb-3">
+                            <li>
+                                <a href="tel:+79152566372" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-phone-call fs-4 me-2"></i>
+                                    (915)&nbsp;526&#8209;6372
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:el.iarygina@gmail.com&body=Добрый день!?subject=Предложение сотрудничества" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-envelope fs-4 me-2"></i>
+                                    elenaiarygina@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="d-flex pt-2 pt-sm-3 pt-md-4">
+
+                            <a href="https://t.me/elenaiarygina" class="btn btn-icon btn-sm btn-secondary btn-telegram rounded-circle me-3" aria-label="Telegram">
+                                <i class="bx bxl-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="nav d-block fs-sm pt-5 mb-0">
+            <span class="text-light opacity-60">&copy; All rights reserved. Made by </span>
+            <a class="nav-link d-inline-block p-0" href="https://github.com/a88217" target="_blank" rel="noopener">Aleksandr Muzalev</a>
+        </p>
+    </div>
+</footer>
+
+
+<!-- Back to top button -->
+<a href="#top" class="btn-scroll-top" data-scroll>
+    <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+    <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+
+<!-- Vendor Scripts -->
+<script src="/static/assets/vendor/parallax-js/dist/parallax.min.js"></script>
+<script src="/static/assets/vendor/rellax/rellax.min.js"></script>
+<script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main Theme Script -->
+<script src="/static/assets/js/theme.min.js"></script>
+</body>
+</html>

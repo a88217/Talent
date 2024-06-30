@@ -18,4 +18,11 @@ public class ProjectCreateDTO {
 
     private Long performerId;
 
+    @Size(max = 5000)
+    private String goal;
+    @Size(max = 5000)
+    private String solution;
+    @Size(max = 5000)
+    private String result;
+
 }

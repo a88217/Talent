@@ -34,7 +34,21 @@ public class Project implements BaseEntity {
     @Column(length = 2000)
     private String description;
 
-    private String photoName;
+    @Column(length = 5000)
+    private String goal;
+
+    @Column(length = 5000)
+    private String solution;
+
+    @Column(length = 5000)
+    private String result;
+
+    private String coverName;
+    private String photo1Name;
+    private String photo2Name;
+    private String photo3Name;
+    private String photo4Name;
+    private String photo5Name;
 
     @ManyToOne
     private Talent creator;

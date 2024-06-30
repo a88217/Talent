@@ -123,7 +123,7 @@ public class HomeController {
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
         model.addAttribute("welcome", "Welcome to Talents!");
-        return "about";
+        return "our_team";
     }
 
     @GetMapping("/admin")

@@ -78,7 +78,7 @@ public class TalentsController {
         model.addAttribute("user", user);
         model.addAttribute("talents", talents);
         model.addAttribute("professions", professions);
-        return "talents";
+        return "talents_bootstrap";
     }
 
     @GetMapping(path = "/{id}")
@@ -92,7 +92,7 @@ public class TalentsController {
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);
-        return "talent";
+        return "talent_bootstrap";
     }
 
     @GetMapping(path = "/{id}/profile")
@@ -138,7 +138,7 @@ public class TalentsController {
         model.addAttribute("talent", talentDTO);
         model.addAttribute("professions", professions);
         model.addAttribute("projects", projects);
-        return "talent_profile";
+        return "talent_profile_bootstrap";
     }
 
     @RequestMapping(
@@ -203,9 +203,23 @@ public class TalentsController {
         return "talent_profile_security";
     }
 
-    @GetMapping(path = "/{id}/portfolio")
+    @GetMapping(path = "/{id}/profile/portfolio")
     @PreAuthorize("@userUtils.isCurrentUser(#id)")
     public String showProfilePortfolio(@PathVariable Long id, Model model) {
+
+        var talentDTO = talentService.show(id);
+        var professions = professionService.index();
+        var projects = projectService.index();
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("talent", talentDTO);
+        model.addAttribute("professions", professions);
+        model.addAttribute("projects", projects);
+        return "talent_profile_portfolio";
+    }
+
+    @GetMapping(path = "/{id}/portfolio")
+    public String showTalentPortfolio(@PathVariable Long id, Model model) {
 
         var talentDTO = talentService.show(id);
         var professions = professionService.index();

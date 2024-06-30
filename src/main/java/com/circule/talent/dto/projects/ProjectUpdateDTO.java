@@ -18,4 +18,11 @@ public class ProjectUpdateDTO {
     private JsonNullable<Long> creatorId;
 
     private JsonNullable<Long> performerId;
+
+    @Size(max = 5000)
+    private JsonNullable<String> goal;
+    @Size(max = 5000)
+    private JsonNullable<String> solution;
+    @Size(max = 5000)
+    private JsonNullable<String> result;
 }

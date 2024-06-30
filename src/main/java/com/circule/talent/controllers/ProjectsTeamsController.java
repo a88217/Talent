@@ -116,7 +116,7 @@ public class ProjectsTeamsController {
 
             file.transferTo(new File(uploadPath + "/" + resultFilename));
 
-            project.setPhotoName(resultFilename);
+            project.setCoverName(resultFilename);
             projectRepository.save(project);
         }
         var projectDTO = projectService.show(id);

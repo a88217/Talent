@@ -50,7 +50,7 @@ public class PackagesController {
         model.addAttribute("user", user);
         model.addAttribute("packages", packages);
         model.addAttribute("teams", teams);
-        return "packages";
+        return "services";
     }
 
     @GetMapping(path = "/{id}")

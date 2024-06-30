@@ -209,6 +209,96 @@
         </div>
     </header>
 
+    <!-- Cover Update Modal -->
+    <div class="modal fade" id="modalUpdateCover" tabindex="-1" role="dialog">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content py-5 my-5">
+                    <form method="post" class="mt-2" enctype="multipart/form-data">
+                        <label for="formFile" class="form-label">Обновить обложку</label>
+                        <input class="form-control" type="file" id="formFile" name="file">
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo1 Update Modal -->
+    <div class="modal fade" id="modalPhoto1" tabindex="-1" role="dialog">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content py-5 my-5">
+                    <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id} + '/photo1'" method="post" class="mt-2" enctype="multipart/form-data">
+                        <label for="photo1" class="form-label">Обновить фото</label>
+                        <input class="form-control" type="file" id="photo1" name="file">
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo2 Update Modal -->
+    <div class="modal fade" id="modalPhoto2" tabindex="-1" role="dialog">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content py-5 my-5">
+                    <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id} + '/photo2'" method="post" class="mt-2" enctype="multipart/form-data">
+                        <label for="photo2" class="form-label">Обновить фото</label>
+                        <input class="form-control" type="file" id="photo2" name="file">
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo3 Update Modal -->
+    <div class="modal fade" id="modalPhoto3" tabindex="-1" role="dialog">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content py-5 my-5">
+                    <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id} + '/photo3'" method="post" class="mt-2" enctype="multipart/form-data">
+                        <label for="photo3" class="form-label">Обновить фото</label>
+                        <input class="form-control" type="file" id="photo3" name="file">
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo4 Update Modal -->
+    <div class="modal fade" id="modalPhoto4" tabindex="-1" role="dialog">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content py-5 my-5">
+                    <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id} + '/photo4'" method="post" class="mt-2" enctype="multipart/form-data">
+                        <label for="photo4" class="form-label">Обновить фото</label>
+                        <input class="form-control" type="file" id="photo4" name="file">
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo5 Update Modal -->
+    <div class="modal fade" id="modalPhoto5" tabindex="-1" role="dialog">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content py-5 my-5">
+                    <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id} + '/photo5'" method="post" class="mt-2" enctype="multipart/form-data">
+                        <label for="photo1" class="form-label">Обновить фото</label>
+                        <input class="form-control" type="file" id="photo5" name="file">
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Page content -->
     <section class="container pt-5">
@@ -219,27 +309,124 @@
             <aside class="col-lg-3 col-md-4 border-end pb-5 mt-n5">
                 <div class="position-sticky top-0">
                     <div class="text-center pt-5">
-                        <img th:src="${project.photoName != null ? '/img/' + project.photoName : '/static/default_project.png'}" class="img-fluid rounded mt-5" alt="Обложка проекта">
-                        <div>
-                            <form method="post" class="mt-2" enctype="multipart/form-data">
-                                <label for="formFile" class="form-label">Обновить обложку</label>
-                                <input class="form-control" type="file" id="formFile" name="file">
-                                <button type="submit" class="btn btn-primary mt-2">Обновить</button>
-                            </form>
+                        <h4 class="mt-5">Обложка проекта</h4>
+                        <img th:src="${project.coverName != null ? '/img/' + project.coverName : '/static/Фон_проекта.png'}" class="img-fluid rounded" alt="Обложка проекта">
+
+                        <!-- Launch modal button -->
+                        <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalUpdateCover">
+                            Обновить обложку
+                        </button>
+
+                        <h4 class="mt-5">Фото проекта</h4>
+                        <!-- Item -->
+                        <div th:if="${project.photo1Name == null}">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto1">
+                                Добавить фото 1
+                            </button>
                         </div>
+                        <div th:if="${project.photo1Name != null}">
+                            <img th:src="'/img/' + ${project.photo1Name}" alt="Gallery image" class="rounded-3" style="max-height: 13rem;">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto1">
+                                Обновить фото 1
+                            </button>
+                        </div>
+
+                        <!-- Item -->
+                        <div th:if="${project.photo2Name == null}">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto2">
+                                Добавить фото 2
+                            </button>
+                        </div>
+                        <div th:if="${project.photo2Name != null}">
+                            <img th:src="'/img/' + ${project.photo2Name}" alt="Gallery image" class="rounded-3">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto2">
+                                Обновить фото 2
+                            </button>
+                        </div>
+
+                        <!-- Item -->
+                        <div th:if="${project.photo3Name == null}">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto3">
+                                Добавить фото 3
+                            </button>
+                        </div>
+                        <div th:if="${project.photo3Name != null}">
+                            <img th:src="'/img/' + ${project.photo3Name}" alt="Gallery image" class="rounded-3">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto3">
+                                Обновить фото 3
+                            </button>
+                        </div>
+
+                        <!-- Item -->
+                        <div th:if="${project.photo4Name == null}">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto4">
+                                Добавить фото 4
+                            </button>
+                        </div>
+                        <div th:if="${project.photo4Name != null}">
+                            <img th:src="'/img/' + ${project.photo4Name}" alt="Gallery image" class="rounded-3">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto4">
+                                Обновить фото 4
+                            </button>
+                        </div>
+
+                        <!-- Item -->
+                        <div th:if="${project.photo5Name == null}">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto5">
+                                Добавить фото 5
+                            </button>
+                        </div>
+                        <div th:if="${project.photo5Name != null}">
+                            <img th:src="'/img/' + ${project.photo5Name}" alt="Gallery image" class="rounded-3">
+                            <button type="button" class="btn btn-outline-secondary my-2" data-bs-toggle="modal" data-bs-target="#modalPhoto5">
+                                Обновить фото 5
+                            </button>
+                        </div>
+
+
+
                     </div>
                 </div>
             </aside>
 
 
-            <!-- Account details -->
+            <!-- Project details -->
             <div class="col-md-8 offset-lg-1 pb-5 mb-2 mb-lg-4 pt-md-5 mt-n3 mt-md-0">
                 <div class="ps-md-3 ps-lg-0 mt-md-2 py-md-4">
-
-
-
+                    <h4>Детали проекта</h4>
+                    <form th:action="'/talents/' + ${talent_id} + '/projects/' + ${project.id}" method="post" th:object="${project}">
+                        <div class="mb-3">
+                            <label for="Title" class="form-label">Название проекта</label>
+                            <input type="text" class="form-control" id="Title" name="title" th:field="*{title}">
+                            <small class="form-text text-danger" th:each="err : ${#fields.errors('title')}" th:text="${err}">Validation error</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">Описание проекта</label>
+                            <textarea type="text" class="form-control" id="Description" name="description" th:field="*{description}"  rows="3"></textarea>
+                            <small class="form-text text-danger" th:each="err : ${#fields.errors('description')}" th:text="${err}">Validation error</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Goal" class="form-label">Поставленная задача</label>
+                            <textarea type="text" class="form-control" id="Goal" name="goal" th:field="*{goal}" rows="3"></textarea>
+                            <small class="form-text text-danger" th:each="err : ${#fields.errors('goal')}" th:text="${err}">Validation error</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Solution" class="form-label">Решение</label>
+                            <textarea type="text" class="form-control" id="Solution" name="solution" th:field="*{solution}"  rows="3"></textarea>
+                            <small class="form-text text-danger" th:each="err : ${#fields.errors('solution')}" th:text="${err}">Validation error</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Result" class="form-label">Результаты</label>
+                            <textarea type="text" class="form-control" id="Result" name="result" th:field="*{result}"  rows="3"></textarea>
+                            <small class="form-text text-danger" th:each="err : ${#fields.errors('result')}" th:text="${err}">Validation error</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Обновить</button>
+                    </form>
                 </div>
             </div>
+
+
+
         </div>
     </section>
 </main>

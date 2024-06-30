@@ -7,10 +7,7 @@ import com.circule.talent.exception.ResourceNotFoundException;
 import com.circule.talent.mapper.TeamMapper;
 import com.circule.talent.model.User;
 import com.circule.talent.repository.TeamRepository;
-import com.circule.talent.service.PackageService;
-import com.circule.talent.service.ProjectService;
-import com.circule.talent.service.TalentService;
-import com.circule.talent.service.TeamService;
+import com.circule.talent.service.*;
 import com.circule.talent.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +35,8 @@ public class TeamsController {
 
     private final TeamRepository teamRepository;
 
+    private final ProfessionService professionService;
+
     private final TeamMapper teamMapper;
 
     private final UserUtils userUtils;
@@ -61,11 +60,13 @@ public class TeamsController {
         var teamDTO = teamService.show(id);
         var talents = talentService.index(params);
         var projects = projectService.index();
+        var professions = professionService.index();
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
         model.addAttribute("user", user);
         model.addAttribute("team", teamDTO);
         model.addAttribute("talents", talents);
         model.addAttribute("projects", projects);
+        model.addAttribute("professions", professions);
         return "team";
     }
 

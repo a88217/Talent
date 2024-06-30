@@ -79,7 +79,7 @@ public class ProjectsTalentsController {
         model.addAttribute("user", user);
         model.addAttribute("project", new ProjectCreateDTO());
         model.addAttribute("talent_id", talentId);
-        return "project_build";
+        return "project_create_bootstrap";
     }
 
 
@@ -88,12 +88,16 @@ public class ProjectsTalentsController {
 
         var projectDTO = projectService.show(projectId);
         var talents = talentService.index(params);
+        var talent = talentService.show(talentId);
         var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        var projects = projectService.index();
         model.addAttribute("user", user);
         model.addAttribute("talents", talents);
         model.addAttribute("project", projectDTO);
         model.addAttribute("talent_id", talentId);
-        return "project";
+        model.addAttribute("projects", projects);
+        model.addAttribute("talent", talent);
+        return "project_bootstrap";
     }
 
     @RequestMapping(
@@ -108,7 +112,7 @@ public class ProjectsTalentsController {
 
         projectData.setCreatorId(talentId);
         if (bindingResult.hasErrors()) {
-            return "project_build";
+            return "project_create_bootstrap";
         }
 
         var project = projectRepository.findById(projectService.create(projectData).getId())
@@ -118,7 +122,7 @@ public class ProjectsTalentsController {
         talent.addProject(project);
         talentRepository.save(talent);
         model.addAttribute("talent_id", talentId);
-        return "redirect:/talents/" + talentId + "/portfolio";
+        return "redirect:/talents/" + talentId + "/profile/portfolio";
     }
 
     @PostMapping(path = "/talents/{talentId}/projects/{id}/update")
@@ -137,7 +141,147 @@ public class ProjectsTalentsController {
 
             file.transferTo(new File(uploadPath + "/" + resultFilename));
 
-            project.setPhotoName(resultFilename);
+            project.setCoverName(resultFilename);
+            projectRepository.save(project);
+        }
+        var projectDTO = projectService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("project", projectDTO);
+        model.addAttribute("talent_id", talentId);
+        model.addAttribute("project_id", id);
+        return "talent_project_update";
+    }
+
+    @PostMapping(path = "/talents/{talentId}/projects/{id}/photo1")
+    public String updateProjectPhoto1(@PathVariable Long talentId, @PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+        var project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            project.setPhoto1Name(resultFilename);
+            projectRepository.save(project);
+        }
+        var projectDTO = projectService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("project", projectDTO);
+        model.addAttribute("talent_id", talentId);
+        model.addAttribute("project_id", id);
+        return "talent_project_update";
+    }
+
+    @PostMapping(path = "/talents/{talentId}/projects/{id}/photo2")
+    public String updateProjectPhoto2(@PathVariable Long talentId, @PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+        var project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            project.setPhoto2Name(resultFilename);
+            projectRepository.save(project);
+        }
+        var projectDTO = projectService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("project", projectDTO);
+        model.addAttribute("talent_id", talentId);
+        model.addAttribute("project_id", id);
+        return "talent_project_update";
+    }
+
+    @PostMapping(path = "/talents/{talentId}/projects/{id}/photo3")
+    public String updateProjectPhoto3(@PathVariable Long talentId, @PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+        var project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            project.setPhoto3Name(resultFilename);
+            projectRepository.save(project);
+        }
+        var projectDTO = projectService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("project", projectDTO);
+        model.addAttribute("talent_id", talentId);
+        model.addAttribute("project_id", id);
+        return "talent_project_update";
+    }
+
+    @PostMapping(path = "/talents/{talentId}/projects/{id}/photo4")
+    public String updateProjectPhoto4(@PathVariable Long talentId, @PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+        var project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            project.setPhoto4Name(resultFilename);
+            projectRepository.save(project);
+        }
+        var projectDTO = projectService.show(id);
+        var user = Objects.nonNull(userUtils.getCurrentUser()) ? userUtils.getCurrentUser() : new User();
+        model.addAttribute("user", user);
+        model.addAttribute("project", projectDTO);
+        model.addAttribute("talent_id", talentId);
+        model.addAttribute("project_id", id);
+        return "talent_project_update";
+    }
+
+    @PostMapping(path = "/talents/{talentId}/projects/{id}/photo5")
+    public String updateProjectPhoto5(@PathVariable Long talentId, @PathVariable Long id, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+        var project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project with id " + id + " not found"));
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            project.setPhoto5Name(resultFilename);
             projectRepository.save(project);
         }
         var projectDTO = projectService.show(id);
@@ -182,6 +326,9 @@ public class ProjectsTalentsController {
 
         projectUpdate.setTitle(JsonNullable.of(projectData.getTitle()));
         projectUpdate.setDescription(JsonNullable.of(projectData.getDescription()));
+        projectUpdate.setGoal(JsonNullable.of(projectData.getGoal()));
+        projectUpdate.setSolution(JsonNullable.of(projectData.getSolution()));
+        projectUpdate.setResult(JsonNullable.of(projectData.getResult()));
 
         projectService.update(projectUpdate, id);
 
@@ -193,7 +340,7 @@ public class ProjectsTalentsController {
         System.out.println("Start Delete");
         projectService.delete(id);
         System.out.println("Back to delete controller");
-        return "redirect:/talents/" + talentId + "/portfolio";
+        return "redirect:/talents/" + talentId + "/profile/portfolio";
     }
 
 }

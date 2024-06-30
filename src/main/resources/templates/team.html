@@ -1,71 +1,407 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ru" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talents</title>
-    <link rel="shortcut icon" href="/static/fav.svg" type="image/x-icon">
+    <meta charset="utf-8">
+    <title>Talents | Creative teams marketplace</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Talents - Creative teams marketplace">
+    <meta name="keywords" content="creative teams, business, creative agency, marketplace, services, e-commerce, seo, portfolio, creative">
+    <meta name="author" content="Aleksandr Muzalev">
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Theme switcher (color modes) -->
+    <script src="/static/assets/js/theme-switcher.js"></script>
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon/fav.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon/fav.svg">
+    <link rel="manifest" href="/static/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/static/assets/favicon/safari-pinned-tab.svg" color="#6366f1">
+    <link rel="shortcut icon" href="/static/assets/favicon/fav.svg">
+    <meta name="msapplication-TileColor" content="#080032">
+    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor Styles -->
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/boxicons/css/boxicons.min.css">
+    <link rel="stylesheet" media="screen" href="/static/assets/vendor/swiper/swiper-bundle.min.css">
+
+    <!-- Main Theme Styles + Bootstrap -->
+    <link rel="stylesheet" media="screen" href="/static/assets/css/theme.min.css">
+
+    <!-- Page loading styles -->
+    <style>
+        .page-loading {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          -webkit-transition: all .4s .2s ease-in-out;
+          transition: all .4s .2s ease-in-out;
+          background-color: #fff;
+          opacity: 0;
+          visibility: hidden;
+          z-index: 9999;
+        }
+        [data-bs-theme="dark"] .page-loading {
+          background-color: #0b0f19;
+        }
+        .page-loading.active {
+          opacity: 1;
+          visibility: visible;
+        }
+        .page-loading-inner {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+          -webkit-transition: opacity .2s ease-in-out;
+          transition: opacity .2s ease-in-out;
+          opacity: 0;
+        }
+        .page-loading.active > .page-loading-inner {
+          opacity: 1;
+        }
+        .page-loading-inner > span {
+          display: block;
+          font-size: 1rem;
+          font-weight: normal;
+          color: #9397ad;
+        }
+        [data-bs-theme="dark"] .page-loading-inner > span {
+          color: #fff;
+          opacity: .6;
+        }
+        .page-spinner {
+          display: inline-block;
+          width: 2.75rem;
+          height: 2.75rem;
+          margin-bottom: .75rem;
+          vertical-align: text-bottom;
+          border: .15em solid #b4b7c9;
+          border-right-color: transparent;
+          border-radius: 50%;
+          -webkit-animation: spinner .75s linear infinite;
+          animation: spinner .75s linear infinite;
+        }
+        [data-bs-theme="dark"] .page-spinner {
+          border-color: rgba(255,255,255,.4);
+          border-right-color: transparent;
+        }
+        @-webkit-keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes spinner {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+
+    <!-- Page loading scripts -->
+    <script>
+        (function () {
+          window.onload = function () {
+            const preloader = document.querySelector('.page-loading');
+            preloader.classList.remove('active');
+            setTimeout(function () {
+              preloader.remove();
+            }, 1000);
+          };
+        })();
+    </script>
 </head>
+
+
+<!-- Body -->
 <body>
-<header th:insert="blocks/header :: header"></header>
-    <main>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1 th:text="${team.title}"></h1>
-                    <p class="card-text" th:text="${team.description}"></p>
-                    <p class="h5">Состав команды: </p>
-                    <div class="d-flex flex-wrap py-2 my-2">
-                        <div th:each="t : ${team.talentIds}" class="card p-2 me-3" style="width: 10rem; display: inline-block; background-image: url(/static/бэк_mid.png);">
-                            <div style="max-width: 100%; height: 0; padding-bottom: 100%; position: relative;">
-                                <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" th:each="talent : ${talents}" th:if="${t == talent.id}" th:src="'/img/' + ${talent.photoName != null ? talent.photoName : 'Аватар.jpg'}"class="img-fluid rounded-circle" alt="Фото профиля">
-                            </div>
-                            <div class="card-body">
-                                <h6 class="card-title" th:each="talent : ${talents}" th:if="${t == talent.id}" th:text="${talent.firstName} + ' ' + ${talent.lastName}"></h6>
-                                <a th:href="@{'/talents/' + ${talent.id}}" class="btn btn-outline-primary" th:each="talent : ${talents}" th:if="${t == talent.id}">Подробнее</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <p sec:authorize="hasRole('ADMIN')" class="h5">
-                            <a th:href="'/teams/update/' + ${team.id}" class="btn btn-outline-primary mt-2">Редактировать команду</a>
-                        </p>
-                    </div>
+
+<!-- Page loading spinner -->
+<div class="page-loading active">
+    <div class="page-loading-inner">
+        <div class="page-spinner"></div><span>Loading...</span>
+    </div>
+</div>
+
+
+<!-- Page wrapper for sticky footer -->
+<!-- Wraps everything except footer to push footer to the bottom of the page if there is little content -->
+<main class="page-wrapper">
+
+
+    <!-- Navbar -->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page -->
+    <header class="header navbar navbar-expand-lg bg-light border-bottom border-light shadow-sm fixed-top">
+        <div class="container px-3">
+            <a href="/home" class="navbar-brand pe-3">
+                <img src="/static/assets/img/circule_logo_black.svg" class="d-dark-mode-none" width="100" alt="Cir-cule">
+                <img src="/static/assets/img/circule_logo_white.svg" class="d-none d-dark-mode-block" width="100" alt="Cir-cule">
+            </a>
+            <div id="navbarNav" class="offcanvas offcanvas-end">
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a th:href="@{/packages}" class="nav-link">Услуги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/about}" class="nav-link">Команда</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/contact}" class="nav-link">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
+                        </li>
+                    </ul>
+                </div>
+                <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Войти
+                    </a>
+                </div>
+                <div sec:authorize="hasRole('TALENT')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
+                </div>
+                <div sec:authorize="hasAuthority('OAUTH2_USER')" class="offcanvas-header border-top">
+                    <a th:href="@{/login}" class="btn btn-info w-100" rel="noopener">
+                        Профиль
+                    </a>
                 </div>
             </div>
-            <div class="mt-5">
-                <h2>Кейсы</h2>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div class="col" th:each="p : ${team.projectIds}">
-                        <div class="card shadow-sm">
-                            <div th:each="project : ${projects}" th:if="${p == project.id}" >
-                                <img th:src="'/img/' + ${project.photoName != null ? project.photoName : 'default_project.png'}" class="img-fluid rounded" alt="Обложка проекта">
-                            </div>
-                            <div class="card-body">
-                                <h3 th:each="project : ${projects}" th:if="${p == project.id}" th:text="${project.title}">Название проекта</h3>
-                                <p class="card-text" th:each="project : ${projects}" th:if="${p == project.id}" th:text="${project.description}">Описание проекта</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group" th:each="project : ${projects}" th:if="${p == project.id}">
-                                        <a th:href="'/teams/' + ${team.id} + '/projects/' + ${project.id}" class="btn btn-sm btn-outline-secondary">View</a>
-                                    </div>
+            <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
+                <input type="checkbox" class="form-check-input" id="theme-mode">
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
+                <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label>
+            </div>
+            <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Войти
+            </a>
+            <a sec:authorize="hasRole('TALENT')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+            <a sec:authorize="hasAuthority('OAUTH2_USER')" th:href="'/talents/' + ${user.id} + '/profile'" class="btn btn-info btn-sm fs-sm rounded d-none d-lg-inline-flex" rel="noopener">
+                Профиль
+            </a>
+        </div>
+    </header>
 
+
+    <!-- Page content -->
+    <section class="container pt-5">
+        <div class="row">
+
+
+            <!-- Sidebar (User info + Account menu) -->
+            <aside class="col-7 border-end pb-5 mt-n5">
+                <div class="position-sticky top-0">
+                    <div class="pt-5">
+                        <div class="d-sm-flex align-items-center justify-content-between pt-xl-1 mt-5 mb-3 pb-3">
+                            <h1 th:text="${team.title}" class="h2 mb-sm-0">Проекты</h1>
+                        </div>
+                        <p class="card-text" th:text="${team.description}"></p>
+
+                        <!-- Title + prev/next buttons -->
+                        <div class="d-flex align-items-center justify-content-between pb-4 mb-3">
+                            <h3 class="h4 mb-0 me-3">Состав команды: </h3>
+                            <div class="d-flex">
+                                <button type="button" id="popular-prev" class="btn btn-prev btn-icon btn-sm me-2" aria-label="Previous">
+                                    <i class="bx bx-chevron-left"></i>
+                                </button>
+                                <button type="button" id="popular-next" class="btn btn-next btn-icon btn-sm ms-2" aria-label="Next">
+                                    <i class="bx bx-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Courses slider -->
+                        <div class="swiper swiper-nav-onhover mx-n2" data-swiper-options='{
+              "slidesPerView": 1,
+              "spaceBetween": 8,
+              "pagination": {
+                "el": ".swiper-pagination",
+                "clickable": true
+              },
+              "navigation": {
+                "prevEl": "#popular-prev",
+                "nextEl": "#popular-next"
+              },
+              "breakpoints": {
+                "560": {
+                  "slidesPerView": 2
+                },
+                "768": {
+                  "slidesPerView": 1
+                },
+                "850": {
+                  "slidesPerView": 2
+                },
+                "1200": {
+                  "slidesPerView": 3
+                }
+              }
+            }'>
+                            <div class="swiper-wrapper">
+
+                                <!-- Item -->
+                                <div th:each="t : ${team.talentIds}" class="swiper-slide h-auto pb-3">
+                                    <article th:each="talent : ${talents}" th:if="${t == talent.id}" class="card h-100 border-0 shadow-sm mx-2">
+                                        <div class="position-relative" style="height: 14rem; overflow: hidden;">
+                                            <a th:href="@{'/talents/' + ${talent.id}}" class="d-block position-absolute w-100 h-100 top-0 start-0" aria-label="Course link"></a>
+
+                                            <img th:src="${talent.photoName != null ? '/img/' + talent.photoName : '/static/Аватар.jpg'}" class="card-img-top" alt="Image">
+                                        </div>
+                                        <div class="card-body pb-3">
+                                            <h4 class="h6 mb-2">
+                                                <a th:href="@{'/talents/' + ${talent.id}}" th:text="${talent.firstName} + ' ' + ${talent.lastName}">Fullstack Web Developer Course from Scratch</a>
+                                            </h4>
+                                            <p th:each="p : ${talent.professionIds}" class="fs-sm mb-0">
+                                                <span th:each="profession : ${professions}" th:if="${p == profession.id}" th:text="${profession.title}">By Albert Flores</span>
+                                            </p>
+                                        </div>
+
+                                    </article>
+                                </div>
+                            </div>
+
+                            <!-- Pagination (bullets) -->
+                            <div class="swiper-pagination position-relative pt-2 pt-sm-3 mt-4"></div>
+                        </div>
+                        <a href="portfolio-courses.html" class="btn btn-outline-primary btn-lg w-100 d-md-none mt-3">
+                            See all courses
+                            <i class="bx bx-right-arrow-alt fs-xl ms-2"></i>
+                        </a>
+
+                        <div>
+                            <p sec:authorize="hasRole('ADMIN')" class="h5">
+                                <a th:href="'/teams/update/' + ${team.id}" class="btn btn-outline-primary mt-2">Редактировать команду</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+
+            <!-- Account collections -->
+            <div class="col-4 offset-lg-1 pb-5 mb-lg-2 pt-md-5 mt-n3 mt-md-0">
+                <div class="ps-md-3 ps-lg-0 mt-md-2 pt-md-4 pb-md-2">
+                    <div class="d-sm-flex align-items-center justify-content-between pt-xl-1 mb-3 pb-3">
+                        <h4 class="h4 mb-sm-0">Кейсы</h4>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')" class="btn-group">
+                        <a th:href="'/teams/' + ${team.id} + '/project_build'" class="btn btn-primary mt-2">Добавить кейс</a>
+                    </div>
+
+                    <!-- Item -->
+                    <div th:each="p : ${team.projectIds}" class="card border-0 shadow-sm overflow-hidden mb-4">
+                        <div th:each="project : ${projects}" th:if="${p == project.id}" class="row g-0">
+                            <a th:href="'/teams/' + ${team.id} + '/projects/' + ${project.id}" class="col-sm-4 bg-repeat-0 bg-position-center bg-size-cover" th:style="'background-image: url('+${project.coverName != null ? '/img/' + project.coverName : '/static/Фон_проекта_small.png'}+');'" aria-label="Cover image"></a>
+                            <div class="col-sm-8">
+                                <div class="card-body">
+                                    <div class="fs-sm text-muted mb-1"></div>
+                                    <h2 class="h4 pb-1 mb-2">
+                                        <a th:href="'/teams/' + ${team.id} + '/projects/' + ${project.id}" th:text="${project.title}">Название проекта</a>
+                                    </h2>
+                                    <p class="mb-4 mb-lg-5" th:text="${project.description}">Описание проекта</p>
+                                    <div class="d-flex">
+                                        <a th:href="'/teams/' + ${team.id} + '/projects/' + ${project.id}" class="btn btn-outline-primary px-3 px-lg-4 me-3">
+                                            <span class="d-none d-xl-inline">Подробнее</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ADMIN')" class="btn-group">
-                <a th:href="'/teams/' + ${team.id} + '/project_build'" class="btn btn-primary mt-2">Добавить кейс</a>
+        </div>
+    </section>
+</main>
+
+
+<!-- Footer -->
+<footer class="footer bg-dark py-5" data-bs-theme="dark">
+    <div class="container pt-2 pt-sm-4">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 col-xl-4 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                <div class="navbar-brand text-dark p-0 me-0 mb-3 mb-lg-4">
+                    <img src="/static/assets/img/circule_logo_white.svg" width="100" alt="Silicon">
+                </div>
+                <p class="text-body mb-0"></p>
+            </div>
+            <div class="col-md-6 col-xxl-5 offset-lg-1 offset-xl-2 offset-xxl-3">
+                <div class="row row-cols-1 row-cols-sm-2">
+                    <div class="col pb-2 pb-sm-0 mb-4 mb-sm-0">
+                        <h3 class="h5 pb-1 pb-sm-2 pb-lg-3">Свяжитесь с нами</h3>
+                        <ul class="nav flex-column mb-3">
+                            <li>
+                                <a href="tel:+79152566372" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-phone-call fs-4 me-2"></i>
+                                    (915)&nbsp;526&#8209;6372
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:el.iarygina@gmail.com&body=Добрый день!?subject=Предложение сотрудничества" class="nav-link fs-lg fw-normal px-0 py-1">
+                                    <i class="bx bx-envelope fs-4 me-2"></i>
+                                    elenaiarygina@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="d-flex pt-2 pt-sm-3 pt-md-4">
+
+                            <a href="https://t.me/elenaiarygina" class="btn btn-icon btn-sm btn-secondary btn-telegram rounded-circle me-3" aria-label="Telegram">
+                                <i class="bx bxl-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
-    <footer th:insert="blocks/footer :: footer"></footer>
+        <p class="nav d-block fs-sm pt-5 mb-0">
+            <span class="text-light opacity-60">&copy; All rights reserved. Made by </span>
+            <a class="nav-link d-inline-block p-0" href="https://github.com/a88217" target="_blank" rel="noopener">Aleksandr Muzalev</a>
+        </p>
+    </div>
+</footer>
+
+
+<!-- Back to top button -->
+<a href="#top" class="btn-scroll-top" data-scroll>
+    <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+    <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+
+<!-- Vendor Scripts -->
+<script src="/static/assets/vendor/parallax-js/dist/parallax.min.js"></script>
+<script src="/static/assets/vendor/rellax/rellax.min.js"></script>
+<script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main Theme Script -->
+<script src="/static/assets/js/theme.min.js"></script>
 </body>
 </html>
+

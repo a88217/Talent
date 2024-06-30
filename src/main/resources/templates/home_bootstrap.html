@@ -171,6 +171,7 @@
                         <li class="nav-item">
                             <a th:href="@{/for_talents}" class="nav-link">Талантам</a>
                         </li>
+                        <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a th:href="@{/admin}" class="nav-link text-dark btn btn-primary">Админка</a></li>
                     </ul>
                 </div>
                 <div sec:authorize="isAnonymous()" class="offcanvas-header border-top">
@@ -188,6 +189,7 @@
                         Профиль
                     </a>
                 </div>
+
             </div>
             <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
                 <input type="checkbox" class="form-check-input" id="theme-mode">
@@ -306,7 +308,7 @@
                         </div>
                     </div>
                 </div>
-                <img src="assets/img/services/single/dashboard.png" width="836" class="ms-3 ms-sm-5 ms-xl-3" alt="Dashboard">
+                <img src="assets/img/services/single/FourPeople.avif" width="836" class="ms-3 ms-sm-5 ms-xl-3 rounded" alt="Dashboard">
             </div>
         </div>
     </section>
